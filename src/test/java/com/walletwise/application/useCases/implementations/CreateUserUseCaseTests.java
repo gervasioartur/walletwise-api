@@ -1,6 +1,7 @@
 package com.walletwise.application.useCases.implementations;
 
 import com.walletwise.application.gateways.hash.IEncoder;
+import com.walletwise.application.gateways.user.ICreateUserGateway;
 import com.walletwise.application.gateways.user.IFindUserByEmailGateway;
 import com.walletwise.application.gateways.user.IFindUserByUserNameGateway;
 import com.walletwise.application.gateways.user.IFindUserRoleByName;
@@ -31,6 +32,8 @@ class CreateUserUseCaseTests {
     private IFindUserByEmailGateway findUserByEmailGateway;
     @MockBean
     private IEncoder encoder;
+    @MockBean
+    private ICreateUserGateway createUserGateway;
 
     @BeforeEach
     void setUp() {
@@ -38,7 +41,8 @@ class CreateUserUseCaseTests {
                 findUserByUserNameGateway,
                 findUserByEmailGateway,
                 encoder,
-                findUserRoleByName);
+                findUserRoleByName,
+                createUserGateway);
     }
 
     @Test
@@ -80,7 +84,6 @@ class CreateUserUseCaseTests {
 
         Mockito.when(this.findUserByUserNameGateway.find(user.username())).thenReturn(null);
         Mockito.when(this.findUserByEmailGateway.find(user.email())).thenReturn(null);
-        Mockito.when(this.encoder.encode(user.email())).thenReturn(UUID.randomUUID().toString());
         Mockito.when(this.findUserRoleByName.find(RoleEnum.USER.getValue())).thenReturn(null);
 
         Throwable exception = Assertions.catchThrowable(() -> this.createUserUseCase.create(user));
@@ -89,7 +92,6 @@ class CreateUserUseCaseTests {
         Assertions.assertThat(exception.getMessage()).isEqualTo("Something went wrong while saving the information. Please concat the administrator.");
         Mockito.verify(this.findUserByUserNameGateway, Mockito.times(1)).find(user.username());
         Mockito.verify(this.findUserByEmailGateway, Mockito.times(1)).find(user.email());
-        Mockito.verify(this.encoder, Mockito.times(1)).encode(user.password());
         Mockito.verify(this.findUserRoleByName, Mockito.times(1)).find(RoleEnum.USER.getValue());
     }
 
@@ -110,5 +112,29 @@ class CreateUserUseCaseTests {
         Mockito.verify(this.findUserByEmailGateway, Mockito.times(1)).find(user.email());
         Mockito.verify(this.encoder, Mockito.times(1)).encode(user.password());
         Mockito.verify(this.findUserRoleByName, Mockito.times(1)).find(RoleEnum.USER.getValue());
+    }
+
+    @Test
+    @DisplayName("Should call create user gateway with correct params ")
+    void shouldCallCreatGatewayWithCorrectParams(){
+        User user = new User("any_fistname", "any_lastname", "any_username", "any_saved_email", "any_password");
+        Role savedRole = new Role(UUID.randomUUID(), "USER_ROLE");
+        String encodedPassword =  UUID.randomUUID().toString();
+
+        Mockito.when(this.findUserByUserNameGateway.find(user.username())).thenReturn(null);
+        Mockito.when(this.findUserByEmailGateway.find(user.email())).thenReturn(null);
+        Mockito.when(this.findUserRoleByName.find(RoleEnum.USER.getValue())).thenReturn(savedRole);
+        Mockito.when(this.encoder.encode(user.password())).thenReturn(encodedPassword);
+
+        User toSaveUser = new User("any_fistname", "any_lastname", "any_username", "any_saved_email", encodedPassword);
+        Mockito.when(this.createUserGateway.create(toSaveUser)).thenReturn(toSaveUser);
+
+        this.createUserUseCase.create(user);
+
+        Mockito.verify(this.findUserByUserNameGateway, Mockito.times(1)).find(user.username());
+        Mockito.verify(this.findUserByEmailGateway, Mockito.times(1)).find(user.email());
+        Mockito.verify(this.findUserRoleByName, Mockito.times(1)).find(RoleEnum.USER.getValue());
+        Mockito.verify(this.encoder, Mockito.times(1)).encode(user.password());
+        Mockito.verify(this.createUserGateway, Mockito.times(1)).create(toSaveUser);
     }
 }
