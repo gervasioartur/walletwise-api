@@ -19,7 +19,7 @@ public class CreateUserUseCase implements ICreateUserUseCase {
             IEncoder encoder) {
         this.findUserByUserNameGateway = findUserByUserNameGateway;
         this.findUserByEmailGateway = findUserByEmailGateway;
-        this.encoder =  encoder;
+        this.encoder = encoder;
     }
 
     @Override
