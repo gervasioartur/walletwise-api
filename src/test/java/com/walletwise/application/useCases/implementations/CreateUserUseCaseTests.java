@@ -22,17 +22,15 @@ import java.util.UUID;
 
 @SpringBootTest
 class CreateUserUseCaseTests {
+    @MockBean
+    IFindUserRoleByName findUserRoleByName;
     private ICreateUserUseCase createUserUseCase;
-
     @MockBean
     private IFindUserByUserNameGateway findUserByUserNameGateway;
     @MockBean
     private IFindUserByEmailGateway findUserByEmailGateway;
     @MockBean
     private IEncoder encoder;
-    @MockBean
-    IFindUserRoleByName findUserRoleByName;
-
 
     @BeforeEach
     void setUp() {
@@ -85,7 +83,7 @@ class CreateUserUseCaseTests {
         Mockito.when(this.encoder.encode(user.email())).thenReturn(UUID.randomUUID().toString());
         Mockito.when(this.findUserRoleByName.find(RoleEnum.USER.getValue())).thenReturn(null);
 
-        Throwable exception = Assertions.catchThrowable(()-> this.createUserUseCase.create(user));
+        Throwable exception = Assertions.catchThrowable(() -> this.createUserUseCase.create(user));
 
         Assertions.assertThat(exception).isInstanceOf(UnexpectedException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("Something went wrong while saving the information. Please concat the administrator.");
@@ -99,7 +97,7 @@ class CreateUserUseCaseTests {
     @DisplayName("Should call Encoder with corect params")
     void shouldCallEncodeRWithCorrectParams() {
         User user = new User("any_fistname", "any_lastname", "any_username", "any_saved_email", "any_password");
-        Role savedRole =  new Role(UUID.randomUUID(), "USER_ROLE");
+        Role savedRole = new Role(UUID.randomUUID(), "USER_ROLE");
 
         Mockito.when(this.findUserByUserNameGateway.find(user.username())).thenReturn(null);
         Mockito.when(this.findUserByEmailGateway.find(user.email())).thenReturn(null);
