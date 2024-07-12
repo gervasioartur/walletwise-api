@@ -1,7 +1,8 @@
 package com.walletwise.application.useCases.implementations;
 
-import com.walletwise.application.gateways.IFindUserByEmailGateway;
-import com.walletwise.application.gateways.IFindUserByUserNameGateway;
+import com.walletwise.application.gateways.hash.IEncoder;
+import com.walletwise.application.gateways.user.IFindUserByEmailGateway;
+import com.walletwise.application.gateways.user.IFindUserByUserNameGateway;
 import com.walletwise.application.useCases.contracts.ICreateUserUseCase;
 import com.walletwise.domain.entities.User;
 import com.walletwise.domain.exceptions.BusinessException;
@@ -21,11 +22,16 @@ class CreateUserUseCaseTests {
     private IFindUserByUserNameGateway findUserByUserNameGateway;
     @MockBean
     private IFindUserByEmailGateway findUserByEmailGateway;
+    @MockBean
+    private IEncoder encoder;
 
 
     @BeforeEach
     void setUp() {
-        createUserUseCase = new CreateUserUseCase(findUserByUserNameGateway, findUserByEmailGateway);
+        createUserUseCase = new CreateUserUseCase(
+                findUserByUserNameGateway,
+                findUserByEmailGateway,
+                encoder);
     }
 
     @Test
@@ -52,12 +58,26 @@ class CreateUserUseCaseTests {
         Mockito.when(this.findUserByUserNameGateway.find(user.username())).thenReturn(null);
         Mockito.when(this.findUserByEmailGateway.find(user.email())).thenReturn(savedUser);
 
-
         Throwable exception = Assertions.catchThrowable(() -> this.createUserUseCase.create(user));
 
         Assertions.assertThat(exception).isInstanceOf(BusinessException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("The email is already in use. Please try another email.");
         Mockito.verify(this.findUserByUserNameGateway, Mockito.times(1)).find(user.username());
         Mockito.verify(this.findUserByEmailGateway, Mockito.times(1)).find(user.email());
+    }
+
+    @Test
+    @DisplayName("Should call Encoder with corect params")
+    void shouldCallEncodeRWithCorrectParams() {
+        User user = new User("any_fistname", "any_lastname", "any_username", "any_saved_email", "any_password");
+
+        Mockito.when(this.findUserByUserNameGateway.find(user.username())).thenReturn(null);
+        Mockito.when(this.findUserByEmailGateway.find(user.email())).thenReturn(null);
+
+        this.createUserUseCase.create(user);
+
+        Mockito.verify(this.findUserByUserNameGateway, Mockito.times(1)).find(user.username());
+        Mockito.verify(this.findUserByEmailGateway, Mockito.times(1)).find(user.email());
+        Mockito.verify(this.encoder, Mockito.times(1)).encode(user.password());
     }
 }
