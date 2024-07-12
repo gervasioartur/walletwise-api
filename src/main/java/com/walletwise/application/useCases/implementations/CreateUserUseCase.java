@@ -7,17 +7,18 @@ import com.walletwise.domain.entities.UserAccount;
 import com.walletwise.domain.exceptions.BusinessException;
 
 public class CreateUserUseCase implements ICreateUserUseCase {
-   private final IFindUserByUserNameGateway findUserByUserNameGateway;
+    private final IFindUserByUserNameGateway findUserByUserNameGateway;
 
-   public  CreateUserUseCase(IFindUserByUserNameGateway findUserByUserNameGateway){
-       this.findUserByUserNameGateway = findUserByUserNameGateway;
-   }
+    public CreateUserUseCase(IFindUserByUserNameGateway findUserByUserNameGateway) {
+        this.findUserByUserNameGateway = findUserByUserNameGateway;
+    }
 
     @Override
     public UserAccount create(User user) {
         User userResult = findUserByUserNameGateway.find(user.username());
 
-        if(userResult != null) throw new BusinessException("The username is already in use. Please try another username.");
+        if (userResult != null)
+            throw new BusinessException("The username is already in use. Please try another username.");
         return null;
     }
 }

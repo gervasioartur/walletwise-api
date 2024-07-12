@@ -27,12 +27,12 @@ class CreateUserUseCaseTests {
     @Test
     @DisplayName("Should throw business exception if username already taken")
     void shouldThrowBusinessExceptionIfUsernameAlreadyTaken() {
-        User user =  new User("any_fistname", "any_lastname", "any_saved_username","any_email","any_password" );
-        User savedUser =  new User("any_saved_fistname", "any_saved_lastname", "any_saved_username","any_saved_email","any_saved_password" );
+        User user = new User("any_fistname", "any_lastname", "any_saved_username", "any_email", "any_password");
+        User savedUser = new User("any_saved_fistname", "any_saved_lastname", "any_saved_username", "any_saved_email", "any_saved_password");
 
         Mockito.when(this.findUserByUserNameGateway.find(user.username())).thenReturn(savedUser);
 
-        Throwable  exception = Assertions.catchThrowable(() -> this.createUserUseCase.create(user));
+        Throwable exception = Assertions.catchThrowable(() -> this.createUserUseCase.create(user));
 
         Assertions.assertThat(exception).isInstanceOf(BusinessException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("The username is already in use. Please try another username.");
