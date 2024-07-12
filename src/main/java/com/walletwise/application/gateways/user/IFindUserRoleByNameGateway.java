@@ -2,6 +2,6 @@ package com.walletwise.application.gateways.user;
 
 import com.walletwise.domain.entities.Role;
 
-public interface IFindUserRoleByName {
+public interface IFindUserRoleByNameGateway {
     Role find(String name);
 }
