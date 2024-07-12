@@ -14,7 +14,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Builder
-@lombok.Generated
+@Generated
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "t_privilege", schema = "security")
