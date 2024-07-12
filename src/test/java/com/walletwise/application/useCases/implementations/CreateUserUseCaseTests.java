@@ -17,7 +17,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -103,11 +102,11 @@ class CreateUserUseCaseTests {
 
     @Test
     @DisplayName("Should  return user account on success")
-    void shouldReturnUserAccountOnSuccess(){
+    void shouldReturnUserAccountOnSuccess() {
         User user = new User("any_fistname", "any_lastname", "any_username", "any_saved_email", "any_password");
         Role savedRole = new Role(UUID.randomUUID(), "USER_ROLE");
         String encodedPassword = UUID.randomUUID().toString();
-        String accessToken =  UUID.randomUUID().toString();
+        String accessToken = UUID.randomUUID().toString();
 
         Mockito.when(this.findUserByUserNameGateway.find(user.username())).thenReturn(null);
         Mockito.when(this.findUserByEmailGateway.find(user.email())).thenReturn(null);
@@ -116,9 +115,9 @@ class CreateUserUseCaseTests {
 
         User toCreateUser = new User(user.firstname(), user.lastname(), user.username(), user.email(), encodedPassword);
         Mockito.when(this.createUserGateway.create(toCreateUser)).thenReturn(toCreateUser);
-        Mockito.when(this.authentication.authenticate(toCreateUser.username(),user.password())).thenReturn(accessToken);
+        Mockito.when(this.authentication.authenticate(toCreateUser.username(), user.password())).thenReturn(accessToken);
 
-        UserAccount userAccount =  this.createUserUseCase.create(user);
+        UserAccount userAccount = this.createUserUseCase.create(user);
 
         Assertions.assertThat(userAccount.accessToken()).isEqualTo(accessToken);
         Mockito.verify(this.findUserByUserNameGateway, Mockito.times(1)).find(user.username());
@@ -126,6 +125,6 @@ class CreateUserUseCaseTests {
         Mockito.verify(this.findUserRoleByName, Mockito.times(1)).find(RoleEnum.USER.getValue());
         Mockito.verify(this.encoder, Mockito.times(1)).encode(user.password());
         Mockito.verify(this.createUserGateway, Mockito.times(1)).create(toCreateUser);
-        Mockito.verify(this.authentication, Mockito.times(1)).authenticate(toCreateUser.username(),user.password());
+        Mockito.verify(this.authentication, Mockito.times(1)).authenticate(toCreateUser.username(), user.password());
     }
 }

@@ -42,18 +42,20 @@ public class CreateUserUseCase implements ICreateUserUseCase {
     @Override
     public UserAccount create(User user) {
         User userResult = this.findUserByUserNameGateway.find(user.username());
-        if (userResult != null) throw new BusinessException("The username is already in use. Please try another username.");
+        if (userResult != null)
+            throw new BusinessException("The username is already in use. Please try another username.");
 
         userResult = this.findUserByEmailGateway.find(user.email());
         if (userResult != null) throw new BusinessException("The email is already in use. Please try another email.");
 
         Role roleResult = this.findUserRoleByName.find(RoleEnum.USER.getValue());
-        if (roleResult == null) throw new UnexpectedException("Something went wrong while saving the information. Please concat the administrator.");
+        if (roleResult == null)
+            throw new UnexpectedException("Something went wrong while saving the information. Please concat the administrator.");
 
         String encodedPassword = this.encoder.encode(user.password());
         userResult = new User(user.firstname(), user.lastname(), user.username(), user.email(), encodedPassword);
         userResult = this.createUserGateway.create(userResult);
-        String accessToken =this.authentication.authenticate(userResult.username(),user.password());
+        String accessToken = this.authentication.authenticate(userResult.username(), user.password());
         return new UserAccount(accessToken);
     }
 }
