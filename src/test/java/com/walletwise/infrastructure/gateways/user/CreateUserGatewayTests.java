@@ -39,7 +39,7 @@ class CreateUserGatewayTests {
         Mockito.when(this.userRepository.save(toCreateUserEntity)).thenReturn(createdUserEntity);
         Mockito.when(this.userEntityMapper.toDomainObject(createdUserEntity)).thenReturn(createUserDomainObject);
 
-        User userResult = this.createUserGateway.create(toCreateUserDomainObject);
+        this.createUserGateway.create(toCreateUserDomainObject);
 
         Mockito.verify(this.userEntityMapper, Mockito.times(1)).toUserEntity(toCreateUserDomainObject);
         Mockito.verify(this.userRepository, Mockito.times(1)).save(toCreateUserEntity);
