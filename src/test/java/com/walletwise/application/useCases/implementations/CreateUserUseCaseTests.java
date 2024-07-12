@@ -1,7 +1,7 @@
 package com.walletwise.application.useCases.implementations;
 
-import com.walletwise.application.gateways.authentication.IAuthentication;
-import com.walletwise.application.gateways.hash.IEncoder;
+import com.walletwise.application.gateways.authentication.IAuthenticationGateway;
+import com.walletwise.application.gateways.hash.IEncoderGateway;
 import com.walletwise.application.gateways.user.ICreateUserGateway;
 import com.walletwise.application.gateways.user.IFindUserByEmailGateway;
 import com.walletwise.application.gateways.user.IFindUserByUserNameGateway;
@@ -33,11 +33,11 @@ class CreateUserUseCaseTests {
     @MockBean
     private IFindUserByEmailGateway findUserByEmailGateway;
     @MockBean
-    private IEncoder encoder;
+    private IEncoderGateway encoder;
     @MockBean
     private ICreateUserGateway createUserGateway;
     @MockBean
-    private IAuthentication authentication;
+    private IAuthenticationGateway authentication;
 
     @BeforeEach
     void setUp() {

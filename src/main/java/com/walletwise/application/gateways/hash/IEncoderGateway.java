@@ -1,5 +1,5 @@
 package com.walletwise.application.gateways.hash;
 
-public interface IEncoder {
+public interface IEncoderGateway {
     String encode(String password);
 }

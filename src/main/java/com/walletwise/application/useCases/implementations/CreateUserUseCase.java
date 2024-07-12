@@ -1,7 +1,7 @@
 package com.walletwise.application.useCases.implementations;
 
-import com.walletwise.application.gateways.authentication.IAuthentication;
-import com.walletwise.application.gateways.hash.IEncoder;
+import com.walletwise.application.gateways.authentication.IAuthenticationGateway;
+import com.walletwise.application.gateways.hash.IEncoderGateway;
 import com.walletwise.application.gateways.user.ICreateUserGateway;
 import com.walletwise.application.gateways.user.IFindUserByEmailGateway;
 import com.walletwise.application.gateways.user.IFindUserByUserNameGateway;
@@ -17,18 +17,18 @@ import com.walletwise.domain.exceptions.UnexpectedException;
 public class CreateUserUseCase implements ICreateUserUseCase {
     private final IFindUserByUserNameGateway findUserByUserNameGateway;
     private final IFindUserByEmailGateway findUserByEmailGateway;
-    private final IEncoder encoder;
+    private final IEncoderGateway encoder;
     private final IFindUserRoleByNameGateway findUserRoleByName;
     private final ICreateUserGateway createUserGateway;
-    private final IAuthentication authentication;
+    private final IAuthenticationGateway authentication;
 
     public CreateUserUseCase(
             IFindUserByUserNameGateway findUserByUserNameGateway,
             IFindUserByEmailGateway findUserByEmailGateway,
-            IEncoder encoder,
+            IEncoderGateway encoder,
             IFindUserRoleByNameGateway findUserRoleByName,
             ICreateUserGateway createUserGateway,
-            IAuthentication authentication
+            IAuthenticationGateway authentication
     ) {
 
         this.findUserByUserNameGateway = findUserByUserNameGateway;

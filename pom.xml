@@ -12,7 +12,7 @@
 	<groupId>com.walletwise</groupId>
 	<artifactId>walletwise-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>clean-arch</name>
+	<name>walletwise-api</name>
 	<description>walletwise-api</description>
 
 	<properties>
