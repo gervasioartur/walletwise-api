@@ -1,4 +1,4 @@
-package com.walletwise.application.gateways;
+package com.walletwise.application.gateways.user;
 
 import com.walletwise.domain.entities.User;
 
