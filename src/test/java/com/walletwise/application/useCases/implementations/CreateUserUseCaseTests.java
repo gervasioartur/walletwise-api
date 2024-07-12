@@ -1,13 +1,15 @@
 package com.walletwise.application.useCases.implementations;
 
+import com.walletwise.application.gateways.authentication.IAuthentication;
 import com.walletwise.application.gateways.hash.IEncoder;
 import com.walletwise.application.gateways.user.ICreateUserGateway;
 import com.walletwise.application.gateways.user.IFindUserByEmailGateway;
 import com.walletwise.application.gateways.user.IFindUserByUserNameGateway;
-import com.walletwise.application.gateways.user.IFindUserRoleByName;
+import com.walletwise.application.gateways.user.IFindUserRoleByNameGateway;
 import com.walletwise.application.useCases.contracts.ICreateUserUseCase;
 import com.walletwise.domain.entities.Role;
 import com.walletwise.domain.entities.User;
+import com.walletwise.domain.entities.UserAccount;
 import com.walletwise.domain.enums.RoleEnum;
 import com.walletwise.domain.exceptions.BusinessException;
 import com.walletwise.domain.exceptions.UnexpectedException;
@@ -15,6 +17,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,7 +27,7 @@ import java.util.UUID;
 @SpringBootTest
 class CreateUserUseCaseTests {
     @MockBean
-    IFindUserRoleByName findUserRoleByName;
+    IFindUserRoleByNameGateway findUserRoleByName;
     private ICreateUserUseCase createUserUseCase;
     @MockBean
     private IFindUserByUserNameGateway findUserByUserNameGateway;
@@ -34,6 +37,8 @@ class CreateUserUseCaseTests {
     private IEncoder encoder;
     @MockBean
     private ICreateUserGateway createUserGateway;
+    @MockBean
+    private IAuthentication authentication;
 
     @BeforeEach
     void setUp() {
@@ -42,7 +47,8 @@ class CreateUserUseCaseTests {
                 findUserByEmailGateway,
                 encoder,
                 findUserRoleByName,
-                createUserGateway);
+                createUserGateway,
+                authentication);
     }
 
     @Test
@@ -96,45 +102,30 @@ class CreateUserUseCaseTests {
     }
 
     @Test
-    @DisplayName("Should call Encoder with corect params")
-    void shouldCallEncodeRWithCorrectParams() {
-        User user = new User("any_fistname", "any_lastname", "any_username", "any_saved_email", "any_password");
-        Role savedRole = new Role(UUID.randomUUID(), "USER_ROLE");
-
-        Mockito.when(this.findUserByUserNameGateway.find(user.username())).thenReturn(null);
-        Mockito.when(this.findUserByEmailGateway.find(user.email())).thenReturn(null);
-        Mockito.when(this.encoder.encode(user.email())).thenReturn(UUID.randomUUID().toString());
-        Mockito.when(this.findUserRoleByName.find(RoleEnum.USER.getValue())).thenReturn(savedRole);
-
-        this.createUserUseCase.create(user);
-
-        Mockito.verify(this.findUserByUserNameGateway, Mockito.times(1)).find(user.username());
-        Mockito.verify(this.findUserByEmailGateway, Mockito.times(1)).find(user.email());
-        Mockito.verify(this.encoder, Mockito.times(1)).encode(user.password());
-        Mockito.verify(this.findUserRoleByName, Mockito.times(1)).find(RoleEnum.USER.getValue());
-    }
-
-    @Test
-    @DisplayName("Should call create user gateway with correct params ")
-    void shouldCallCreatGatewayWithCorrectParams() {
+    @DisplayName("Should  return user account on success")
+    void shouldReturnUserAccountOnSuccess(){
         User user = new User("any_fistname", "any_lastname", "any_username", "any_saved_email", "any_password");
         Role savedRole = new Role(UUID.randomUUID(), "USER_ROLE");
         String encodedPassword = UUID.randomUUID().toString();
+        String accessToken =  UUID.randomUUID().toString();
 
         Mockito.when(this.findUserByUserNameGateway.find(user.username())).thenReturn(null);
         Mockito.when(this.findUserByEmailGateway.find(user.email())).thenReturn(null);
         Mockito.when(this.findUserRoleByName.find(RoleEnum.USER.getValue())).thenReturn(savedRole);
         Mockito.when(this.encoder.encode(user.password())).thenReturn(encodedPassword);
 
-        User toSaveUser = new User("any_fistname", "any_lastname", "any_username", "any_saved_email", encodedPassword);
-        Mockito.when(this.createUserGateway.create(toSaveUser)).thenReturn(toSaveUser);
+        User toCreateUser = new User(user.firstname(), user.lastname(), user.username(), user.email(), encodedPassword);
+        Mockito.when(this.createUserGateway.create(toCreateUser)).thenReturn(toCreateUser);
+        Mockito.when(this.authentication.authenticate(toCreateUser.username(),user.password())).thenReturn(accessToken);
 
-        this.createUserUseCase.create(user);
+        UserAccount userAccount =  this.createUserUseCase.create(user);
 
+        Assertions.assertThat(userAccount.accessToken()).isEqualTo(accessToken);
         Mockito.verify(this.findUserByUserNameGateway, Mockito.times(1)).find(user.username());
         Mockito.verify(this.findUserByEmailGateway, Mockito.times(1)).find(user.email());
         Mockito.verify(this.findUserRoleByName, Mockito.times(1)).find(RoleEnum.USER.getValue());
         Mockito.verify(this.encoder, Mockito.times(1)).encode(user.password());
-        Mockito.verify(this.createUserGateway, Mockito.times(1)).create(toSaveUser);
+        Mockito.verify(this.createUserGateway, Mockito.times(1)).create(toCreateUser);
+        Mockito.verify(this.authentication, Mockito.times(1)).authenticate(toCreateUser.username(),user.password());
     }
 }
