@@ -45,10 +45,11 @@ public class CreateUserUseCase implements ICreateUserUseCase {
         if (userResult != null) throw new BusinessException("The email is already in use. Please try another email.");
 
         Role roleResult = this.findUserRoleByName.find(RoleEnum.USER.getValue());
-        if (roleResult == null) throw new UnexpectedException("Something went wrong while saving the information. Please concat the administrator.");
+        if (roleResult == null)
+            throw new UnexpectedException("Something went wrong while saving the information. Please concat the administrator.");
 
         String encodedPassword = this.encoder.encode(user.password());
-        User toSaveUser = new User(user.firstname(),user.lastname(),user.username(),user.email(),encodedPassword);
+        User toSaveUser = new User(user.firstname(), user.lastname(), user.username(), user.email(), encodedPassword);
         this.createUserGateway.create(toSaveUser);
         return null;
     }

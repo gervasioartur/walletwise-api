@@ -116,10 +116,10 @@ class CreateUserUseCaseTests {
 
     @Test
     @DisplayName("Should call create user gateway with correct params ")
-    void shouldCallCreatGatewayWithCorrectParams(){
+    void shouldCallCreatGatewayWithCorrectParams() {
         User user = new User("any_fistname", "any_lastname", "any_username", "any_saved_email", "any_password");
         Role savedRole = new Role(UUID.randomUUID(), "USER_ROLE");
-        String encodedPassword =  UUID.randomUUID().toString();
+        String encodedPassword = UUID.randomUUID().toString();
 
         Mockito.when(this.findUserByUserNameGateway.find(user.username())).thenReturn(null);
         Mockito.when(this.findUserByEmailGateway.find(user.email())).thenReturn(null);
