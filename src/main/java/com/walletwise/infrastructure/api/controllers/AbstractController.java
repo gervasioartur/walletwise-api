@@ -6,7 +6,7 @@ import com.walletwise.infrastructure.api.validation.validor.contract.IValidator;
 import java.util.List;
 
 public abstract class AbstractController<E> {
-    public  List<IValidator> buildValidators(E request){
+    public List<IValidator> buildValidators(E request) {
         return List.of();
     }
 
