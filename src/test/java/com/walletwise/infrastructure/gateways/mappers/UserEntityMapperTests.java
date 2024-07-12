@@ -30,7 +30,7 @@ class UserEntityMapperTests {
     @DisplayName("Should return user domain object")
     void shouldReturnUserDomainObject() {
         User toCreateUserDomainObject = UserMocks.toCreateUserDomainObjectFactory();
-        UserEntity toCreateUserEntity =  UserMocks.toCreateUserEntityFactory(toCreateUserDomainObject);
+        UserEntity toCreateUserEntity = UserMocks.toCreateUserEntityFactory(toCreateUserDomainObject);
 
         toCreateUserDomainObject = mapper.toDomainObject(toCreateUserEntity);
 

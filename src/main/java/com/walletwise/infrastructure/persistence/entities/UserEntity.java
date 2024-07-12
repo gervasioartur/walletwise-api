@@ -1,5 +1,6 @@
 package com.walletwise.infrastructure.persistence.entities;
 
+import com.walletwise.main.config.Generated;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Builder
+@Generated
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "t_user", schema = "security")
