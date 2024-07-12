@@ -1,6 +1,7 @@
 package com.walletwise.application.useCases.implementations;
 
 import com.walletwise.application.gateways.hash.IEncoder;
+import com.walletwise.application.gateways.user.ICreateUserGateway;
 import com.walletwise.application.gateways.user.IFindUserByEmailGateway;
 import com.walletwise.application.gateways.user.IFindUserByUserNameGateway;
 import com.walletwise.application.gateways.user.IFindUserRoleByName;
@@ -17,18 +18,21 @@ public class CreateUserUseCase implements ICreateUserUseCase {
     private final IFindUserByEmailGateway findUserByEmailGateway;
     private final IEncoder encoder;
     private final IFindUserRoleByName findUserRoleByName;
+    private final ICreateUserGateway createUserGateway;
 
     public CreateUserUseCase(
             IFindUserByUserNameGateway findUserByUserNameGateway,
             IFindUserByEmailGateway findUserByEmailGateway,
             IEncoder encoder,
-            IFindUserRoleByName findUserRoleByName
+            IFindUserRoleByName findUserRoleByName,
+            ICreateUserGateway createUserGateway
     ) {
 
         this.findUserByUserNameGateway = findUserByUserNameGateway;
         this.findUserByEmailGateway = findUserByEmailGateway;
         this.encoder = encoder;
         this.findUserRoleByName = findUserRoleByName;
+        this.createUserGateway = createUserGateway;
     }
 
     @Override
@@ -41,9 +45,11 @@ public class CreateUserUseCase implements ICreateUserUseCase {
         if (userResult != null) throw new BusinessException("The email is already in use. Please try another email.");
 
         Role roleResult = this.findUserRoleByName.find(RoleEnum.USER.getValue());
-        if (roleResult == null)
-            throw new UnexpectedException("Something went wrong while saving the information. Please concat the administrator.");
-        this.encoder.encode(user.password());
+        if (roleResult == null) throw new UnexpectedException("Something went wrong while saving the information. Please concat the administrator.");
+
+        String encodedPassword = this.encoder.encode(user.password());
+        User toSaveUser = new User(user.firstname(),user.lastname(),user.username(),user.email(),encodedPassword);
+        this.createUserGateway.create(toSaveUser);
         return null;
     }
 }
