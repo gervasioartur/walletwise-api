@@ -39,9 +39,9 @@ public class CreateUserUseCase implements ICreateUserUseCase {
         userResult = this.findUserByEmailGateway.find(user.email());
         if (userResult != null) throw new BusinessException("The email is already in use. Please try another email.");
 
-        this.encoder.encode(user.password());
         Role roleResult =  this.findUserRoleByName.find(RoleEnum.USER.getValue());
         if(roleResult == null) throw new UnexpectedException("Something went wrong while saving the information. Please concat the administrator.");
+        this.encoder.encode(user.password());
         return null;
     }
 }

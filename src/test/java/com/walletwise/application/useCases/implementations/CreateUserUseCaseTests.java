@@ -5,6 +5,7 @@ import com.walletwise.application.gateways.user.IFindUserByEmailGateway;
 import com.walletwise.application.gateways.user.IFindUserByUserNameGateway;
 import com.walletwise.application.gateways.user.IFindUserRoleByName;
 import com.walletwise.application.useCases.contracts.ICreateUserUseCase;
+import com.walletwise.domain.entities.Role;
 import com.walletwise.domain.entities.User;
 import com.walletwise.domain.enums.RoleEnum;
 import com.walletwise.domain.exceptions.BusinessException;
@@ -88,6 +89,25 @@ class CreateUserUseCaseTests {
 
         Assertions.assertThat(exception).isInstanceOf(UnexpectedException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("Something went wrong while saving the information. Please concat the administrator.");
+        Mockito.verify(this.findUserByUserNameGateway, Mockito.times(1)).find(user.username());
+        Mockito.verify(this.findUserByEmailGateway, Mockito.times(1)).find(user.email());
+        Mockito.verify(this.encoder, Mockito.times(1)).encode(user.password());
+        Mockito.verify(this.findUserRoleByName, Mockito.times(1)).find(RoleEnum.USER.getValue());
+    }
+
+    @Test
+    @DisplayName("Should call Encoder with corect params")
+    void shouldCallEncodeRWithCorrectParams() {
+        User user = new User("any_fistname", "any_lastname", "any_username", "any_saved_email", "any_password");
+        Role savedRole =  new Role(UUID.randomUUID(), "USER_ROLE");
+
+        Mockito.when(this.findUserByUserNameGateway.find(user.username())).thenReturn(null);
+        Mockito.when(this.findUserByEmailGateway.find(user.email())).thenReturn(null);
+        Mockito.when(this.encoder.encode(user.email())).thenReturn(UUID.randomUUID().toString());
+        Mockito.when(this.findUserRoleByName.find(RoleEnum.USER.getValue())).thenReturn(savedRole);
+
+        this.createUserUseCase.create(user);
+
         Mockito.verify(this.findUserByUserNameGateway, Mockito.times(1)).find(user.username());
         Mockito.verify(this.findUserByEmailGateway, Mockito.times(1)).find(user.email());
         Mockito.verify(this.encoder, Mockito.times(1)).encode(user.password());
