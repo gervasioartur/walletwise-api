@@ -2,6 +2,7 @@ package com.walletwise.infrastructure.gateways.user;
 
 import com.walletwise.application.gateways.user.ICreateUserGateway;
 import com.walletwise.domain.entities.User;
+import com.walletwise.infrastructure.gateways.mappers.UserEntityMapper;
 import com.walletwise.infrastructure.persistence.entities.UserEntity;
 import com.walletwise.infrastructure.persistence.repositories.IUserRepository;
 import com.walletwise.mocks.UserMocks;

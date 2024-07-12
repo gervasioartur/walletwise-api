@@ -1,10 +1,10 @@
-package com.walletwise.infrastructure.gateways.user;
+package com.walletwise.infrastructure.gateways.mappers;
 
 import com.walletwise.domain.entities.User;
 import com.walletwise.infrastructure.persistence.entities.UserEntity;
 
 public class UserEntityMapper {
-    UserEntity toUserEntity(User userDomainObject) {
+  public  UserEntity toUserEntity(User userDomainObject) {
         return UserEntity
                 .builder()
                 .firstName(userDomainObject.firstname())
@@ -15,7 +15,7 @@ public class UserEntityMapper {
                 .build();
     }
 
-    User toDomainObject(UserEntity userEntity) {
+   public User toDomainObject(UserEntity userEntity) {
         return new User(userEntity.getFirstName(), userEntity.getLastName(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getPassword());
     }
 }
