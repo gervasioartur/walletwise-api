@@ -17,7 +17,7 @@ public class Signup {
             throw new ConflictException("Username already exists.");
 
         if (this.userAdapter.findByEmail(user.getEmail()) != null)
-            throw new ConflictException("Email already in use.");
+            throw new ConflictException("E-mail already in use.");
         this.userAdapter.save(user);
     }
 }
