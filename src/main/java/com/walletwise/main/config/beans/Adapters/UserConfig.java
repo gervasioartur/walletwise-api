@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class UserConfig {
 
     @Bean
-    public LoadUserByUsernameAdapter loadUserByUsernameAdapter(IUserRepository userRepository){
+    public LoadUserByUsernameAdapter loadUserByUsernameAdapter(IUserRepository userRepository) {
         return new LoadUserByUsernameAdapter(userRepository);
     }
 

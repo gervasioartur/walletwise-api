@@ -10,8 +10,8 @@ import java.util.UUID;
 public class Mocks {
     private static final Faker faker = new Faker();
 
-    public static User userWithoutIdFactory(){
-        return  new User(
+    public static User userWithoutIdFactory() {
+        return new User(
                 faker.name().firstName(),
                 faker.name().lastName(),
                 faker.name().username(),
@@ -19,12 +19,12 @@ public class Mocks {
                 faker.internet().password());
     }
 
-    public static User savedUserFactory(User user){
+    public static User savedUserFactory(User user) {
         user.setUserId(UUID.randomUUID());
         return user;
     }
 
-    public static UserEntity fromUserToUserEntity(User useDomainObject){
+    public static UserEntity fromUserToUserEntity(User useDomainObject) {
         return UserEntity
                 .builder()
                 .id(useDomainObject.getUserId())

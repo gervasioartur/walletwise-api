@@ -21,20 +21,20 @@ public class SignupTests {
     private IUserAdapter userAdapter;
 
     @BeforeEach
-    void setup(){
-        this.signup =  new Signup(userAdapter);
+    void setup() {
+        this.signup = new Signup(userAdapter);
     }
 
     @Test
     @DisplayName("Should throw ConflictException if the username already exists")
-    void shouldThrowConflictExceptionIfTheUsernameAlreadyExists(){
+    void shouldThrowConflictExceptionIfTheUsernameAlreadyExists() {
         User user = Mocks.userWithoutIdFactory();
-        User savedUser =  Mocks.savedUserFactory(user);
+        User savedUser = Mocks.savedUserFactory(user);
 
         Mockito.when(this.userAdapter.findByUsername(user.getUsername()))
                 .thenReturn(savedUser);
 
-        Throwable exception = Assertions.catchThrowable(()-> this.signup.signup(user));
+        Throwable exception = Assertions.catchThrowable(() -> this.signup.signup(user));
 
         Assertions.assertThat(exception).isInstanceOf(ConflictException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("Username already exists.");
@@ -43,16 +43,16 @@ public class SignupTests {
 
     @Test
     @DisplayName("Should throw ConflictException if email is already in use")
-    void shouldThrowConflictExceptionIfEmailIsAlreadyInUse(){
+    void shouldThrowConflictExceptionIfEmailIsAlreadyInUse() {
         User user = Mocks.userWithoutIdFactory();
-        User savedUser =  Mocks.savedUserFactory(user);
+        User savedUser = Mocks.savedUserFactory(user);
 
         Mockito.when(this.userAdapter.findByUsername(user.getUsername()))
                 .thenReturn(null);
         Mockito.when(this.userAdapter.findByEmail(user.getEmail()))
                 .thenReturn(savedUser);
 
-        Throwable exception = Assertions.catchThrowable(()-> this.signup.signup(user));
+        Throwable exception = Assertions.catchThrowable(() -> this.signup.signup(user));
 
         Assertions.assertThat(exception).isInstanceOf(ConflictException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("Email already in use.");
@@ -62,7 +62,7 @@ public class SignupTests {
 
     @Test
     @DisplayName("Should save user information successfully")
-    void shouldSaveUserInformationSuccessfully(){
+    void shouldSaveUserInformationSuccessfully() {
         User user = Mocks.userWithoutIdFactory();
 
         Mockito.when(this.userAdapter.findByUsername(user.getUsername()))
