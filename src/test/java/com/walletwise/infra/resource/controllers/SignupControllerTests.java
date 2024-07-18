@@ -190,4 +190,48 @@ public class SignupControllerTests {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("body", Matchers.is("Invalid Username! The username should not start with special character.")));
     }
+
+    @Test
+    @DisplayName("Should return badRequest if E-mail is empty")
+    void shouldReturnBadRequestIfEmailIsEmpty() throws Exception {
+        SignupRequest requestParams =  new SignupRequest(
+                faker.name().firstName(),
+                faker.name().lastName(),
+                faker.name().username(),
+                "",
+                faker.internet().password());
+
+        String json =  new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers.is("E-mail is required.")));
+    }
+
+    @Test
+    @DisplayName("Should return badRequest if E-mail is null")
+    void shouldReturnBadRequestIfEmailIsNull() throws Exception {
+        SignupRequest requestParams =  new SignupRequest(
+                faker.name().firstName(),
+                faker.name().lastName(),
+                faker.name().username(),
+                null,
+                faker.internet().password());
+
+        String json =  new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers.is("E-mail is required.")));
+    }
 }
