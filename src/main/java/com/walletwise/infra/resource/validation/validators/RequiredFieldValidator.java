@@ -6,7 +6,7 @@ public class RequiredFieldValidator extends AbstractValidator {
     public RequiredFieldValidator(String fieldName, Object fieldValue) {
         this.fieldName = fieldName;
         this.fieldValue = fieldValue;
-        this.returnMessage = "The field '" + this.fieldName + "' is required!";
+        this.returnMessage = this.fieldName + " is required.";
     }
 
     @Override

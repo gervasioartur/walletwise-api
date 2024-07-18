@@ -1,5 +1,7 @@
 package com.walletwise.main.config.beans.Adapters;
 
+import com.walletwise.domain.adapters.IUserAdapter;
+import com.walletwise.domain.useCases.Signup;
 import com.walletwise.infra.adapters.LoadUserByUsernameAdapter;
 import com.walletwise.infra.adapters.UserAdapter;
 import com.walletwise.infra.gateways.mappers.UserDTOMapper;
@@ -10,6 +12,11 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class UserConfig {
+
+    @Bean
+    public Signup signup(IUserAdapter userAdapter){
+        return new Signup(userAdapter);
+    }
 
     @Bean
     public LoadUserByUsernameAdapter loadUserByUsernameAdapter(IUserRepository userRepository) {
