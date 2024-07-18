@@ -34,8 +34,8 @@ public class SignupController extends AbstractController<SignupRequest, Response
     }
 
     @Override
-    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Singup")
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Returns successful message"),
@@ -44,8 +44,8 @@ public class SignupController extends AbstractController<SignupRequest, Response
             @ApiResponse(responseCode = "500", description = "An unexpected error occurred."),
     })
     public ResponseEntity<Response> perform(@RequestBody SignupRequest request) {
-        Response response = null;
-        ResponseEntity<Response> responseEntity = null;
+        Response response;
+        ResponseEntity<Response> responseEntity;
 
         String error = this.validate(request);
         if(error != null){
@@ -56,6 +56,8 @@ public class SignupController extends AbstractController<SignupRequest, Response
         try {
             User userDomainObject = this.mapper.toUserDomainObject(request);
             this.signup.signup(userDomainObject);
+            response =  Response.builder().body("Sign-up successful").build();
+            responseEntity = new ResponseEntity<>(response, HttpStatus.CREATED);
         }catch (ConflictException ex){
             response =  Response.builder().body(ex.getMessage()).build();
             return new ResponseEntity<>(response, HttpStatus.CONFLICT);
@@ -65,7 +67,7 @@ public class SignupController extends AbstractController<SignupRequest, Response
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return null;
+        return responseEntity;
     }
 
     @Override
