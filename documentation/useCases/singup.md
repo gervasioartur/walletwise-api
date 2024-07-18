@@ -73,7 +73,7 @@ I want to be able to sign up
     Then the response status should be 400
     And the response should contain "Password too weak! Must contain at least 8 characters, one uppercase letter, a special character and a number."
 
-## Scenario: Sign up with invalid email [ ]
+## Scenario: Sign up with invalid email [✅]
 
     Given the user payload with firstname "new", lastname "user", username "new_user", email "invalid-email" and password "newuser@password"
     When I send a POST request to "api/signup"
