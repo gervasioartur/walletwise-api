@@ -40,4 +40,23 @@ public class SignupTests {
         Assertions.assertThat(exception).isInstanceOf(ConflictException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("Username already exists.");
     }
+
+    @Test
+    @DisplayName("Should throw ConflictException if email is already in use")
+    void shouldThrowConflictExceptionIfEmailIsAlreadyInUse(){
+        User user = Mocks.userWithoutIdFactory();
+        User savedUser =  Mocks.userSavedFactory(user);
+
+        Mockito.when(this.userAdapter.findByUsername(user.getUsername()))
+                .thenReturn(null);
+        Mockito.when(this.userAdapter.findByEmail(user.getEmail()))
+                .thenReturn(savedUser);
+
+        Throwable exception = Assertions.catchThrowable(()-> this.signup.signup(user));
+
+        Assertions.assertThat(exception).isInstanceOf(ConflictException.class);
+        Assertions.assertThat(exception.getMessage()).isEqualTo("Email already in use.");
+        Mockito.verify(this.userAdapter, Mockito.times(1)).findByEmail(user.getEmail());
+        Mockito.verify(this.userAdapter, Mockito.times(1)).findByUsername(user.getUsername());
+    }
 }
