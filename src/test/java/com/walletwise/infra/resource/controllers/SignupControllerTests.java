@@ -300,4 +300,26 @@ public class SignupControllerTests {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("body", Matchers.is("Password is required.")));
     }
+
+    @Test
+    @DisplayName("Should return badRequest if Password is weak")
+    void shouldReturnBadRequestIfPasswordIsWeak() throws Exception {
+        SignupRequest requestParams =  new SignupRequest(
+                faker.name().firstName(),
+                faker.name().lastName(),
+                faker.name().username(),
+                faker.internet().emailAddress(),
+                "123");
+
+        String json =  new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers.is("Password too weak! Must contain at least 8 characters, one uppercase letter, a special character and a number.")));
+    }
 }
