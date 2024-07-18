@@ -61,4 +61,17 @@ public class UserAdapterTests {
         Mockito.verify(this.userRepository, Mockito.times(1)).findByUsernameAndActive(savedUserDomainObject.getUsername(), true);
         Mockito.verify(this.mapper, Mockito.times(1)).toDomainObject(savedUserEntity);
     }
+
+    @Test
+    @DisplayName("Should return null if user does not exist by email")
+    void shouldReturnNullIfUserDOesNotExistByEmail(){
+        String email = faker.internet().emailAddress();
+
+        Mockito.when(this.userRepository.findByEmailAndActive(email,true)).thenReturn(Optional.empty());
+
+        User userDomainObject =  this.userAdapter.findByEmail(email);
+
+        Assertions.assertThat(userDomainObject).isNull();
+        Mockito.verify(this.userRepository, Mockito.times(1)).findByEmailAndActive(email,true);
+    }
 }
