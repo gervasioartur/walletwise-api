@@ -51,6 +51,7 @@ public class SignupController extends AbstractController<SignupRequest, Response
     public List<IValidator> buildValidators(SignupRequest request) {
         List<IValidator> validators = new ArrayList<>();
         validators.addAll(ValidationBuilder.of("Firstname", request.firstname()).required().build());
+        validators.addAll(ValidationBuilder.of("Lastname", request.lastname()).required().build());
         return validators;
     }
 }
