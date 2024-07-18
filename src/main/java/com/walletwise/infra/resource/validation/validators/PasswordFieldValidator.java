@@ -11,7 +11,7 @@ public class PasswordFieldValidator extends AbstractValidator {
     public PasswordFieldValidator(String fieldName, Object fieldValue) {
         this.fieldName = fieldName;
         this.fieldValue = fieldValue;
-        this.returnMessage = "The '" + this.fieldName + "' must have minimum 6 and maximum 32 characters, at least one uppercase letter, one lowercase letter, one number and one special character!";
+        this.returnMessage = "Password too weak! Must contain at least 8 characters, one uppercase letter, a special character and a number.";
     }
 
     @Override
