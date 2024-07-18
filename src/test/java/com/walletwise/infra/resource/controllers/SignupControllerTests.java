@@ -148,7 +148,7 @@ public class SignupControllerTests {
     }
 
     @Test
-    @DisplayName("Should return badRequest if Lastname is null")
+    @DisplayName("Should return badRequest if Username is null")
     void shouldReturnBadRequestIfUsernameIsNull() throws Exception {
         SignupRequest requestParams =  new SignupRequest(
                 faker.name().firstName(),
