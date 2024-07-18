@@ -53,7 +53,7 @@ public class SignupController extends AbstractController<SignupRequest, Response
         validators.addAll(ValidationBuilder.of("Firstname", request.firstname()).required().build());
         validators.addAll(ValidationBuilder.of("Lastname", request.lastname()).required().build());
         validators.addAll(ValidationBuilder.of("Username", request.username()).required().username().build());
-        validators.addAll(ValidationBuilder.of("E-mail", request.email()).required().build());
+        validators.addAll(ValidationBuilder.of("E-mail", request.email()).required().email().build());
         return validators;
     }
 }
