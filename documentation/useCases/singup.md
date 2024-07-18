@@ -66,7 +66,7 @@ I want to be able to sign up
     Then the response status should be 400
     And the response should contain "Invalid username! The username should not start with special character."
 
-## Scenario: Sign up with weak password [ ]
+## Scenario: Sign up with weak password [✅]
 
     Given the user payload with firstname "new", lastname "user", username "new_user", email "newuser@gmail.com" and password "123"
     When I send a POST request to "api/signup"
