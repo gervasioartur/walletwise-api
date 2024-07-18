@@ -10,29 +10,29 @@ import java.util.Optional;
 
 public class UserAdapter implements IUserAdapter {
     private final IUserRepository userRepository;
-    private final UserEntityMapper userEntityMapper;
+    private final UserEntityMapper mapper;
 
-    public UserAdapter(IUserRepository userRepository, UserEntityMapper userEntityMapper) {
+    public UserAdapter(IUserRepository userRepository, UserEntityMapper mapper) {
         this.userRepository = userRepository;
-        this.userEntityMapper = userEntityMapper;
+        this.mapper = mapper;
     }
 
     @Override
     public User save(User user) {
-        UserEntity userEntity = this.userEntityMapper.toUserEntity(user);
+        UserEntity userEntity = this.mapper.toUserEntity(user);
         userEntity = this.userRepository.save(userEntity);
-        return this.userEntityMapper.toDomainObject(userEntity);
+        return this.mapper.toDomainObject(userEntity);
     }
 
     @Override
     public User findByUsername(String username) {
         Optional<UserEntity> userEntity = this.userRepository.findByUsernameAndActive(username, true);
-        return userEntity.map(this.userEntityMapper::toDomainObject).orElse(null);
+        return userEntity.map(this.mapper::toDomainObject).orElse(null);
     }
 
     @Override
     public User findByEmail(String email) {
         Optional<UserEntity> userEntity = this.userRepository.findByEmailAndActive(email, true);
-        return userEntity.map(this.userEntityMapper::toDomainObject).orElse(null);
+        return userEntity.map(this.mapper::toDomainObject).orElse(null);
     }
 }
