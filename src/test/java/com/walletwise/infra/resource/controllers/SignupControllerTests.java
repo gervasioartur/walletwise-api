@@ -234,4 +234,26 @@ public class SignupControllerTests {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("body", Matchers.is("E-mail is required.")));
     }
+
+    @Test
+    @DisplayName("Should return badRequest if E-mail is invalid")
+    void shouldReturnBadRequestIfEmailIsInvalid() throws Exception {
+        SignupRequest requestParams =  new SignupRequest(
+                faker.name().firstName(),
+                faker.name().lastName(),
+                faker.name().username(),
+                "invalidEmail",
+                faker.internet().password());
+
+        String json =  new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers.is("Invalid E-mail.")));
+    }
 }
