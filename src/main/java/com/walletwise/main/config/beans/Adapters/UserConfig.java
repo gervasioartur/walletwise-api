@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class UserConfig {
 
     @Bean
-    public Signup signup(IUserAdapter userAdapter){
+    public Signup signup(IUserAdapter userAdapter) {
         return new Signup(userAdapter);
     }
 

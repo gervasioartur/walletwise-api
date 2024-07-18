@@ -8,7 +8,7 @@ I want to be able to sign up
     Given the user payload with firstname "new", lastname "user", username "new_user", email "newuser@gmail.com" and password "new_user@password"
     When I send a POST request to "api/signup"
     Then the response status should be 201
-    And the response should contain "Sign-up successful"
+    And the response should contain "Sign-up successful."
 
 ## Scenario: Sign up with existing username [✅]
 
