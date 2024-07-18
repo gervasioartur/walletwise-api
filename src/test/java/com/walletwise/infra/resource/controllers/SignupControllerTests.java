@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -335,8 +336,8 @@ public class SignupControllerTests {
     }
 
     @Test
-    @DisplayName("Should return if username is already taken")
-    void shouldConflictIfUsernameIsAlreadyTaken() throws Exception {
+    @DisplayName("Should return conflict if username is already taken")
+    void shouldReturnConflictIfUsernameIsAlreadyTaken() throws Exception {
         SignupRequest requestParams =  Mocks.signupRequestToUserFactory();
         User userDomainObject = Mocks.fromSignupRequestToUserFactory(requestParams);
 
@@ -357,8 +358,8 @@ public class SignupControllerTests {
     }
 
     @Test
-    @DisplayName("Should return if E-mail is already in use")
-    void shouldConflictIfEmailIsAlreadyInUse() throws Exception {
+    @DisplayName("Should return conflict if E-mail is already in use")
+    void shouldReturnConflictIfEmailIsAlreadyInUse() throws Exception {
         SignupRequest requestParams =  Mocks.signupRequestToUserFactory();
         User userDomainObject = Mocks.fromSignupRequestToUserFactory(requestParams);
 
@@ -376,5 +377,28 @@ public class SignupControllerTests {
                 .perform(request)
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("body", Matchers.is("E-mail already in use.")));
+    }
+
+    @Test
+    @DisplayName("Should return if InternalServerError if Signup throws unexpected error")
+    void shouldReturnInternalServerErrorIfSignupThrowsUnexpectedError() throws Exception {
+        SignupRequest requestParams =  Mocks.signupRequestToUserFactory();
+        User userDomainObject = Mocks.fromSignupRequestToUserFactory(requestParams);
+
+        BDDMockito.when(this.mapper.toUserDomainObject(requestParams)).thenReturn(userDomainObject);
+        BDDMockito.doThrow(HttpServerErrorException.InternalServerError.class)
+                .when(this.signup).signup(userDomainObject);
+
+        String json =  new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("body", Matchers
+                        .is("An unexpected error occurred. Please try again later.")));
     }
 }
