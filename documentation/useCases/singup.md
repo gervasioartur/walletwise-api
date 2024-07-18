@@ -52,7 +52,7 @@ I want to be able to sign up
     Then the response status should be 400
     And the response should contain "Email is required."
 
-## Scenario: Sign up without password [ ]
+## Scenario: Sign up without password [✅]
 
     Given the user payload with firstname "new", lastname "user", username "@invalid_username", email "newuser@gmail.com" and password ""
     When I send a POST request to "api/signup"
