@@ -3,6 +3,7 @@ package com.walletwise.mocks;
 import com.github.javafaker.Faker;
 import com.walletwise.domain.entities.model.User;
 import com.walletwise.infra.persistence.entities.UserEntity;
+import com.walletwise.infra.resource.http.SignupRequest;
 
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ public class Mocks {
         return user;
     }
 
-    public static UserEntity fromUserToUserEntity(User useDomainObject) {
+    public static UserEntity fromUserToUserEntityFactory(User useDomainObject) {
         return UserEntity
                 .builder()
                 .id(useDomainObject.getUserId())
@@ -37,7 +38,7 @@ public class Mocks {
                 .build();
     }
 
-    public static User fromUserEntityToUser(UserEntity userEntity) {
+    public static User fromUserEntityToUserFactory(UserEntity userEntity) {
         return new User(
                 userEntity.getId(),
                 userEntity.getFirstName(),
@@ -46,5 +47,24 @@ public class Mocks {
                 userEntity.getEmail(),
                 userEntity.getPassword()
         );
+    }
+
+    public static User fromSignupRequestToUserFactory(SignupRequest request) {
+        return new User(
+                request.firstname(),
+                request.lastname(),
+                request.username(),
+                request.email(),
+                request.password()
+        );
+    }
+
+    public static SignupRequest signupRequestToUserFactory() {
+        return new SignupRequest(
+                faker.name().firstName(),
+                faker.name().lastName(),
+                faker.name().username(),
+                faker.internet().emailAddress(),
+                "Test@0199");
     }
 }

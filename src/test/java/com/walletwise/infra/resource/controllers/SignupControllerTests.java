@@ -1,15 +1,21 @@
 package com.walletwise.infra.resource.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
+import com.walletwise.domain.entities.exceptions.ConflictException;
+import com.walletwise.domain.entities.model.User;
+import com.walletwise.domain.useCases.Signup;
+import com.walletwise.infra.gateways.mappers.UserDTOMapper;
 import com.walletwise.infra.resource.http.SignupRequest;
+import com.walletwise.mocks.Mocks;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -28,6 +34,11 @@ public class SignupControllerTests {
     @Autowired
     private WebApplicationContext context;
     private MockMvc mvc;
+
+    @MockBean
+    private Signup signup;
+    @MockBean
+    private UserDTOMapper mapper;
 
     @BeforeEach
     void setup() {
@@ -322,4 +333,28 @@ public class SignupControllerTests {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("body", Matchers.is("Password too weak! Must contain at least 8 characters, one uppercase letter, a special character and a number.")));
     }
+
+    @Test
+    @DisplayName("Should return if username is already taken")
+    void shouldConflictIfUsernameIsAlreadyTaken() throws Exception {
+        SignupRequest requestParams =  Mocks.signupRequestToUserFactory();
+        User userDomainObject = Mocks.fromSignupRequestToUserFactory(requestParams);
+
+        BDDMockito.when(this.mapper.toUserDomainObject(requestParams)).thenReturn(userDomainObject);
+        BDDMockito.doThrow(new ConflictException("Username already exists."))
+                .when(this.signup).signup(userDomainObject);
+
+        String json =  new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("body", Matchers.is("Username already exists.")));
+    }
+
+
 }

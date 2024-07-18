@@ -50,7 +50,7 @@ public class UserAdapterTests {
     @DisplayName("Should return user domain object if exists by username")
     void shouldReturnUserDomainObjectIfExistsByUsername() {
         User savedUserDomainObject = Mocks.savedUserFactory(Mocks.userWithoutIdFactory());
-        UserEntity savedUserEntity = Mocks.fromUserToUserEntity(savedUserDomainObject);
+        UserEntity savedUserEntity = Mocks.fromUserToUserEntityFactory(savedUserDomainObject);
 
         Mockito.when(this.userRepository.findByUsernameAndActive(savedUserDomainObject.getUsername(), true))
                 .thenReturn(Optional.of(savedUserEntity));
@@ -80,7 +80,7 @@ public class UserAdapterTests {
     @DisplayName("Should return user domain object if exists by email")
     void shouldReturnUserDomainObjectIfExistsByEMaile() {
         User savedUserDomainObject = Mocks.savedUserFactory(Mocks.userWithoutIdFactory());
-        UserEntity savedUserEntity = Mocks.fromUserToUserEntity(savedUserDomainObject);
+        UserEntity savedUserEntity = Mocks.fromUserToUserEntityFactory(savedUserDomainObject);
 
         Mockito.when(this.userRepository.findByEmailAndActive(savedUserDomainObject.getEmail(), true))
                 .thenReturn(Optional.of(savedUserEntity));
@@ -97,11 +97,11 @@ public class UserAdapterTests {
     @DisplayName("Should return user domain object on save success")
     void shouldReturnUserDomainObjectOnSuccess() {
         User toSaveUserDomainObject = Mocks.userWithoutIdFactory();
-        UserEntity toSaveUserEntity = Mocks.fromUserToUserEntity(toSaveUserDomainObject);
+        UserEntity toSaveUserEntity = Mocks.fromUserToUserEntityFactory(toSaveUserDomainObject);
 
         UserEntity savedUserEntity = toSaveUserEntity;
         savedUserEntity.setId(UUID.randomUUID());
-        User savedUserDomainObject = Mocks.fromUserEntityToUser(savedUserEntity);
+        User savedUserDomainObject = Mocks.fromUserEntityToUserFactory(savedUserEntity);
 
         Mockito.when(this.mapper.toUserEntity(toSaveUserDomainObject)).thenReturn(toSaveUserEntity);
         Mockito.when(this.userRepository.save(toSaveUserEntity)).thenReturn(savedUserEntity);
