@@ -1,5 +1,6 @@
 package com.walletwise.infra.resource.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import com.walletwise.domain.entities.exceptions.ConflictException;
@@ -400,5 +401,26 @@ public class SignupControllerTests {
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("body", Matchers
                         .is("An unexpected error occurred. Please try again later.")));
+    }
+
+    @Test
+    @DisplayName("Should return Created on save success")
+    void shouldReturnCreatedOnSaveSuccess() throws Exception {
+        SignupRequest requestParams =  Mocks.signupRequestToUserFactory();
+        User userDomainObject = Mocks.fromSignupRequestToUserFactory(requestParams);
+
+        BDDMockito.when(this.mapper.toUserDomainObject(requestParams)).thenReturn(userDomainObject);
+        BDDMockito.doNothing().when(this.signup).signup(userDomainObject);
+
+        String json =  new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("body", Matchers.is("Sign-up successful")));
     }
 }
