@@ -45,7 +45,7 @@ I want to be able to sign up
     Then the response status should be 400
     And the response should contain "Username is required."
 
-## Scenario: Sign up without email [ ]
+## Scenario: Sign up without email [✅]
 
     Given the user payload with firstname "new", lastname "user", username "new_user", email "" and password "newuser@password"
     When I send a POST request to "api/signup"
@@ -78,7 +78,7 @@ I want to be able to sign up
     Given the user payload with firstname "new", lastname "user", username "new_user", email "invalid-email" and password "newuser@password"
     When I send a POST request to "api/signup"
     Then the response status should be 400
-    And the response should contain "Invalid email!"
+    And the response should contain "Invalid email."
 
 ## Scenario: Unexpected error during sign-up [ ]
 
