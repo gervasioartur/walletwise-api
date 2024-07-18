@@ -74,4 +74,21 @@ public class UserAdapterTests {
         Assertions.assertThat(userDomainObject).isNull();
         Mockito.verify(this.userRepository, Mockito.times(1)).findByEmailAndActive(email,true);
     }
+
+    @Test
+    @DisplayName("Should return user domain object if exists by email")
+    void shouldReturnUserDomainObjectIfExistsByEMaile(){
+        User savedUserDomainObject = Mocks.savedUserFactory(Mocks.userWithoutIdFactory());
+        UserEntity savedUserEntity =  Mocks.savedUserEntityFactory(savedUserDomainObject);
+
+        Mockito.when(this.userRepository.findByEmailAndActive(savedUserDomainObject.getEmail(),true))
+                .thenReturn(Optional.of(savedUserEntity));
+        Mockito.when(this.mapper.toDomainObject(savedUserEntity)).thenReturn(savedUserDomainObject);
+
+        User userDomainObject =  this.userAdapter.findByEmail(savedUserDomainObject.getEmail());
+
+        Assertions.assertThat(userDomainObject).isEqualTo(savedUserDomainObject);
+        Mockito.verify(this.userRepository, Mockito.times(1)).findByEmailAndActive(savedUserDomainObject.getEmail(), true);
+        Mockito.verify(this.mapper, Mockito.times(1)).toDomainObject(savedUserEntity);
+    }
 }
