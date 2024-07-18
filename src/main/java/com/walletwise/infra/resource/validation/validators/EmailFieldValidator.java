@@ -19,7 +19,7 @@ public class EmailFieldValidator extends AbstractValidator {
         String regex = GeneralEnumText.EMAIL_PASSWORD_EXPRESSION.getValue();
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(value);
-        if (!matcher.matches())  return "Invalid E-mail.";
+        if (!matcher.matches()) return "Invalid E-mail.";
         return null;
     }
 

@@ -1,6 +1,5 @@
 package com.walletwise.infra.resource.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import com.walletwise.domain.entities.exceptions.ConflictException;
@@ -53,15 +52,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return badRequest if Firstname is empty")
     void shouldReturnBadRequestIfFirstnameIsEmpty() throws Exception {
-        SignupRequest requestParams =  new SignupRequest(
+        SignupRequest requestParams = new SignupRequest(
                 "",
                 faker.name().lastName(),
                 faker.name().username(),
                 faker.internet().emailAddress(),
                 faker.internet().password());
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -75,15 +74,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return badRequest if Firstname is null")
     void shouldReturnBadRequestIfFirstnameIsNull() throws Exception {
-        SignupRequest requestParams =  new SignupRequest(
+        SignupRequest requestParams = new SignupRequest(
                 null,
                 faker.name().lastName(),
                 faker.name().username(),
                 faker.internet().emailAddress(),
                 faker.internet().password());
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -97,15 +96,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return badRequest if Lastname is empty")
     void shouldReturnBadRequestIfLastnameIsEmpty() throws Exception {
-        SignupRequest requestParams =  new SignupRequest(
+        SignupRequest requestParams = new SignupRequest(
                 faker.name().firstName(),
                 "",
                 faker.name().username(),
                 faker.internet().emailAddress(),
                 faker.internet().password());
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -119,15 +118,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return badRequest if Lastname is null")
     void shouldReturnBadRequestIfLastnameIsNull() throws Exception {
-        SignupRequest requestParams =  new SignupRequest(
+        SignupRequest requestParams = new SignupRequest(
                 faker.name().firstName(),
                 null,
                 faker.name().username(),
                 faker.internet().emailAddress(),
                 faker.internet().password());
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -141,15 +140,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return badRequest if Username is empty")
     void shouldReturnBadRequestIfUsernameIsEmpty() throws Exception {
-        SignupRequest requestParams =  new SignupRequest(
+        SignupRequest requestParams = new SignupRequest(
                 faker.name().firstName(),
                 faker.name().lastName(),
                 "",
                 faker.internet().emailAddress(),
                 faker.internet().password());
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -163,15 +162,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return badRequest if Username is null")
     void shouldReturnBadRequestIfUsernameIsNull() throws Exception {
-        SignupRequest requestParams =  new SignupRequest(
+        SignupRequest requestParams = new SignupRequest(
                 faker.name().firstName(),
                 faker.name().lastName(),
                 "",
                 faker.internet().emailAddress(),
                 faker.internet().password());
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -185,15 +184,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return badRequest if Username is invalid")
     void shouldReturnBadRequestIfUsernameIsInvalid() throws Exception {
-        SignupRequest requestParams =  new SignupRequest(
+        SignupRequest requestParams = new SignupRequest(
                 faker.name().firstName(),
                 faker.name().lastName(),
                 "@Username",
                 faker.internet().emailAddress(),
                 faker.internet().password());
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -207,15 +206,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return badRequest if E-mail is empty")
     void shouldReturnBadRequestIfEmailIsEmpty() throws Exception {
-        SignupRequest requestParams =  new SignupRequest(
+        SignupRequest requestParams = new SignupRequest(
                 faker.name().firstName(),
                 faker.name().lastName(),
                 faker.name().username(),
                 "",
                 faker.internet().password());
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -229,15 +228,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return badRequest if E-mail is null")
     void shouldReturnBadRequestIfEmailIsNull() throws Exception {
-        SignupRequest requestParams =  new SignupRequest(
+        SignupRequest requestParams = new SignupRequest(
                 faker.name().firstName(),
                 faker.name().lastName(),
                 faker.name().username(),
                 null,
                 faker.internet().password());
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -251,15 +250,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return badRequest if E-mail is invalid")
     void shouldReturnBadRequestIfEmailIsInvalid() throws Exception {
-        SignupRequest requestParams =  new SignupRequest(
+        SignupRequest requestParams = new SignupRequest(
                 faker.name().firstName(),
                 faker.name().lastName(),
                 faker.name().username(),
                 "invalidEmail",
                 faker.internet().password());
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -273,15 +272,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return badRequest if Password is empty")
     void shouldReturnBadRequestIfPasswordIsEmpty() throws Exception {
-        SignupRequest requestParams =  new SignupRequest(
+        SignupRequest requestParams = new SignupRequest(
                 faker.name().firstName(),
                 faker.name().lastName(),
                 faker.name().username(),
                 faker.internet().emailAddress(),
                 "");
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -295,15 +294,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return badRequest if Password is null")
     void shouldReturnBadRequestIfPasswordIsNull() throws Exception {
-        SignupRequest requestParams =  new SignupRequest(
+        SignupRequest requestParams = new SignupRequest(
                 faker.name().firstName(),
                 faker.name().lastName(),
                 faker.name().username(),
                 faker.internet().emailAddress(),
                 null);
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -317,15 +316,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return badRequest if Password is weak")
     void shouldReturnBadRequestIfPasswordIsWeak() throws Exception {
-        SignupRequest requestParams =  new SignupRequest(
+        SignupRequest requestParams = new SignupRequest(
                 faker.name().firstName(),
                 faker.name().lastName(),
                 faker.name().username(),
                 faker.internet().emailAddress(),
                 "123");
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -339,15 +338,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return conflict if username is already taken")
     void shouldReturnConflictIfUsernameIsAlreadyTaken() throws Exception {
-        SignupRequest requestParams =  Mocks.signupRequestToUserFactory();
+        SignupRequest requestParams = Mocks.signupRequestToUserFactory();
         User userDomainObject = Mocks.fromSignupRequestToUserFactory(requestParams);
 
         BDDMockito.when(this.mapper.toUserDomainObject(requestParams)).thenReturn(userDomainObject);
         BDDMockito.doThrow(new ConflictException("Username already exists."))
                 .when(this.signup).signup(userDomainObject);
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -361,15 +360,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return conflict if E-mail is already in use")
     void shouldReturnConflictIfEmailIsAlreadyInUse() throws Exception {
-        SignupRequest requestParams =  Mocks.signupRequestToUserFactory();
+        SignupRequest requestParams = Mocks.signupRequestToUserFactory();
         User userDomainObject = Mocks.fromSignupRequestToUserFactory(requestParams);
 
         BDDMockito.when(this.mapper.toUserDomainObject(requestParams)).thenReturn(userDomainObject);
         BDDMockito.doThrow(new ConflictException("E-mail already in use."))
                 .when(this.signup).signup(userDomainObject);
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -383,15 +382,15 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return if InternalServerError if Signup throws unexpected error")
     void shouldReturnInternalServerErrorIfSignupThrowsUnexpectedError() throws Exception {
-        SignupRequest requestParams =  Mocks.signupRequestToUserFactory();
+        SignupRequest requestParams = Mocks.signupRequestToUserFactory();
         User userDomainObject = Mocks.fromSignupRequestToUserFactory(requestParams);
 
         BDDMockito.when(this.mapper.toUserDomainObject(requestParams)).thenReturn(userDomainObject);
         BDDMockito.doThrow(HttpServerErrorException.InternalServerError.class)
                 .when(this.signup).signup(userDomainObject);
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -406,14 +405,14 @@ public class SignupControllerTests {
     @Test
     @DisplayName("Should return Created on save success")
     void shouldReturnCreatedOnSaveSuccess() throws Exception {
-        SignupRequest requestParams =  Mocks.signupRequestToUserFactory();
+        SignupRequest requestParams = Mocks.signupRequestToUserFactory();
         User userDomainObject = Mocks.fromSignupRequestToUserFactory(requestParams);
 
         BDDMockito.when(this.mapper.toUserDomainObject(requestParams)).thenReturn(userDomainObject);
         BDDMockito.doNothing().when(this.signup).signup(userDomainObject);
 
-        String json =  new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)

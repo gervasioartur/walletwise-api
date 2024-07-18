@@ -48,21 +48,21 @@ public class SignupController extends AbstractController<SignupRequest, Response
         ResponseEntity<Response> responseEntity;
 
         String error = this.validate(request);
-        if(error != null){
-            response =  Response.builder().body(error).build();
+        if (error != null) {
+            response = Response.builder().body(error).build();
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         try {
             User userDomainObject = this.mapper.toUserDomainObject(request);
             this.signup.signup(userDomainObject);
-            response =  Response.builder().body("Sign-up successful").build();
+            response = Response.builder().body("Sign-up successful").build();
             responseEntity = new ResponseEntity<>(response, HttpStatus.CREATED);
-        }catch (ConflictException ex){
-            response =  Response.builder().body(ex.getMessage()).build();
+        } catch (ConflictException ex) {
+            response = Response.builder().body(ex.getMessage()).build();
             return new ResponseEntity<>(response, HttpStatus.CONFLICT);
-        }catch (Exception ex){
-            response =  Response
+        } catch (Exception ex) {
+            response = Response
                     .builder().body("An unexpected error occurred. Please try again later.").build();
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
