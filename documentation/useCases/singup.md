@@ -59,7 +59,7 @@ I want to be able to sign up
     Then the response status should be 400
     And the response should contain "Password is required."
 
-## Scenario: Sign up with invalid username [ ]
+## Scenario: Sign up with invalid username [✅]
 
     Given the user payload with firstname "new", lastname "user", username "@invalid_username", email "newuser@gmail.com" and password "newuser@password"
     When I send a POST request to "api/signup"
