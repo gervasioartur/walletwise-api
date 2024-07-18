@@ -4,12 +4,13 @@ import com.github.javafaker.Faker;
 import com.walletwise.domain.adapters.IUserAdapter;
 import com.walletwise.domain.entities.model.User;
 import com.walletwise.infra.gateways.mappers.UserEntityMapper;
+import com.walletwise.infra.persistence.entities.UserEntity;
 import com.walletwise.infra.persistence.repositories.IUserRepository;
+import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,5 +45,20 @@ public class UserAdapterTests {
         Mockito.verify(this.userRepository, Mockito.times(1)).findByUsernameAndActive(username,true);
     }
 
+    @Test
+    @DisplayName("Should return user domain object if exists by username")
+    void shouldReturnUserDomainObjectIfExistsByUsername(){
+        User savedUserDomainObject = Mocks.savedUserFactory(Mocks.userWithoutIdFactory());
+        UserEntity savedUserEntity =  Mocks.savedUserEntityFactory(savedUserDomainObject);
 
+        Mockito.when(this.userRepository.findByUsernameAndActive(savedUserDomainObject.getUsername(),true))
+                .thenReturn(Optional.of(savedUserEntity));
+        Mockito.when(this.mapper.toDomainObject(savedUserEntity)).thenReturn(savedUserDomainObject);
+
+        User userDomainObject =  this.userAdapter.findByUsername(savedUserDomainObject.getUsername());
+
+        Assertions.assertThat(userDomainObject).isEqualTo(savedUserDomainObject);
+        Mockito.verify(this.userRepository, Mockito.times(1)).findByUsernameAndActive(savedUserDomainObject.getUsername(), true);
+        Mockito.verify(this.mapper, Mockito.times(1)).toDomainObject(savedUserEntity);
+    }
 }
