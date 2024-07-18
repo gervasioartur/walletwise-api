@@ -22,7 +22,7 @@ I want to be able to sign up
     Given the user payload with firstname "new", lastname "user", username "new_user", email "newuser@gmail.com" and password "newuser@password"
     When I send a POST request to "api/signup"
     Then the response status should be 409
-    And the response should contain "Email already in use."
+    And the response should contain "E-mail already in use."
 
 ## Scenario: Sign up without firstname [✅]
 
@@ -80,7 +80,7 @@ I want to be able to sign up
     Then the response status should be 400
     And the response should contain "Invalid email."
 
-## Scenario: Unexpected error during sign-up [ ]
+## Scenario: Unexpected error during sign-up [✅]
 
     Given the user payload with firstname "new", lastname "user", username "new_user", email "newuser@gmail.com" and password "new_user@password"
     When I send a POST request to "api/signup"
