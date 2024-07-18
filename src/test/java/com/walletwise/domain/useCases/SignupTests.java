@@ -29,7 +29,7 @@ public class SignupTests {
     @DisplayName("Should throw ConflictException if the username already exists")
     void shouldThrowConflictExceptionIfTheUsernameAlreadyExists(){
         User user = Mocks.userWithoutIdFactory();
-        User savedUser =  Mocks.userSavedFactory(user);
+        User savedUser =  Mocks.savedUserFactory(user);
 
         Mockito.when(this.userAdapter.findByUsername(user.getUsername()))
                 .thenReturn(savedUser);
@@ -45,7 +45,7 @@ public class SignupTests {
     @DisplayName("Should throw ConflictException if email is already in use")
     void shouldThrowConflictExceptionIfEmailIsAlreadyInUse(){
         User user = Mocks.userWithoutIdFactory();
-        User savedUser =  Mocks.userSavedFactory(user);
+        User savedUser =  Mocks.savedUserFactory(user);
 
         Mockito.when(this.userAdapter.findByUsername(user.getUsername()))
                 .thenReturn(null);
