@@ -80,4 +80,49 @@ public class SignupControllerTests {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("body", Matchers.is("Firstname is required.")));
     }
+
+    @Test
+    @DisplayName("Should return badRequest if Lastname is empty")
+    void shouldReturnBadRequestIfLastnameIsEmpty() throws Exception {
+        SignupRequest requestParams =  new SignupRequest(
+                faker.name().firstName(),
+                "",
+                faker.name().username(),
+                faker.internet().emailAddress(),
+                faker.internet().password());
+
+        String json =  new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers.is("Lastname is required.")));
+    }
+
+    @Test
+    @DisplayName("Should return badRequest if Lastname is null")
+    void shouldReturnBadRequestIfLastnameIsNull() throws Exception {
+        SignupRequest requestParams =  new SignupRequest(
+                faker.name().firstName(),
+                null,
+                faker.name().username(),
+                faker.internet().emailAddress(),
+                faker.internet().password());
+
+        String json =  new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers.is("Lastname is required.")));
+    }
+
 }
