@@ -55,7 +55,7 @@ public class SignupTests {
         Throwable exception = Assertions.catchThrowable(() -> this.signup.signup(user));
 
         Assertions.assertThat(exception).isInstanceOf(ConflictException.class);
-        Assertions.assertThat(exception.getMessage()).isEqualTo("Email already in use.");
+        Assertions.assertThat(exception.getMessage()).isEqualTo("E-mail already in use.");
         Mockito.verify(this.userAdapter, Mockito.times(1)).findByUsername(user.getUsername());
         Mockito.verify(this.userAdapter, Mockito.times(1)).findByEmail(user.getEmail());
     }

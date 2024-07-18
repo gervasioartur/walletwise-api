@@ -356,5 +356,25 @@ public class SignupControllerTests {
                 .andExpect(jsonPath("body", Matchers.is("Username already exists.")));
     }
 
+    @Test
+    @DisplayName("Should return if E-mail is already in use")
+    void shouldConflictIfEmailIsAlreadyInUse() throws Exception {
+        SignupRequest requestParams =  Mocks.signupRequestToUserFactory();
+        User userDomainObject = Mocks.fromSignupRequestToUserFactory(requestParams);
 
+        BDDMockito.when(this.mapper.toUserDomainObject(requestParams)).thenReturn(userDomainObject);
+        BDDMockito.doThrow(new ConflictException("E-mail already in use."))
+                .when(this.signup).signup(userDomainObject);
+
+        String json =  new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("body", Matchers.is("E-mail already in use.")));
+    }
 }
