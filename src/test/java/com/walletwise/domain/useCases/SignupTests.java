@@ -36,9 +36,9 @@ public class SignupTests {
 
         Throwable exception = Assertions.catchThrowable(()-> this.signup.signup(user));
 
-        Mockito.verify(this.userAdapter, Mockito.times(1)).findByUsername(user.getUsername());
         Assertions.assertThat(exception).isInstanceOf(ConflictException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("Username already exists.");
+        Mockito.verify(this.userAdapter, Mockito.times(1)).findByUsername(user.getUsername());
     }
 
     @Test
@@ -56,7 +56,24 @@ public class SignupTests {
 
         Assertions.assertThat(exception).isInstanceOf(ConflictException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("Email already in use.");
-        Mockito.verify(this.userAdapter, Mockito.times(1)).findByEmail(user.getEmail());
         Mockito.verify(this.userAdapter, Mockito.times(1)).findByUsername(user.getUsername());
+        Mockito.verify(this.userAdapter, Mockito.times(1)).findByEmail(user.getEmail());
+    }
+
+    @Test
+    @DisplayName("Should save user information successfully")
+    void shouldSaveUserInformationSuccessfully(){
+        User user = Mocks.userWithoutIdFactory();
+
+        Mockito.when(this.userAdapter.findByUsername(user.getUsername()))
+                .thenReturn(null);
+        Mockito.when(this.userAdapter.findByEmail(user.getEmail()))
+                .thenReturn(null);
+
+        this.signup.signup(user);
+
+        Mockito.verify(this.userAdapter, Mockito.times(1)).findByUsername(user.getUsername());
+        Mockito.verify(this.userAdapter, Mockito.times(1)).findByEmail(user.getEmail());
+        Mockito.verify(this.userAdapter, Mockito.times(1)).save(user);
     }
 }
