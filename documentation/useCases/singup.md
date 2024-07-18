@@ -31,7 +31,7 @@ I want to be able to sign up
     Then the response status should be 400
     And the response should contain "Firstname is required."
 
-## Scenario: Sign up without lastname [ ]
+## Scenario: Sign up without lastname [✅]
 
     Given the user payload with firstname "new", lastname "", username "new_user", email "newuser@gmail.com" and password "newuser@password"
     When I send a POST request to "api/signup"
