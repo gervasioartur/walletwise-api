@@ -125,4 +125,48 @@ public class SignupControllerTests {
                 .andExpect(jsonPath("body", Matchers.is("Lastname is required.")));
     }
 
+    @Test
+    @DisplayName("Should return badRequest if Username is empty")
+    void shouldReturnBadRequestIfUsernameIsEmpty() throws Exception {
+        SignupRequest requestParams =  new SignupRequest(
+                faker.name().firstName(),
+                faker.name().lastName(),
+                "",
+                faker.internet().emailAddress(),
+                faker.internet().password());
+
+        String json =  new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers.is("Username is required.")));
+    }
+
+    @Test
+    @DisplayName("Should return badRequest if Lastname is null")
+    void shouldReturnBadRequestIfUsernameIsNull() throws Exception {
+        SignupRequest requestParams =  new SignupRequest(
+                faker.name().firstName(),
+                faker.name().lastName(),
+                "",
+                faker.internet().emailAddress(),
+                faker.internet().password());
+
+        String json =  new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers.is("Username is required.")));
+    }
+
 }
