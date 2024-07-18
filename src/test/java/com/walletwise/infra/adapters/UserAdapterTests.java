@@ -11,11 +11,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @SpringBootTest
 public class UserAdapterTests {
@@ -49,7 +51,7 @@ public class UserAdapterTests {
     @DisplayName("Should return user domain object if exists by username")
     void shouldReturnUserDomainObjectIfExistsByUsername(){
         User savedUserDomainObject = Mocks.savedUserFactory(Mocks.userWithoutIdFactory());
-        UserEntity savedUserEntity =  Mocks.savedUserEntityFactory(savedUserDomainObject);
+        UserEntity savedUserEntity =  Mocks.fromUserToUserEntity(savedUserDomainObject);
 
         Mockito.when(this.userRepository.findByUsernameAndActive(savedUserDomainObject.getUsername(),true))
                 .thenReturn(Optional.of(savedUserEntity));
@@ -79,7 +81,7 @@ public class UserAdapterTests {
     @DisplayName("Should return user domain object if exists by email")
     void shouldReturnUserDomainObjectIfExistsByEMaile(){
         User savedUserDomainObject = Mocks.savedUserFactory(Mocks.userWithoutIdFactory());
-        UserEntity savedUserEntity =  Mocks.savedUserEntityFactory(savedUserDomainObject);
+        UserEntity savedUserEntity =  Mocks.fromUserToUserEntity(savedUserDomainObject);
 
         Mockito.when(this.userRepository.findByEmailAndActive(savedUserDomainObject.getEmail(),true))
                 .thenReturn(Optional.of(savedUserEntity));
@@ -90,5 +92,26 @@ public class UserAdapterTests {
         Assertions.assertThat(userDomainObject).isEqualTo(savedUserDomainObject);
         Mockito.verify(this.userRepository, Mockito.times(1)).findByEmailAndActive(savedUserDomainObject.getEmail(), true);
         Mockito.verify(this.mapper, Mockito.times(1)).toDomainObject(savedUserEntity);
+    }
+
+    @Test
+    @DisplayName("Should return user domain object on save success")
+    void shouldReturnUserDomainObjectOnSuccess(){
+        User toSaveUserDomainObject = Mocks.userWithoutIdFactory();
+        UserEntity toSaveUserEntity =  Mocks.fromUserToUserEntity(toSaveUserDomainObject);
+
+        UserEntity savedUserEntity =  toSaveUserEntity;
+        savedUserEntity.setId(UUID.randomUUID());
+        User savedUserDomainObject =  Mocks.fromUserEntityToUser(savedUserEntity);
+
+        Mockito.when(this.mapper.toUserEntity(toSaveUserDomainObject)).thenReturn(toSaveUserEntity);
+        Mockito.when(this.userRepository.save(toSaveUserEntity)).thenReturn(savedUserEntity);
+        Mockito.when(this.mapper.toDomainObject(savedUserEntity)).thenReturn(savedUserDomainObject);
+
+        User userDomainObjectResult =  this.userAdapter.save(toSaveUserDomainObject);
+
+        Assertions.assertThat(userDomainObjectResult).isEqualTo(savedUserDomainObject);
+        Mockito.verify(this.userRepository,Mockito.times(1)).save(toSaveUserEntity);
+        Mockito.verify(this.mapper,Mockito.times(1)).toDomainObject(savedUserEntity);
     }
 }
