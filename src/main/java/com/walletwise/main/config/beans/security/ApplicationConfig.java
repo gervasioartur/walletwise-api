@@ -1,0 +1,105 @@
+package com.walletwise.main.config.beans.security;
+
+import com.walletwise.infra.adapters.AuthenticationAdapter;
+import com.walletwise.infra.adapters.EncoderAdapter;
+import com.walletwise.infra.adapters.LoadUserByUsernameAdapter;
+import com.walletwise.infra.gateways.mappers.UserEntityMapper;
+import com.walletwise.infra.gateways.security.SingKey;
+import com.walletwise.infra.gateways.token.*;
+import com.walletwise.infra.persistence.repositories.IUserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Configuration
+@RequiredArgsConstructor
+public class ApplicationConfig {
+    private final IUserRepository userRepository;
+    private final UserEntityMapper userEntityMapper;
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationAdapter authenticationGateway(AuthenticationManager authenticationManager, GenerateToken generateToken) {
+        return new AuthenticationAdapter(authenticationManager, generateToken);
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new LoadUserByUsernameAdapter(userRepository);
+    }
+
+    @Bean
+    EncoderAdapter passwordEncoderGateway(PasswordEncoder passwordEncoder) {
+        return new EncoderAdapter(passwordEncoder);
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+
+    @Bean
+    AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(this.userDetailsService());
+        authenticationProvider.setPasswordEncoder(this.passwordEncoder());
+        return authenticationProvider;
+    }
+
+    @Bean
+    public SingKey singKey() {
+        return new SingKey();
+    }
+
+    @Bean
+    public CreateToken createToken() {
+        return new CreateToken(singKey());
+    }
+
+    @Bean
+    public ExtractAllClaims extractAllClaims() {
+        return new ExtractAllClaims(singKey());
+    }
+
+    @Bean
+    public ExtractClaim extractClaim() {
+        return new ExtractClaim(extractAllClaims());
+    }
+
+    @Bean
+    public GenerateToken generateToken() {
+        return new GenerateToken(createToken());
+    }
+
+    @Bean
+    public GetUsernameFromToken getUsernameFromToken() {
+        return new GetUsernameFromToken(extractClaim());
+    }
+
+    @Bean
+    public IsTokenExpired isTokenExpired() {
+        return new IsTokenExpired(extractClaim());
+    }
+
+    @Bean
+    public IsValidToken isValidToken() {
+        return new IsValidToken(getUsernameFromToken(), isTokenExpired());
+    }
+
+    @Bean
+    public ValidateToken validateToken() {
+        return new ValidateToken();
+    }
+}

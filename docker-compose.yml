@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  walletwise-database:
+    container_name: walletwise-database
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./apps/walletwise:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=walletwise
+      - POSTGRES_PASSWORD=walletwise
+      - POSTGRES_DB=walletwise-database
+    networks:
+      - walletwise-network
+
+
+  walletwise-api:
+    build:
+      dockerfile: Dockerfile
+    container_name: walletwise-api
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    depends_on:
+      - walletwise-database
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - PORT:8080
+      - APP_VERSION=dev
+      - APP_SERVER_URL=http://localhost:8080
+      - APP_SECRET=5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437
+      - APP_ENVIRONMENT=dev
+      - APP_EMAIL_SENDER=gervasioarthur@gmail.com
+      - APP_EMAIL_PASSWORD=cgty tvbn qath mcoj
+      - SPRING_APPLICATION_NAME=walletwise-api
+      ## DATABASE CONFIGURATION
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://walletwise-database:5432/walletwise-database
+      - SPRING_DATASOURCE_USERNAME=walletwise
+      - SPRING_DATASOURCE_PASSWORD=walletwise
+      - SPRING_JPA_SHOW_SQL=true
+    command: mvn spring-boot:run
+    networks:
+      - walletwise-network
+
+networks:
+  walletwise-network:
+    driver: bridge
