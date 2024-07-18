@@ -1,6 +1,9 @@
 package com.walletwise.infra.resource.controllers;
 
+import com.walletwise.domain.entities.exceptions.ConflictException;
+import com.walletwise.domain.entities.model.User;
 import com.walletwise.domain.useCases.Signup;
+import com.walletwise.infra.gateways.mappers.UserDTOMapper;
 import com.walletwise.infra.resource.http.Response;
 import com.walletwise.infra.resource.http.SignupRequest;
 import com.walletwise.infra.resource.validation.ValidationBuilder;
@@ -22,6 +25,13 @@ import java.util.List;
 @Tag(name = "Authentication")
 @RequestMapping("/auth/signup")
 public class SignupController extends AbstractController<SignupRequest, Response> {
+    private final Signup signup;
+    private final UserDTOMapper mapper;
+
+    public SignupController(Signup signup, UserDTOMapper mapper) {
+        this.signup = signup;
+        this.mapper = mapper;
+    }
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
@@ -43,6 +53,13 @@ public class SignupController extends AbstractController<SignupRequest, Response
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
+        try {
+            User userDomainObject = this.mapper.toUserDomainObject(request);
+            this.signup.signup(userDomainObject);
+        }catch (ConflictException ex){
+            response =  Response.builder().body(ex.getMessage()).build();
+            return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+        }
 
         return null;
     }
