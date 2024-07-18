@@ -169,4 +169,25 @@ public class SignupControllerTests {
                 .andExpect(jsonPath("body", Matchers.is("Username is required.")));
     }
 
+    @Test
+    @DisplayName("Should return badRequest if Username is invalid")
+    void shouldReturnBadRequestIfUsernameIsInvalid() throws Exception {
+        SignupRequest requestParams =  new SignupRequest(
+                faker.name().firstName(),
+                faker.name().lastName(),
+                "@Username",
+                faker.internet().emailAddress(),
+                faker.internet().password());
+
+        String json =  new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request =  MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers.is("Invalid Username! The username should not start with special character.")));
+    }
 }
