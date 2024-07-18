@@ -5,7 +5,7 @@ public class UsernameFieldValidator extends AbstractValidator {
 
     public UsernameFieldValidator(Object fieldValue) {
         this.fieldValue = fieldValue;
-        this.returnMessage = "The username should not contain the character '@'.";
+        this.returnMessage = "Invalid Username! The username should not start with special character.";
     }
 
     @Override
