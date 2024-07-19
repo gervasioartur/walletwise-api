@@ -1,4 +1,4 @@
-package com.walletwise.infra.resource.validation.validators;
+package com.walletwise.application.validation.validators;
 
 import com.walletwise.domain.entities.enums.GeneralEnumText;
 

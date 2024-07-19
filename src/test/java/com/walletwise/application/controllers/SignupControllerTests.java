@@ -1,12 +1,12 @@
-package com.walletwise.infra.resource.controllers;
+package com.walletwise.application.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
+import com.walletwise.application.http.SignupRequest;
 import com.walletwise.domain.entities.exceptions.ConflictException;
 import com.walletwise.domain.entities.model.User;
 import com.walletwise.domain.useCases.Signup;
 import com.walletwise.infra.gateways.mappers.UserDTOMapper;
-import com.walletwise.infra.resource.http.SignupRequest;
 import com.walletwise.mocks.Mocks;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;

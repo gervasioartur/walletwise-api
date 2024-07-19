@@ -1,13 +1,13 @@
-package com.walletwise.infra.resource.controllers;
+package com.walletwise.application.controllers;
 
+import com.walletwise.application.http.Response;
+import com.walletwise.application.http.SignupRequest;
+import com.walletwise.application.validation.ValidationBuilder;
+import com.walletwise.application.validation.contract.IValidator;
 import com.walletwise.domain.entities.exceptions.ConflictException;
 import com.walletwise.domain.entities.model.User;
 import com.walletwise.domain.useCases.Signup;
 import com.walletwise.infra.gateways.mappers.UserDTOMapper;
-import com.walletwise.infra.resource.http.Response;
-import com.walletwise.infra.resource.http.SignupRequest;
-import com.walletwise.infra.resource.validation.ValidationBuilder;
-import com.walletwise.infra.resource.validation.contract.IValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

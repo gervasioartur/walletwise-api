@@ -1,7 +1,7 @@
-package com.walletwise.infra.resource.controllers;
+package com.walletwise.application.controllers;
 
-import com.walletwise.infra.resource.validation.ValidationComposite;
-import com.walletwise.infra.resource.validation.contract.IValidator;
+import com.walletwise.application.validation.ValidationComposite;
+import com.walletwise.application.validation.contract.IValidator;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.http.ResponseEntity;

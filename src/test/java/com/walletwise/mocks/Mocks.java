@@ -1,9 +1,9 @@
 package com.walletwise.mocks;
 
 import com.github.javafaker.Faker;
+import com.walletwise.application.http.SignupRequest;
 import com.walletwise.domain.entities.model.User;
 import com.walletwise.infra.persistence.entities.UserEntity;
-import com.walletwise.infra.resource.http.SignupRequest;
 
 import java.util.UUID;
 

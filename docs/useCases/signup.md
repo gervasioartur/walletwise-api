@@ -1,4 +1,4 @@
-# Feature: User sign-up and authentication
+# Feature: User sign-up
 
 As a new user,
 I want to be able to sign up

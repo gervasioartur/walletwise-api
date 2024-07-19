@@ -1,6 +1,6 @@
-package com.walletwise.infra.resource.validation.validators;
+package com.walletwise.application.validation.validators;
 
-import com.walletwise.infra.resource.validation.contract.IValidator;
+import com.walletwise.application.validation.contract.IValidator;
 import com.walletwise.main.config.annotations.Generated;
 
 @Generated

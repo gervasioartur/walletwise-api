@@ -1,6 +1,6 @@
-package com.walletwise.infra.resource.validation;
+package com.walletwise.application.validation;
 
-import com.walletwise.infra.resource.validation.contract.IValidator;
+import com.walletwise.application.validation.contract.IValidator;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
