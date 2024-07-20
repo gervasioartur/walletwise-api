@@ -19,9 +19,6 @@
         <java.version>21</java.version>
         <springdoc.version>2.0.4</springdoc.version>
         <sonar.organization>gervasioartur</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url> 
-        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <profiles>
@@ -134,11 +131,22 @@
 
     <build>
         <pluginManagement>
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.9.1.2184</version>
-            </plugin>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.9.1.2184</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/entities/**</exclude>
+                                <exclude>**/token/**</exclude>
+                                <exclude>**/ValidateToken*</exclude>
+                                <exclude>**/Abstract**</exclude>
+                                <exclude>**/Setup*</exclude>
+                            </excludes>
+                    </configuration>
+                </plugin>>
+            </plugins>
         </pluginManagement>
 
         <plugins>
@@ -151,21 +159,6 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.9.1.2184</version>
-                <configuration>
-                    <excludes>
-                        <exclude>**/entities/**</exclude>
-                        <exclude>**/token/**</exclude>
-                        <exclude>**/ValidateToken*</exclude>
-                        <exclude>**/Abstract**</exclude>
-                        <exclude>**/Setup*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
