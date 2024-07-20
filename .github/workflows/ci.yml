@@ -87,11 +87,12 @@ jobs:
         run: mvn test
       - run: mkdir coverage-report && cp -r target/site/jacoco/* coverage-report
 
-      - name: Publish Test Report
-        if: ${{ always() }}
-        uses: scacap/action-surefire-report@v1
+      # - name: Publish Test Report
+      #   if: ${{ always() }}
+      #   uses: scacap/action-surefire-report@v1
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload Test Coverage Report
+        uses: actions/upload-artifact@v4
         with:
           name: Test Coverage Report
           path: coverage-report
