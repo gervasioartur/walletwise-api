@@ -58,21 +58,29 @@ jobs:
 
   sonarqube:
     runs-on: ubuntu-latest
-    needs: build
     steps:
-    - name: Checking out
-      uses: actions/checkout@master
-      with:
-        fetch-depth: 0
-
-    - name: SonarQube Scan
-      run:  mvn --version
-
-    - name: SonarQube Scan
-      run:  java --version
-      
-    - name: SonarQube Scan
-      run:  mvn -B verify sonar:sonar -Dsonar.projectKey=walletwise-api -Dsonar.organization=gervasioartur -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARCLOUD_TOKEN
-      env:
-        GIT_HUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}
-        SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'zulu' # Alternative distribution options are available.
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=walletwise-api
