@@ -156,7 +156,7 @@
 
             <plugin>
                 <artifactId>sonar-maven-plugin</artifactId>
-                <version>4.0.0.4121</version>
+                <version>3.9.1.2184</version>
                 <configuration>
                     <property>
                         <key>sonar.coverage.jacoco.xmlReportPaths</key>
