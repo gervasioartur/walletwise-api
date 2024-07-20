@@ -158,6 +158,12 @@
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>4.0.0.4121</version>
+                <configuration>
+                    <property>
+                        <key>sonar.coverage.jacoco.xmlReportPaths</key>
+                        <value>target/site/jacoco/jacoco.xml</value>
+                    </property>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -179,6 +185,8 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <dataFile>target/jacoco.exec</dataFile>
+                    <output>file</output>
                     <excludes>
                         <exclude>**/entities/**</exclude>
                         <exclude>**/token/**</exclude>
