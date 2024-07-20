@@ -83,15 +83,15 @@ jobs:
           export PATH=$PATH:/opt/sonar-scanner/bin
 
       - name: Analyze code with SonarCloud
-        uses: sonarsource/sonarcloud-github-action@v2
         env:
           GITHUB_TOKEN: ${{ vars.SONAR_GITHUB_TOKEN }}
-        with:
-          args: >
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          sonar-scanner
             -Dsonar.organization=gervasioartur
             -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }} 
             -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.login=133d1a1faf35e54a46a04382077b89959318f3db
+            -Dsonar.login=$SONAR_TOKEN
       
       - name: Upload coverage report
         uses: actions/upload-artifact@v3
