@@ -81,12 +81,6 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Run SonarCloud analysis
-        run: mvn verify sonar:sonar -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.SONAR_GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    
-      - name: Run SonarCloud code coverage
         run: mvn sonar:sonar -Pcoverage -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
         env:
           GITHUB_TOKEN: ${{ secrets.SONAR_GITHUB_TOKEN }}
@@ -104,7 +98,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          export IMAGE_TAG=$(if [ ${{ github.ref }} == 'refs/heads/main' ]; then echo ${{ github.sha }}; else echo ${{ github.ref_name }}; fi)
+          export IMAGE_TAG=$(if [ ${{ github.ref }} == 'refs/heads/staging' ]; then echo ${{ github.sha }}; else echo ${{ github.ref_name }}; fi)
           docker build --build-arg SPRING_PROFILES_ACTIVE="$PROFILES_ACTIVE" \
                        --build-arg PORT="$PORT" \
                        --build-arg APP_VERSION="$IMAGE_TAG" \
