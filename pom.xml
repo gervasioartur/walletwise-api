@@ -16,7 +16,7 @@
     <description>walletwise-api</description>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
         <springdoc.version>2.0.4</springdoc.version>
         <sonar.organization>gervasioartur</sonar.organization>
     </properties>
@@ -130,16 +130,16 @@
     </dependencies>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.21.0</version>
-                <configuration>
-                    <source>21</source>
-                    <target>21</target>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
