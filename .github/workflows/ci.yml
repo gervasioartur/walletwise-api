@@ -82,6 +82,6 @@ jobs:
 
       - name: Run SonarCloud build and analyze
         env:
-          GITHUB_TOKEN: ${{ env.SONAR_GITHUB_TOKEN }} 
-          SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ vars.SONAR_GITHUB_TOKEN }} 
+          SONAR_TOKEN: ${{ vars.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=gervasioartur_walletwise-api -Dsonar.organization=gervasioartur -Dsonar.host.url=https://sonarcloud.io
