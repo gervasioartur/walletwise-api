@@ -79,9 +79,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ vars.SONAR_GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }} 
-        run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=gervasioartur_walletwise-api \
+        run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=gervasioartur_walletwise-api
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v3
