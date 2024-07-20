@@ -50,8 +50,7 @@ jobs:
 
       - name: Run Maven tests
         run: mvn verify $MAVEN_OPTS -Ptest
-
-        
+    
   sonarcloud-check:
     runs-on: ubuntu-latest
     needs: test
