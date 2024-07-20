@@ -19,7 +19,6 @@
         <java.version>21</java.version>
         <springdoc.version>2.0.4</springdoc.version>
         <sonar.organization>gervasioartur</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <profiles>
@@ -44,38 +43,6 @@
             <properties>
                 <spring.profile>prod</spring.profile>
             </properties>
-        </profile>
-
-        <profile>
-            <id>coverage</id>
-            <build>
-            <plugins>
-                <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
-                <executions>
-                    <execution>
-                    <id>prepare-agent</id>
-                    <goals>
-                        <goal>prepare-agent</goal>
-                    </goals>
-                    </execution>
-                    <execution>
-                    <id>report</id>
-                    <goals>
-                        <goal>report</goal>
-                    </goals>
-                    <configuration>
-                        <formats>
-                        <format>XML</format>
-                        </formats>
-                    </configuration>
-                    </execution>
-                </executions>
-                </plugin>
-            </plugins>
-            </build>
         </profile>
     </profiles>
 
@@ -166,9 +133,8 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.sonarsource.scanner.maven</groupId>
-                    <artifactId>sonar-maven-plugin</artifactId>
-                    <version>4.0.0.4121</version>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -211,17 +177,6 @@
                         <exclude>**/ValidateToken*</exclude>
                         <exclude>**/Abstract**</exclude>
                         <exclude>**/Setup*</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <excludes>
-                        <exclude>**/Test*</exclude>
-                        <exclude>**/*Test*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
