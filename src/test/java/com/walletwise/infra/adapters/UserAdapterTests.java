@@ -2,7 +2,7 @@ package com.walletwise.infra.adapters;
 
 import com.github.javafaker.Faker;
 import com.walletwise.domain.adapters.IUserAdapter;
-import com.walletwise.domain.entities.model.User;
+import com.walletwise.domain.entities.models.User;
 import com.walletwise.infra.gateways.mappers.UserEntityMapper;
 import com.walletwise.infra.persistence.entities.UserEntity;
 import com.walletwise.infra.persistence.repositories.IUserRepository;
@@ -49,7 +49,7 @@ public class UserAdapterTests {
     @Test
     @DisplayName("Should return user domain object if exists by username")
     void shouldReturnUserDomainObjectIfExistsByUsername() {
-        User savedUserDomainObject = Mocks.savedUserFactory(Mocks.userWithoutIdFactory());
+        User savedUserDomainObject = Mocks.savedUserDomainObjectFactory(Mocks.userDomainObjectWithoutIdFactory());
         UserEntity savedUserEntity = Mocks.fromUserToUserEntityFactory(savedUserDomainObject);
 
         Mockito.when(this.userRepository.findByUsernameAndActive(savedUserDomainObject.getUsername(), true))
@@ -79,7 +79,7 @@ public class UserAdapterTests {
     @Test
     @DisplayName("Should return user domain object if exists by email")
     void shouldReturnUserDomainObjectIfExistsByEMaile() {
-        User savedUserDomainObject = Mocks.savedUserFactory(Mocks.userWithoutIdFactory());
+        User savedUserDomainObject = Mocks.savedUserDomainObjectFactory(Mocks.userDomainObjectWithoutIdFactory());
         UserEntity savedUserEntity = Mocks.fromUserToUserEntityFactory(savedUserDomainObject);
 
         Mockito.when(this.userRepository.findByEmailAndActive(savedUserDomainObject.getEmail(), true))
@@ -96,7 +96,7 @@ public class UserAdapterTests {
     @Test
     @DisplayName("Should return user domain object on save success")
     void shouldReturnUserDomainObjectOnSuccess() {
-        User toSaveUserDomainObject = Mocks.userWithoutIdFactory();
+        User toSaveUserDomainObject = Mocks.userDomainObjectWithoutIdFactory();
         UserEntity toSaveUserEntity = Mocks.fromUserToUserEntityFactory(toSaveUserDomainObject);
 
         UserEntity savedUserEntity = toSaveUserEntity;

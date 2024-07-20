@@ -1,11 +1,11 @@
 package com.walletwise.infra.gateways.mappers;
 
-import com.walletwise.domain.entities.model.Role;
+import com.walletwise.domain.entities.models.Role;
 import com.walletwise.infra.persistence.entities.RoleEntity;
 
 public class RoleEntityMapper {
     public RoleEntity toRoleEntity(Role roleDomainObject) {
-        return RoleEntity.builder().name(roleDomainObject.name()).build();
+        return RoleEntity.builder().id(roleDomainObject.id()).name(roleDomainObject.name()).build();
     }
 
     public Role toDomainObject(RoleEntity roleEntity) {

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.security.Key;
 
-public class SingKey {
+public class SignKey {
     @Value("${app.secret}")
     private String appSecret;
 

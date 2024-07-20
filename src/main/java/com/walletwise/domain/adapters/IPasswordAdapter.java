@@ -1,5 +1,5 @@
 package com.walletwise.domain.adapters;
 
-public interface IEncoderAdapter {
+public interface IPasswordAdapter {
     String encode(String password);
 }

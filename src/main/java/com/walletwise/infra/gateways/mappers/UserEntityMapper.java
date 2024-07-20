@@ -1,6 +1,6 @@
 package com.walletwise.infra.gateways.mappers;
 
-import com.walletwise.domain.entities.model.User;
+import com.walletwise.domain.entities.models.User;
 import com.walletwise.infra.persistence.entities.UserEntity;
 
 public class UserEntityMapper {

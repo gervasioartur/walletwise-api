@@ -1,7 +1,7 @@
 package com.walletwise.infra.gateways.mappers;
 
 import com.walletwise.application.http.SignupRequest;
-import com.walletwise.domain.entities.model.User;
+import com.walletwise.domain.entities.models.User;
 
 public class UserDTOMapper {
     public User toUserDomainObject(SignupRequest request) {

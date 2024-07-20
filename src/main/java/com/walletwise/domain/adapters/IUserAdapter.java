@@ -1,6 +1,6 @@
 package com.walletwise.domain.adapters;
 
-import com.walletwise.domain.entities.model.User;
+import com.walletwise.domain.entities.models.User;
 
 public interface IUserAdapter {
 

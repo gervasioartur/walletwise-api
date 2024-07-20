@@ -14,6 +14,7 @@ import java.util.List;
         scheme = "bearer",
         bearerFormat = "JWT"
 )
+
 public abstract class AbstractController<E, T> {
     public abstract ResponseEntity<T> perform(E request);
 

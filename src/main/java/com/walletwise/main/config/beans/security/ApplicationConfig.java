@@ -1,10 +1,10 @@
 package com.walletwise.main.config.beans.security;
 
-import com.walletwise.infra.adapters.AuthenticationAdapter;
-import com.walletwise.infra.adapters.EncoderAdapter;
-import com.walletwise.infra.adapters.LoadUserByUsernameAdapter;
+import com.walletwise.infra.adapters.AuthAdapter;
+import com.walletwise.infra.adapters.LoadUserAdapter;
+import com.walletwise.infra.adapters.PasswordAdapter;
 import com.walletwise.infra.gateways.mappers.UserEntityMapper;
-import com.walletwise.infra.gateways.security.SingKey;
+import com.walletwise.infra.gateways.security.SignKey;
 import com.walletwise.infra.gateways.token.*;
 import com.walletwise.infra.persistence.repositories.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,18 +30,18 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public AuthenticationAdapter authenticationGateway(AuthenticationManager authenticationManager, GenerateToken generateToken) {
-        return new AuthenticationAdapter(authenticationManager, generateToken);
+    public AuthAdapter authenticationGateway(AuthenticationManager authenticationManager, GenerateToken generateToken) {
+        return new AuthAdapter(authenticationManager, generateToken);
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new LoadUserByUsernameAdapter(userRepository);
+        return new LoadUserAdapter(userRepository);
     }
 
     @Bean
-    EncoderAdapter passwordEncoderGateway(PasswordEncoder passwordEncoder) {
-        return new EncoderAdapter(passwordEncoder);
+    PasswordAdapter passwordEncoderGateway(PasswordEncoder passwordEncoder) {
+        return new PasswordAdapter(passwordEncoder);
     }
 
     @Bean
@@ -59,8 +59,8 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public SingKey singKey() {
-        return new SingKey();
+    public SignKey singKey() {
+        return new SignKey();
     }
 
     @Bean

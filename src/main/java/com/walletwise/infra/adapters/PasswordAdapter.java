@@ -1,12 +1,12 @@
 package com.walletwise.infra.adapters;
 
-import com.walletwise.domain.adapters.IEncoderAdapter;
+import com.walletwise.domain.adapters.IPasswordAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class EncoderAdapter implements IEncoderAdapter {
+public class PasswordAdapter implements IPasswordAdapter {
     private final PasswordEncoder passwordEncoder;
 
-    public EncoderAdapter(PasswordEncoder passwordEncoder) {
+    public PasswordAdapter(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 

@@ -1,6 +1,5 @@
 package com.walletwise.infra.persistence.entities;
 
-import com.walletwise.main.config.annotations.Generated;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,7 +13,6 @@ import java.util.UUID;
 @Setter
 @Entity
 @Builder
-@Generated
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "t_privilege", schema = "security")

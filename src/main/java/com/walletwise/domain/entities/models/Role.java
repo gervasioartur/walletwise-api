@@ -1,4 +1,4 @@
-package com.walletwise.domain.entities.model;
+package com.walletwise.domain.entities.models;
 
 import java.util.UUID;
 

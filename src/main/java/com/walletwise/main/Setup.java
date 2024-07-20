@@ -1,6 +1,6 @@
 package com.walletwise.main;
 
-import com.walletwise.domain.adapters.IEncoderAdapter;
+import com.walletwise.domain.adapters.IPasswordAdapter;
 import com.walletwise.infra.persistence.entities.PrivilegeEntity;
 import com.walletwise.infra.persistence.entities.RoleEntity;
 import com.walletwise.infra.persistence.entities.UserEntity;
@@ -32,7 +32,7 @@ public class Setup implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     private IUserRepository userRepository;
     @Autowired
-    private IEncoderAdapter encoderAdapter;
+    private IPasswordAdapter encoderAdapter;
 
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (alreadySetup) return;
@@ -43,8 +43,7 @@ public class Setup implements ApplicationListener<ContextRefreshedEvent> {
         PrivilegeEntity deletePrivilege = createPrivilegeIfNotFound("DELETE_PRIVILEGE");
 
         List<PrivilegeEntity> adminPrivileges = Arrays.asList(readPrivilege, writePrivilege, deletePrivilege);
-        createRoleIfNotFound("ROLE_TEACHER", Arrays.asList(readPrivilege, writePrivilege));
-        createRoleIfNotFound("ROLE_TECHNICIAN", Arrays.asList(readPrivilege, writePrivilege));
+        createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege, writePrivilege));
         createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
 
         createAdminUserIfNotFound();

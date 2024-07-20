@@ -172,6 +172,15 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>**/entities/**</exclude>
+                        <exclude>**/token/**</exclude>
+                        <exclude>**/ValidateToken*</exclude>
+                        <exclude>**/Abstract**</exclude>
+                        <exclude>**/Setup*</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
 
             <plugin>

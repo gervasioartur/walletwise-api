@@ -5,10 +5,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class LoadUserByUsernameAdapter implements UserDetailsService {
+public class LoadUserAdapter implements UserDetailsService {
     private final IUserRepository userRepository;
 
-    public LoadUserByUsernameAdapter(IUserRepository userRepository) {
+    public LoadUserAdapter(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

@@ -2,7 +2,7 @@ package com.walletwise.main.config.beans.Adapters;
 
 import com.walletwise.domain.adapters.IUserAdapter;
 import com.walletwise.domain.useCases.Signup;
-import com.walletwise.infra.adapters.LoadUserByUsernameAdapter;
+import com.walletwise.infra.adapters.LoadUserAdapter;
 import com.walletwise.infra.adapters.UserAdapter;
 import com.walletwise.infra.gateways.mappers.UserDTOMapper;
 import com.walletwise.infra.gateways.mappers.UserEntityMapper;
@@ -19,8 +19,8 @@ public class UserConfig {
     }
 
     @Bean
-    public LoadUserByUsernameAdapter loadUserByUsernameAdapter(IUserRepository userRepository) {
-        return new LoadUserByUsernameAdapter(userRepository);
+    public LoadUserAdapter loadUserAdapter(IUserRepository userRepository) {
+        return new LoadUserAdapter(userRepository);
     }
 
     @Bean

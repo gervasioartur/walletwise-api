@@ -2,7 +2,7 @@ package com.walletwise.domain.useCases;
 
 import com.walletwise.domain.adapters.IUserAdapter;
 import com.walletwise.domain.entities.exceptions.ConflictException;
-import com.walletwise.domain.entities.model.User;
+import com.walletwise.domain.entities.models.User;
 import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,8 +28,8 @@ public class SignupTests {
     @Test
     @DisplayName("Should throw ConflictException if the username already exists")
     void shouldThrowConflictExceptionIfTheUsernameAlreadyExists() {
-        User user = Mocks.userWithoutIdFactory();
-        User savedUser = Mocks.savedUserFactory(user);
+        User user = Mocks.userDomainObjectWithoutIdFactory();
+        User savedUser = Mocks.savedUserDomainObjectFactory(user);
 
         Mockito.when(this.userAdapter.findByUsername(user.getUsername()))
                 .thenReturn(savedUser);
@@ -44,8 +44,8 @@ public class SignupTests {
     @Test
     @DisplayName("Should throw ConflictException if email is already in use")
     void shouldThrowConflictExceptionIfEmailIsAlreadyInUse() {
-        User user = Mocks.userWithoutIdFactory();
-        User savedUser = Mocks.savedUserFactory(user);
+        User user = Mocks.userDomainObjectWithoutIdFactory();
+        User savedUser = Mocks.savedUserDomainObjectFactory(user);
 
         Mockito.when(this.userAdapter.findByUsername(user.getUsername()))
                 .thenReturn(null);
@@ -63,7 +63,7 @@ public class SignupTests {
     @Test
     @DisplayName("Should save user information successfully")
     void shouldSaveUserInformationSuccessfully() {
-        User user = Mocks.userWithoutIdFactory();
+        User user = Mocks.userDomainObjectWithoutIdFactory();
 
         Mockito.when(this.userAdapter.findByUsername(user.getUsername()))
                 .thenReturn(null);

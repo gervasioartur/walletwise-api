@@ -1,5 +1,5 @@
 package com.walletwise.domain.adapters;
 
-public interface IAuthenticationAdapter {
+public interface IAuthAdapter {
     String authenticate(String username, String password);
 }

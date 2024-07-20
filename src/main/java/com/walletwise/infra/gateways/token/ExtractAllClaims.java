@@ -1,19 +1,19 @@
 package com.walletwise.infra.gateways.token;
 
-import com.walletwise.infra.gateways.security.SingKey;
+import com.walletwise.infra.gateways.security.SignKey;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
 
 public class ExtractAllClaims {
-    private final SingKey singKey;
+    private final SignKey signKey;
 
-    public ExtractAllClaims(SingKey singKey) {
-        this.singKey = singKey;
+    public ExtractAllClaims(SignKey signKey) {
+        this.signKey = signKey;
     }
 
     public Claims extract(String token) {
         return Jwts
-                .parserBuilder().setSigningKey(singKey.getSignKey()).build().parseClaimsJws(token).getBody();
+                .parserBuilder().setSigningKey(signKey.getSignKey()).build().parseClaimsJws(token).getBody();
     }
 }
