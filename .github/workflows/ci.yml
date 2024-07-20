@@ -56,33 +56,18 @@ jobs:
       - name: Run Maven tests
         run: mvn verify -Ptest
 
-  sonarcloud-check:
+  sonarqube:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
-      
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          java-version: '21'
-          distribution: 'temurin'
+    - name: Checking out
+      uses: actions/checkout@master
+      with:
+        fetch-depth: 0
 
-      - name: Build with Maven
-        run: mvn clean install
-      
-      - name: Run tests with coverage
-        run: mvn test jacoco:report
-       
-      - name: Analyze code with SonarCloud
-        env:
-          GITHUB_TOKEN: ${{ vars.SONAR_GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=gervasioartur_walletwise-api
-
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-report
-          path: target/site/jacoco
+    - name: SonarQube Scan
+      uses: kitabisa/sonarqube-action@v1.2.0
+      with:
+        host: https://sonarcloud.io
+        login: ${{ secrets.SONAR_TOKEN }}
+        projectKey: gervasioartur_walletwise-api
