@@ -75,19 +75,14 @@ jobs:
       - name: Run tests with coverage
         run: mvn test jacoco:report
 
+      - name: Analyze code with SonarCloud
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          sonar-scanner
+
       - name: Upload coverage report
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report
           path: target/site/jacoco
-
-      - name: Analyze code with SonarCloud
-        uses: sonarsource/sonarcloud-github-action@v2
-        env:
-          GITHUB_TOKEN: ${{ vars.SONAR_GITHUB_TOKEN }}
-        with:
-          args: >
-            -Dsonar.organization=gervasioartur
-            -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }} 
-            -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.login=133d1a1faf35e54a46a04382077b89959318f3db
