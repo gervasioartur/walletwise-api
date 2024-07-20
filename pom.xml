@@ -181,6 +181,7 @@
                         <exclude>**/Setup*</exclude>
                     </excludes>
                 </configuration>
+            </plugins>
         </plugins>
     </build>
 </project>
