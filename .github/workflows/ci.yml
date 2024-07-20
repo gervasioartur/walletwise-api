@@ -85,3 +85,41 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.SONAR_GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    
+      - name: Run SonarCloud code coverage
+        run: mvn sonar:sonar -Pcoverage -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.SONAR_GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  
+  publish:
+    runs-on: ubuntu-latest
+    needs: sonarcloud
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub
+        run: echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
+
+      - name: Build Docker image
+        run: |
+          export IMAGE_TAG=$(if [ ${{ github.ref }} == 'refs/heads/main' ]; then echo ${{ github.sha }}; else echo ${{ github.ref_name }}; fi)
+          docker build --build-arg SPRING_PROFILES_ACTIVE="$PROFILES_ACTIVE" \
+                       --build-arg PORT="$PORT" \
+                       --build-arg APP_VERSION="$IMAGE_TAG" \
+                       --build-arg APP_SERVER_URL="$APP_SERVER_URL" \
+                       --build-arg APP_SECRET="$APP_SECRET" \
+                       --build-arg APP_ENVIRONMENT="$APP_ENVIRONMENT" \
+                       --build-arg APP_EMAIL_SENDER="$APP_EMAIL_SENDER" \
+                       --build-arg APP_EMAIL_PASSWORD="$APP_EMAIL_PASSWORD" \
+                       --build-arg SPRING_APPLICATION_NAME="$APPLICATION_NAME" \
+                       --build-arg SPRING_DATASOURCE_URL="$DATASOURCE_URL" \
+                       --build-arg SPRING_DATASOURCE_USERNAME="$DATASOURCE_USERNAME" \
+                       --build-arg SPRING_DATASOURCE_PASSWORD="$DATASOURCE_PASSWORD" \
+                       --build-arg SPRING_JPA_SHOW_SQL="$SPRING_JPA_SHOW_SQL" \
+                       -t $DOCKER_USER_APPLICATION_NAME:$IMAGE_TAG .
+
+      - name: Push Docker image
+        run: |
+          docker push $DOCKER_USER_APPLICATION_NAME:$IMAGE_TAG
