@@ -19,6 +19,8 @@
         <java.version>21</java.version>
         <springdoc.version>2.0.4</springdoc.version>
         <sonar.organization>gervasioartur</sonar.organization>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <profiles>
@@ -152,7 +154,7 @@
                     </excludes>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
