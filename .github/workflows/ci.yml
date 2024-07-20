@@ -81,6 +81,9 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Run SonarCloud build and analyze
+        run: mvn clean install -DskipTests -Ptest
+          
+      - name: Run SonarCloud build and analyze
         env:
           GITHUB_TOKEN: ${{ vars.SONAR_GITHUB_TOKEN }} 
           SONAR_TOKEN: ${{ vars.SONAR_TOKEN }}
