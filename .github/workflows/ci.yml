@@ -81,39 +81,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Run SonarCloud build and analyze
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=gervasioartur_walletwise-api -Dsonar.organization=gervasioartur -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=cf4b18ec9c9cd0d2b837892a78b7d025b149720d
- 
-  publish:
-    runs-on: ubuntu-latest
-    needs: 
-      - sonarcloud
-      - test
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Log in to Docker Hub
-        run: echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
-
-      - name: Build Docker image
-        run: |
-          export IMAGE_TAG=$(if [ ${{ github.ref }} == 'refs/heads/staging' ]; then echo ${{ github.sha }}; else echo ${{ github.ref_name }}; fi)
-          docker build --build-arg SPRING_PROFILES_ACTIVE="$PROFILES_ACTIVE" \
-                       --build-arg PORT="$PORT" \
-                       --build-arg APP_VERSION="$IMAGE_TAG" \
-                       --build-arg APP_SERVER_URL="$APP_SERVER_URL" \
-                       --build-arg APP_SECRET="$APP_SECRET" \
-                       --build-arg APP_ENVIRONMENT="$APP_ENVIRONMENT" \
-                       --build-arg APP_EMAIL_SENDER="$APP_EMAIL_SENDER" \
-                       --build-arg APP_EMAIL_PASSWORD="$APP_EMAIL_PASSWORD" \
-                       --build-arg SPRING_APPLICATION_NAME="$APPLICATION_NAME" \
-                       --build-arg SPRING_DATASOURCE_URL="$DATASOURCE_URL" \
-                       --build-arg SPRING_DATASOURCE_USERNAME="$DATASOURCE_USERNAME" \
-                       --build-arg SPRING_DATASOURCE_PASSWORD="$DATASOURCE_PASSWORD" \
-                       --build-arg SPRING_JPA_SHOW_SQL="$SPRING_JPA_SHOW_SQL" \
-                       -t $DOCKER_USER_APPLICATION_NAME:$IMAGE_TAG .
-
-      - name: Push Docker image
-        run: |
-          docker push $DOCKER_USER_APPLICATION_NAME:$IMAGE_TAG
+        env:
+          GITHUB_TOKEN: ${{ env.SONAR_GITHUB_TOKEN }} 
+          SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=gervasioartur_walletwise-api -Dsonar.organization=gervasioartur -Dsonar.host.url=https://sonarcloud.io
