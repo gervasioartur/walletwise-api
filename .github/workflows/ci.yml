@@ -81,11 +81,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }} 
         run: mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.organization=gervasioartur \
-            -Dsonar.projectKey=${PROJECT_KEY} \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${SONAR_TOKEN}
-      
+            -Dsonar.projectKey=gervasioartur_walletwise-api \
+
       - name: Upload coverage report
         uses: actions/upload-artifact@v3
         with:
