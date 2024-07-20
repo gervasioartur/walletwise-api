@@ -66,8 +66,7 @@ jobs:
         fetch-depth: 0
 
     - name: SonarQube Scan
-      uses: kitabisa/sonarqube-action@v1.2.0
-      with:
-        host: https://sonarcloud.io
-        login: ${{ secrets.SONAR_TOKEN }}
-        projectKey: gervasioartur_walletwise-api
+      run:  mvn -B verify sonar:sonar -Dsonar.projectKey=walletwise-api -Dsonar.organization=gervasioartur -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARCLOUD_TOKEN
+      env:
+        GIT_HUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}
+        SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
