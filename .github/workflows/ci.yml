@@ -80,8 +80,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      # - name: Run SonarCloud build and analyze
-      #   run: mvn clean install -DskipTests -Ptest
+      - name: Run SonarCloud build and analyze
+        run: mvn clean install -DskipTests -Ptest
 
       - name: Run SonarCloud build and analyze
         run: java --version
@@ -89,8 +89,8 @@ jobs:
       - name: Run SonarCloud build and analyze
         run: mvn --version
 
-      # - name: Run SonarCloud build and analyze
-      #   env:
-      #     GITHUB_TOKEN: ${{ vars.SONAR_GITHUB_TOKEN }} 
-      #     SONAR_TOKEN: ${{ vars.SONAR_TOKEN }}
-      #   run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage -Dsonar.projectKey=gervasioartur_walletwise-api -Dsonar.organization=gervasioartur -Dsonar.host.url=https://sonarcloud.io
+      - name: Run SonarCloud build and analyze
+        env:
+          GITHUB_TOKEN: ${{ vars.SONAR_GITHUB_TOKEN }} 
+          SONAR_TOKEN: ${{ vars.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage -Dsonar.projectKey=gervasioartur_walletwise-api -Dsonar.organization=gervasioartur -Dsonar.host.url=https://sonarcloud.io
