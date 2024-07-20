@@ -153,18 +153,7 @@
                     </excludes>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.9.1.2184</version>
-                <configuration>
-                    <property>
-                        <key>sonar.coverage.jacoco.xmlReportPaths</key>
-                        <value>target/site/jacoco/jacoco.xml</value>
-                    </property>
-                </configuration>
-            </plugin>
-
+            
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
