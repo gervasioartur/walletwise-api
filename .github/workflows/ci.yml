@@ -84,21 +84,17 @@ jobs:
           restore-keys: sonarcloud-cache
 
       - name: Run Maven tests
-        run: mvn verify -Ptest
+        run: mvn test
+      - run: mkdir coverage-report && cp -r target/site/jacoco/* coverage-report
 
-      - name: Upload Jacoco Coverage Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: jacoco-report
-          path: target/site/jacoco/
+      - name: Publish Test Report
+        if: ${{ always() }}
+        uses: scacap/action-surefire-report@v1
 
-      - name: Upload Maven Test Reports
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: test-reports
-          path: |
-            target/surefire-reports/
-            target/failsafe-reports/
+          name: Test Coverage Report
+          path: coverage-report
 
       - name: Run SonarCloud analysis
         env:
