@@ -75,21 +75,16 @@ jobs:
       - name: Run tests with coverage
         run: mvn test jacoco:report
        
-      - name: Install SonarScanner
-        run: |
-          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
-          unzip sonar-scanner-cli-4.6.2.2472-linux.zip
-          sudo mv sonar-scanner-4.6.2.2472-linux /opt/sonar-scanner
-          export PATH=$PATH:/opt/sonar-scanner/bin
-
       - name: Analyze code with SonarCloud
+        uses: sonarsource/sonarcloud-github-action@v2
         env:
           GITHUB_TOKEN: ${{ vars.SONAR_GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          sonar-scanner
+          PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }} 
+        with:
+          args: >
             -Dsonar.organization=gervasioartur
-            -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }} 
+            -Dsonar.projectKey=${PROJECT_KEY}
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.login=$SONAR_TOKEN
       
