@@ -1,3 +1,6 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gervasioartur_walletwise-api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gervasioartur_walletwise-api)
+
+
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gervasioartur_walletwise-api&metric=coverage)](https://sonarcloud.io/summary/new_code?id=gervasioartur_walletwise-api)
 
 
