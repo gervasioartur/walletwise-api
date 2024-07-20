@@ -53,7 +53,6 @@ public class JwtAuthenticationFilterTests {
         when(securityContext.getAuthentication()).thenReturn(null);
         SecurityContextHolder.setContext(securityContext);
 
-
         when(request.getHeader("Authorization")).thenReturn("Bearer " + token);
         when(getUsernameFromToken.get(token)).thenReturn(username);
         RoleEntity savedRoleEntity = RoleEntity.builder().name("any_name").active(true).build();
@@ -77,7 +76,6 @@ public class JwtAuthenticationFilterTests {
         String username = "user";
         when(request.getHeader("Authorization")).thenReturn("Bearer " + token);
         when(getUsernameFromToken.get(token)).thenReturn(username);
-        RoleEntity savedRoleEntity = RoleEntity.builder().name("any_name").active(true).build();
 
         UserDetails userDetails = Mocks.savedUserEntityFactory();
 
