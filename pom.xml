@@ -19,6 +19,7 @@
         <java.version>17</java.version>
         <springdoc.version>2.0.4</springdoc.version>
         <sonar.organization>gervasioartur</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <profiles>
