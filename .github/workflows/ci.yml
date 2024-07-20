@@ -54,7 +54,7 @@ jobs:
 
   sonarcloud:
     runs-on: ubuntu-latest
-    needs: test
+    needs: build
     steps:
       - uses: actions/checkout@v4
         with:
@@ -84,7 +84,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.SONAR_GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=gervasioartur_walletwise-api
   
   publish:
     runs-on: ubuntu-latest
