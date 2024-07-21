@@ -145,7 +145,7 @@
                     </excludes>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -179,7 +179,7 @@
                     </execution>
                     <execution>
                         <id>report</id>
-                        <phase>verify</phase>
+                        <phase>test-compile</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
