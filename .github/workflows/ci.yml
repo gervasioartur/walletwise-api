@@ -55,17 +55,20 @@ jobs:
 
       - name: Run Maven tests
         run: mvn -B verify -Ptest
-      
+
+  sonarqube:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Run Maven tests
+        run: mvn -B verify -Ptest
+    
       - name: Save test coverage report
         uses: actions/upload-artifact@v3
         with:
           name: test-coverage-files
           path: target/site/jacoco/jacoco.xml
 
-  sonarqube:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
       - name: Restore test coverage report
         uses: actions/download-artifact@v3
         with:
