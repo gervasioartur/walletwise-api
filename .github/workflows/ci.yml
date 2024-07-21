@@ -84,10 +84,9 @@ jobs:
           name: test-results
           path: target/surefire-reports
 
-      - uses: SonarSource/sonarcloud-github-action@v2
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        # with: 
-        #   github-token: ${{ vars.SONAR_GITHUB_TOKEN }}
-        #   sonar-token: ${{ vars.SONAR_TOKEN }}
-        #   restore-artifact-name1: "test-coverage-files"
+      - uses: javiertuya/sonarqube-action@main
+        with: 
+          github-token: ${{ vars.SONAR_GITHUB_TOKEN }}
+          sonar-token: ${{ vars.SONAR_TOKEN }}
+          restore-artifact-name1: "test-coverage-files"
+          restore-artifact-name2: "test-results"
