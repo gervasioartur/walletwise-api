@@ -90,3 +90,4 @@ jobs:
           sonar-token: ${{ vars.SONAR_TOKEN }}
           restore-artifact-name1: "test-coverage-files"
           restore-artifact-name2: "test-results"
+
