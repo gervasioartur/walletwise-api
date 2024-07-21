@@ -179,7 +179,7 @@
                     </execution>
                     <execution>
                         <id>report</id>
-                        <phase>test-compile</phase>
+                        <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
