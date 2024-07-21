@@ -31,7 +31,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Build with Maven
-        run: mvn clean install -DskipTests -Ptest
+        run: mvn clean install -Ptest
 
   test:
     runs-on: ubuntu-latest
