@@ -146,6 +146,7 @@ jobs:
       - id: 'auth'
         uses: 'google-github-actions/auth@v2'
         with:
+          project_id: ${{ vars.GCP_PROJECT_ID }}
           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
       
       - name: 'Set up Cloud SDK'
@@ -162,7 +163,12 @@ jobs:
         with:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ vars.DOCKER_PASSWORD }}
-      
+
+      - name: Authenticate Docker to Google Cloud
+        run: |
+          echo "${{ secrets.GCP_CREDENTIALS }}" | gcloud auth activate-service-account --key-file=-
+          gcloud auth configure-docker
+
       - name: Determinate Image tag
         run: |
           if [ "${{ github.ref }}" == "refs/heads/staging" ]; then
