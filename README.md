@@ -4,7 +4,6 @@
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=walletwise-api&metric=coverage)](https://sonarcloud.io/summary/new_code?id=walletwise-api)
 
-
 # **WALLETWISE-API**
 
 WALLET-WISE is a Personal Budgeting app designed to provide users with a comprehensive and

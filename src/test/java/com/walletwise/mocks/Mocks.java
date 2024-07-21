@@ -12,7 +12,7 @@ import java.util.UUID;
 
 
 public class Mocks {
-   public static final Faker faker = new Faker();
+    public static final Faker faker = new Faker();
 
     public static User userDomainObjectWithoutIdFactory() {
         return new User(
@@ -39,7 +39,7 @@ public class Mocks {
     }
 
     public static UserEntity savedUserEntityFactory() {
-        return  UserEntity
+        return UserEntity
                 .builder()
                 .id(UUID.randomUUID())
                 .firstName(faker.name().firstName())
@@ -94,7 +94,7 @@ public class Mocks {
                 "Test@0199");
     }
 
-    public static RoleEntity savedRoleEntityFactory(){
+    public static RoleEntity savedRoleEntityFactory() {
         return RoleEntity
                 .builder()
                 .id(UUID.randomUUID())
@@ -103,11 +103,11 @@ public class Mocks {
                 .build();
     }
 
-    public static  Role fromRoleEntityToRoleDomainObject(RoleEntity entity){
-        return new Role(entity.getId(),entity.getName());
+    public static Role fromRoleEntityToRoleDomainObject(RoleEntity entity) {
+        return new Role(entity.getId(), entity.getName());
     }
 
-    public static  Role savedRoleDomainObjectFactory(){
-        return new Role(UUID.randomUUID(),faker.name().name());
+    public static Role savedRoleDomainObjectFactory() {
+        return new Role(UUID.randomUUID(), faker.name().name());
     }
 }

@@ -14,13 +14,13 @@ public class RoleEntityMapperTests {
     private RoleEntityMapper mapper;
 
     @BeforeEach
-    void setup(){
-        this.mapper =  new RoleEntityMapper();
+    void setup() {
+        this.mapper = new RoleEntityMapper();
     }
 
     @Test
     @DisplayName("Should return role entity")
-    void shouldReturnRoleEntity(){
+    void shouldReturnRoleEntity() {
         Role roleDomainObject = Mocks.savedRoleDomainObjectFactory();
 
         RoleEntity result = this.mapper.toRoleEntity(roleDomainObject);
@@ -31,10 +31,10 @@ public class RoleEntityMapperTests {
 
     @Test
     @DisplayName("Should return role domain object")
-    void shouldReturnRoleDomainObject(){
-        RoleEntity roleEntity =  Mocks.savedRoleEntityFactory();
+    void shouldReturnRoleDomainObject() {
+        RoleEntity roleEntity = Mocks.savedRoleEntityFactory();
 
-        Role  result = this.mapper.toDomainObject(roleEntity);
+        Role result = this.mapper.toDomainObject(roleEntity);
 
         Assertions.assertThat(result.id()).isEqualTo(roleEntity.getId());
         Assertions.assertThat(result.name()).isEqualTo(roleEntity.getName());
