@@ -137,9 +137,7 @@ jobs:
 
   deploy: 
     runs-on: ubuntu-latest
-    needs: 
-      - docker
-      - sonarqube
+    needs: docker
     environment: staging
     steps:
       - name: Checkout code
@@ -148,7 +146,7 @@ jobs:
       - id: 'auth'
         uses: 'google-github-actions/auth@v2'
         with:
-          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+          credentials_json: '${{ vars.GCP_CREDENTIALS }}'
       
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v2'
