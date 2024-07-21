@@ -157,6 +157,9 @@ jobs:
           project_id: ${{ vars.GCP_PROJECT_ID }}
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
+      - name: Log in to Google Cloud
+        run: gcloud auth activate-service-account --key-file=<(echo "${{ secrets.GOOGLE_CREDENTIALS }}")
+    
       - name: Determinate Image tag
         run: |
           if [ "${{ github.ref }}" == "refs/heads/staging" ]; then
