@@ -9,7 +9,8 @@ on:
     branches:
       - main
       - staging
-
+    types:
+      - closed
 
 jobs:
   build:
