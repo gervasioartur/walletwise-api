@@ -62,15 +62,27 @@ jobs:
           name: test-coverage-files
           path: target/site/jacoco
 
+      - name: Save test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: target/surefire-reports/TEST-*.xml
+
   sonarqube:
     runs-on: ubuntu-latest
     needs: test
     steps:
-      - name: Restore test coverage report
+      - name: Download test coverage report
         uses: actions/download-artifact@v4
         with:
           name: test-coverage-files
-          path: target/site/
+          path: target/site/jacoco
+    
+      - name: Download test results
+        uses: actions/download-artifact@v3
+        with:
+          name: test-results
+          path: target/surefire-reports
 
       - uses: javiertuya/sonarqube-action@main
         with: 
