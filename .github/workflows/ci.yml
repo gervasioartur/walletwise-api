@@ -198,3 +198,4 @@ jobs:
         run: |
           docker rmi "${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}" \
             "gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}"
+            
