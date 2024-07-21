@@ -10,10 +10,11 @@ on:
       - main
       - staging
     types:
-      - closed
+    - closed
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -36,6 +37,7 @@ jobs:
         run: mvn clean install -DskipTests -Ptest
         
   test:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -71,6 +73,7 @@ jobs:
           path: target/surefire-reports/TEST-*.xml
 
   sonarqube:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     needs: test
     steps:
@@ -94,6 +97,7 @@ jobs:
           restore-artifact-name2: "test-results"
 
   docker:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     needs: test
     environment: staging
@@ -138,6 +142,7 @@ jobs:
           docker push "${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}"
 
   deploy:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     needs: docker
     environment: staging
