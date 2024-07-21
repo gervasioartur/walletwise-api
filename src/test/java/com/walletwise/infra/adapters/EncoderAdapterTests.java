@@ -19,21 +19,21 @@ class EncoderAdapterTests {
     private PasswordEncoder passwordEncoder;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         this.encoderAdapter = new PasswordAdapter(passwordEncoder);
     }
 
     @Test
     @DisplayName("Should return encoded password")
-    void shouldReturnEncodedPassword(){
-        String password =  "any_password";
+    void shouldReturnEncodedPassword() {
+        String password = "any_password";
         String encodedPassword = UUID.randomUUID().toString();
 
         Mockito.when(this.passwordEncoder.encode(password)).thenReturn(encodedPassword);
 
-        String result =  this.encoderAdapter.encode(password);
+        String result = this.encoderAdapter.encode(password);
 
         Assertions.assertThat(result).isEqualTo(encodedPassword);
-        Mockito.verify(this.passwordEncoder,Mockito.times(1)).encode(password);
+        Mockito.verify(this.passwordEncoder, Mockito.times(1)).encode(password);
     }
 }

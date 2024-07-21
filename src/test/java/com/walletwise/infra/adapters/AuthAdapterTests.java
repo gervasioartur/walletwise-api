@@ -7,7 +7,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,16 +27,16 @@ public class AuthAdapterTests {
     @MockBean
     private GenerateToken generateToken;
 
-    private Faker faker =  new Faker();
+    private Faker faker = new Faker();
 
     @BeforeEach
-    void setup(){
-        this.authAdapter = new AuthAdapter(authenticationManager,generateToken);
+    void setup() {
+        this.authAdapter = new AuthAdapter(authenticationManager, generateToken);
     }
 
     @Test
     @DisplayName("should return access token ")
-    void shouldReturnAccessToken(){
+    void shouldReturnAccessToken() {
         String username = this.faker.name().username();
         String password = this.faker.internet().password();
         String accessToken = UUID.randomUUID().toString();
@@ -82,12 +81,12 @@ public class AuthAdapterTests {
 
         Mockito.when(this.generateToken.generate(username)).thenReturn(accessToken);
 
-        String result = this.authAdapter.authenticate(username,password);
+        String result = this.authAdapter.authenticate(username, password);
 
         Assertions.assertThat(result).isEqualTo(accessToken);
-        Mockito.verify(this.authenticationManager,Mockito.times(1))
+        Mockito.verify(this.authenticationManager, Mockito.times(1))
                 .authenticate(Mockito.any(UsernamePasswordAuthenticationToken.class));
-        Mockito.verify(this.generateToken,Mockito.times(1))
+        Mockito.verify(this.generateToken, Mockito.times(1))
                 .generate(username);
     }
 }

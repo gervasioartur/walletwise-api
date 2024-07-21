@@ -25,30 +25,30 @@ class RoleAdapterTests {
     private RoleEntityMapper mapper;
 
     @BeforeEach
-    void setup(){
-        this.roleAdapter = new RoleAdapter(roleRepository,mapper);
+    void setup() {
+        this.roleAdapter = new RoleAdapter(roleRepository, mapper);
     }
 
     @Test
     @DisplayName("Should return null if role does not exist on find by name")
-    void shouldReturnNullIfRoleDoesNotExistByName(){
+    void shouldReturnNullIfRoleDoesNotExistByName() {
         String name = "any_name";
 
-        Mockito.when(this.roleRepository.findByNameAndActive(name,true)).thenReturn(Optional.empty());
+        Mockito.when(this.roleRepository.findByNameAndActive(name, true)).thenReturn(Optional.empty());
 
         Role result = this.roleAdapter.findByName(name);
 
         Assertions.assertThat(result).isNull();
-        Mockito.verify(this.roleRepository, Mockito.times(1)).findByNameAndActive(name,true);
+        Mockito.verify(this.roleRepository, Mockito.times(1)).findByNameAndActive(name, true);
     }
 
     @Test
     @DisplayName("Should return Role domain object on find by name")
-    void shouldReturnRoleDomainObjectOnFindByName(){
+    void shouldReturnRoleDomainObjectOnFindByName() {
         RoleEntity savedRoleEntity = Mocks.savedRoleEntityFactory();
         Role roleDomainObject = Mocks.fromRoleEntityToRoleDomainObject(savedRoleEntity);
 
-        Mockito.when(this.roleRepository.findByNameAndActive(savedRoleEntity.getName(),true))
+        Mockito.when(this.roleRepository.findByNameAndActive(savedRoleEntity.getName(), true))
                 .thenReturn(Optional.of(savedRoleEntity));
         Mockito.when(this.mapper.toDomainObject(savedRoleEntity)).thenReturn(roleDomainObject);
 
@@ -56,6 +56,6 @@ class RoleAdapterTests {
 
         Assertions.assertThat(result).isEqualTo(roleDomainObject);
         Mockito.verify(this.roleRepository, Mockito.times(1))
-                .findByNameAndActive(savedRoleEntity.getName(),true);
+                .findByNameAndActive(savedRoleEntity.getName(), true);
     }
 }

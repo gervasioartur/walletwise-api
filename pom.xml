@@ -194,9 +194,6 @@
                 <configuration>
                     <dataFile>target/jacoco.exec</dataFile>
                     <output>file</output>
-                    <reports>
-                        <xml>true</xml>
-                    </reports>
                     <excludes>
                         <exclude>**/entities/**</exclude>
                         <exclude>**/token/**</exclude>

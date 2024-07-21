@@ -14,13 +14,13 @@ class UserEntityMapperTests {
     private UserEntityMapper mapper;
 
     @BeforeEach
-    void setup(){
-        this.mapper =  new UserEntityMapper();
+    void setup() {
+        this.mapper = new UserEntityMapper();
     }
 
     @Test
     @DisplayName("Should return user entity")
-    void shouldReturnUserEntity(){
+    void shouldReturnUserEntity() {
         User userDomainObject = Mocks.savedUserDomainObjectFactory();
 
         UserEntity result = this.mapper.toUserEntity(userDomainObject);
@@ -35,7 +35,7 @@ class UserEntityMapperTests {
 
     @Test
     @DisplayName("Should return user domain object")
-    void shouldReturnUserDomainObject(){
+    void shouldReturnUserDomainObject() {
         UserEntity userEntity = Mocks.savedUserEntityFactory();
 
         User result = this.mapper.toDomainObject(userEntity);

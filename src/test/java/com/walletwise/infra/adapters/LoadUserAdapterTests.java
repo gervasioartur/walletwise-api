@@ -18,45 +18,45 @@ import java.util.Optional;
 
 @SpringBootTest
 public class LoadUserAdapterTests {
+    private final Faker faker = new Faker();
     private LoadUserAdapter loasLoadUserAdapter;
     @MockBean
     private IUserRepository userRepository;
-    private final Faker faker = new Faker();
 
     @BeforeEach
-    void setup(){
+    void setup() {
         this.loasLoadUserAdapter = new LoadUserAdapter(userRepository);
     }
 
     @Test
     @DisplayName("Should throw UsernameNotFoundException if user does not exist")
-    void shouldReturnUsernameNotFoundExceptionIfUserDoesNotExist(){
+    void shouldReturnUsernameNotFoundExceptionIfUserDoesNotExist() {
         String username = this.faker.name().username();
 
-        Mockito.when(this.userRepository.findByUsernameAndActive(username,true))
+        Mockito.when(this.userRepository.findByUsernameAndActive(username, true))
                 .thenReturn(Optional.empty());
 
-        Throwable exception = Assertions.catchThrowable(()-> this.loasLoadUserAdapter.loadUserByUsername(username));
+        Throwable exception = Assertions.catchThrowable(() -> this.loasLoadUserAdapter.loadUserByUsername(username));
 
         Assertions.assertThat(exception).isInstanceOf(UsernameNotFoundException.class);
-        Mockito.verify(this.userRepository,Mockito.times(1))
-                .findByUsernameAndActive(username,true);
+        Mockito.verify(this.userRepository, Mockito.times(1))
+                .findByUsernameAndActive(username, true);
     }
 
     @Test
     @DisplayName("Should return user details")
-    void shouldReturnUserDetails(){
+    void shouldReturnUserDetails() {
         String username = this.faker.name().username();
 
         UserEntity userEntity = Mocks.savedUserEntityFactory();
 
-        Mockito.when(this.userRepository.findByUsernameAndActive(username,true))
+        Mockito.when(this.userRepository.findByUsernameAndActive(username, true))
                 .thenReturn(Optional.of(userEntity));
 
         UserDetails result = this.loasLoadUserAdapter.loadUserByUsername(username);
 
         Assertions.assertThat(result.getUsername()).isEqualTo(userEntity.getUsername());
-        Mockito.verify(this.userRepository,Mockito.times(1))
-                .findByUsernameAndActive(username,true);
+        Mockito.verify(this.userRepository, Mockito.times(1))
+                .findByUsernameAndActive(username, true);
     }
 }
