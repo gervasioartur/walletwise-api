@@ -67,6 +67,9 @@ jobs:
         with:
           name: test-results
           path: target/surefire-reports/TEST-*.xml
+          
+      - name: List test reports
+        run: ls -R target/surefire-reports/
 
   sonarqube:
     runs-on: ubuntu-latest
