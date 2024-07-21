@@ -144,22 +144,27 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+      
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
   
+      - name: 'Setup project id gcloud'
+        run: 'gcloud config set project ${{ vars.GCP_PROJECT_ID }}'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+      
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ vars.DOCKER_PASSWORD }}
       
-      - name: Set up Google Cloud SDK
-        uses: 'google-github-actions/auth@v2'
-        with:
-          project_id: ${{ vars.GCP_PROJECT_ID }}
-          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-
-      - name: Log in to Google Cloud
-        run: gcloud auth activate-service-account --key-file=<(echo "${{ secrets.GOOGLE_CREDENTIALS }}")
-    
       - name: Determinate Image tag
         run: |
           if [ "${{ github.ref }}" == "refs/heads/staging" ]; then
@@ -179,10 +184,7 @@ jobs:
       - name: Push Docker image to GCP
         run: docker push "gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APLICATION_NAME }}:${{ env.IMAGE_TAG }}"
     
-      - name: 'Use gcloud CLI'
-        run: 'gcloud info'
-      
-      - name: 'Use gcloud CLI'
+      - name: 'Deploy to GCP cloud run'
         run: | 
           'gcloud run deploy ${{ vars.SPRING_APPLICATION_NAME }} \ 
             --image=gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APLICATION_NAME }}:${{ env.IMAGE_TAG }} \
