@@ -67,7 +67,7 @@ jobs:
         with:
           name: test-results
           path: target/surefire-reports/TEST-*.xml
-          
+
       - name: List test reports
         run: ls -R target/surefire-reports/
 
@@ -90,5 +90,5 @@ jobs:
       - uses: javiertuya/sonarqube-action@main
         with: 
           github-token: ${{ vars.SONAR_GITHUB_TOKEN }}
-          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          sonar-token: ${{ vars.SONAR_TOKEN }}
           restore-artifact-name1: "test-coverage-files"
