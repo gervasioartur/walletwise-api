@@ -179,13 +179,18 @@
                     </execution>
                     <execution>
                         <id>report</id>
-                        <phase>verify</phase>
+                        <phase>test</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
+                    <dataFile>target/jacoco.exec</dataFile>
+                    <output>file</output>
+                    <reports>
+                        <xml>true</xml>
+                    </reports>
                     <excludes>
                         <exclude>**/entities/**</exclude>
                         <exclude>**/token/**</exclude>
