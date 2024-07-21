@@ -82,7 +82,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: test-coverage-files
-          path: target/site/jacoco
+          path: target/site/jacoco/jacoco.xml
 
       - uses: javiertuya/sonarqube-action@main
         with: 
