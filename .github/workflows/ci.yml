@@ -60,7 +60,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-coverage-files
-          path: target/site/jacoco
+          path: target/site/jacoco/jacoco.xml
 
       - name: Save test results
         uses: actions/upload-artifact@v4
