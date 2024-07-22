@@ -1,9 +1,8 @@
-name: deploy workflow
+name: staging deploy workflow
 
 on:
   pull_request:
     branches:
-      - main
       - staging
     types:
       - closed
