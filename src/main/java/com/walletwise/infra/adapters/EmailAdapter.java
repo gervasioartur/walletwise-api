@@ -6,7 +6,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 public class EmailAdapter implements IEmailAdapter {
     private final JavaMailSender mailSender;
-    private String sender;
+    private final String sender;
 
     public EmailAdapter(JavaMailSender mailSender, String sender) {
         this.mailSender = mailSender;
