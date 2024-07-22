@@ -12,7 +12,7 @@ the app aims to empower users to make informed financial decisions and promote a
 
 ### Use cases
 
-- [Signup useCase](./docs/useCases/signup.md)
+- [Signup useCase](docs/useCases/signup/signup.md)
 
 <br/>
 

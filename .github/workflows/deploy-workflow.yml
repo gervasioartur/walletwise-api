@@ -10,7 +10,7 @@ on:
       - main
       - staging
     types:
-    - closed
+      - closed
 
 jobs:
   build:
@@ -34,7 +34,7 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install -DskipTests -Ptest
-        
+
   test:
     runs-on: ubuntu-latest
     needs: build

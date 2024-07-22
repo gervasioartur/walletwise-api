@@ -3,10 +3,10 @@ name: RollBack workflow
 on:
   workflow_dispatch:
     inputs:
-        version:
-            description: 'Tag of the Docker image'
-            required: true
-            type: string
+      version:
+        description: 'Tag of the Docker image'
+        required: true
+        type: string
 
 jobs:
   rollback:
@@ -65,5 +65,5 @@ jobs:
 
       - name: Remove Docker images
         run: |
-         docker rmi "${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}" \
-            "gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}"
+          docker rmi "${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}" \
+             "gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}"
