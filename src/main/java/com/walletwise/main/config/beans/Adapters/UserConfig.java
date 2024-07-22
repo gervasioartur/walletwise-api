@@ -21,8 +21,8 @@ public class UserConfig {
     }
 
     @Bean
-    public Signin signin(IUserAdapter userAdapter, IAuthAdapter authAdapter){
-        return new Signin(userAdapter,authAdapter);
+    public Signin signin(IUserAdapter userAdapter, IAuthAdapter authAdapter) {
+        return new Signin(userAdapter, authAdapter);
     }
 
     @Bean
