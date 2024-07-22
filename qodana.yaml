@@ -1,4 +1,5 @@
 version: 1.0
+linter: jetbrains/qodana-jvm:2024.1
 report:
   - type: jacoco
     path: target/site/jacoco/jacoco.xml
