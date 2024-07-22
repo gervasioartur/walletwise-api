@@ -79,7 +79,7 @@ jobs:
           fetch-depth: 0  # a full history is required for pull request analysis
 
       - name: Download JaCoCo report
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: jacoco-report
           path: target/site/jacoco
@@ -94,13 +94,10 @@ jobs:
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
         with:
-          project-dir: ./
           results-dir: qodana-report
-          project-key: walletwise-api
-          baseline-path: target/site/jacoco/jacoco.xml
 
       - name: Upload Qodana report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: qodana-report
           path: qodana-report
