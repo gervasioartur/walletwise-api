@@ -23,4 +23,16 @@ class ValidationTokenEntityMapperTests {
         Assertions.assertThat(result.getToken()).isEqualTo(validationTokenDomainObject.getToken());
         Assertions.assertThat(result.getExpirationDate()).isEqualTo(validationTokenDomainObject.getExpirationDate());
     }
+
+    @Test
+    @DisplayName("should return validation token domain object")
+    void shouldReturnValidationTokenDomainObject(){
+        ValidationTokenEntity validationTokenEntity = Mocks.validationTokenEntityFactory();
+
+        ValidationToken result = this.mapper.toValidationTokenDomainObject(validationTokenEntity);
+
+        Assertions.assertThat(result.getId()).isEqualTo(validationTokenEntity.getId());
+        Assertions.assertThat(result.getToken()).isEqualTo(validationTokenEntity.getToken());
+        Assertions.assertThat(result.getExpirationDate()).isEqualTo(validationTokenEntity.getExpirationDate());
+    }
 }
