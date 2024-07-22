@@ -1,6 +1,6 @@
 package com.walletwise.infra.adapters;
 
-import com.walletwise.domain.adapters.IPasswordAdapter;
+import com.walletwise.domain.adapters.ICryptoAdapter;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,13 +14,13 @@ import java.util.UUID;
 
 @SpringBootTest
 class EncoderAdapterTests {
-    private IPasswordAdapter encoderAdapter;
+    private ICryptoAdapter encoderAdapter;
     @MockBean
     private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     void setup() {
-        this.encoderAdapter = new PasswordAdapter(passwordEncoder);
+        this.encoderAdapter = new CryptoAdapter(passwordEncoder);
     }
 
     @Test

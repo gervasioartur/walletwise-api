@@ -5,9 +5,11 @@ import com.walletwise.application.http.SignupRequest;
 import com.walletwise.domain.entities.enums.RoleEnum;
 import com.walletwise.domain.entities.models.Role;
 import com.walletwise.domain.entities.models.User;
+import com.walletwise.domain.entities.models.ValidationToken;
 import com.walletwise.infra.persistence.entities.RoleEntity;
 import com.walletwise.infra.persistence.entities.UserEntity;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -109,5 +111,15 @@ public class Mocks {
 
     public static Role savedRoleDomainObjectFactory() {
         return new Role(UUID.randomUUID(), faker.name().name());
+    }
+
+    public static ValidationToken validationWithOutTokenFactory(){
+        return  new ValidationToken
+                (UUID.randomUUID().toString(), LocalDateTime.now().plusHours(1));
+    }
+
+    public static ValidationToken validationTokenFactory(){
+        return  new ValidationToken
+                (UUID.randomUUID(),UUID.randomUUID().toString(), LocalDateTime.now().plusHours(1));
     }
 }
