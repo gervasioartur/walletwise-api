@@ -52,8 +52,8 @@ public class AuthConfig {
     public PasswordRecovery passwordRecovery(IUserAdapter userAdapter,
                                              ICryptoAdapter cryptoAdapter,
                                              IAuthAdapter authAdapter,
-                                             IEmailAdapter emailAdapter){
-        return new PasswordRecovery(userAdapter,cryptoAdapter,authAdapter,emailAdapter,appServerUrl);
+                                             IEmailAdapter emailAdapter) {
+        return new PasswordRecovery(userAdapter, cryptoAdapter, authAdapter, emailAdapter, appServerUrl);
     }
 
     @Bean

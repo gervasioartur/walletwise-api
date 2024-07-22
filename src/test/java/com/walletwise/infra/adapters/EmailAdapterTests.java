@@ -48,7 +48,7 @@ class EmailAdapterTests {
 
     @Test
     @DisplayName("Should sned email")
-    void shouldSendEmail(){
+    void shouldSendEmail() {
         String receptor = Mocks.faker.internet().emailAddress();
         String message = Mocks.faker.lorem().paragraph();
         String subject = Mocks.faker.lorem().word();
