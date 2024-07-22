@@ -8,6 +8,7 @@ import com.walletwise.domain.entities.models.User;
 import com.walletwise.domain.entities.models.ValidationToken;
 import com.walletwise.infra.persistence.entities.RoleEntity;
 import com.walletwise.infra.persistence.entities.UserEntity;
+import com.walletwise.infra.persistence.entities.ValidationTokenEntity;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -121,5 +122,14 @@ public class Mocks {
     public static ValidationToken validationTokenFactory() {
         return new ValidationToken
                 (UUID.randomUUID(), UUID.randomUUID().toString(), LocalDateTime.now().plusHours(1));
+    }
+
+    public static ValidationTokenEntity validationTokenEntityFactory() {
+        return  ValidationTokenEntity
+                .builder()
+                .id(UUID.randomUUID())
+                .token(UUID.randomUUID().toString())
+                .expirationDate( LocalDateTime.now().plusHours(1))
+                .build();
     }
 }
