@@ -114,9 +114,14 @@ public class Mocks {
         return new Role(UUID.randomUUID(), faker.name().name());
     }
 
-    public static ValidationToken validationWithOutTokenFactory() {
+    public static ValidationToken validationWithOutIdTokenFactory() {
         return new ValidationToken
                 (UUID.randomUUID().toString(), LocalDateTime.now().plusHours(1));
+    }
+
+    public static ValidationToken validationTokenFactory(ValidationTokenEntity entity) {
+        return new ValidationToken
+                (entity.getId(),entity.getToken(),entity.getExpirationDate());
     }
 
     public static ValidationToken validationTokenFactory() {
@@ -130,6 +135,15 @@ public class Mocks {
                 .id(UUID.randomUUID())
                 .token(UUID.randomUUID().toString())
                 .expirationDate( LocalDateTime.now().plusHours(1))
+                .build();
+    }
+
+    public static ValidationTokenEntity validationTokenEntityFactory(ValidationToken validationToken) {
+        return  ValidationTokenEntity
+                .builder()
+                .id(validationToken.getId())
+                .token(validationToken.getToken())
+                .expirationDate(validationToken.getExpirationDate())
                 .build();
     }
 }
