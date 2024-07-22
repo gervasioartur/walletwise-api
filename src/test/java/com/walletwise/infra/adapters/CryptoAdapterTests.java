@@ -39,7 +39,7 @@ class CryptoAdapterTests {
 
     @Test
     @DisplayName("Should return validation token")
-    void shouldReturnValidationToken(){
+    void shouldReturnValidationToken() {
         String validationToken = this.cryptoAdapter.generateValidationToken();
         Assertions.assertThat(validationToken).isNotBlank();
         Assertions.assertThat(validationToken).isNotNull();
