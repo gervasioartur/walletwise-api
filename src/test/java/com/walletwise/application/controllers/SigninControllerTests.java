@@ -37,8 +37,6 @@ public class SigninControllerTests {
 
     @MockBean
     private Signin signin;
-    @MockBean
-    private UserDTOMapper mapper;
 
     @BeforeEach
     void setup() {
