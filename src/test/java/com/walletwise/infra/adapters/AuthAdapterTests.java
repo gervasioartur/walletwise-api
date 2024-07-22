@@ -1,6 +1,5 @@
 package com.walletwise.infra.adapters;
 
-import com.github.javafaker.Faker;
 import com.walletwise.domain.adapters.IAuthAdapter;
 import com.walletwise.infra.gateways.token.GenerateToken;
 import com.walletwise.mocks.Mocks;

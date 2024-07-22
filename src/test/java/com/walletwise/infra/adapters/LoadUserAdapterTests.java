@@ -1,6 +1,5 @@
 package com.walletwise.infra.adapters;
 
-import com.github.javafaker.Faker;
 import com.walletwise.infra.persistence.entities.UserEntity;
 import com.walletwise.infra.persistence.repositories.IUserRepository;
 import com.walletwise.mocks.Mocks;
