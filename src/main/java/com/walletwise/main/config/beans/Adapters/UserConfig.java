@@ -1,6 +1,8 @@
 package com.walletwise.main.config.beans.Adapters;
 
+import com.walletwise.domain.adapters.IAuthAdapter;
 import com.walletwise.domain.adapters.IUserAdapter;
+import com.walletwise.domain.useCases.Signin;
 import com.walletwise.domain.useCases.Signup;
 import com.walletwise.infra.adapters.LoadUserAdapter;
 import com.walletwise.infra.adapters.UserAdapter;
@@ -16,6 +18,11 @@ public class UserConfig {
     @Bean
     public Signup signup(IUserAdapter userAdapter) {
         return new Signup(userAdapter);
+    }
+
+    @Bean
+    public Signin signin(IUserAdapter userAdapter, IAuthAdapter authAdapter) {
+        return new Signin(userAdapter, authAdapter);
     }
 
     @Bean

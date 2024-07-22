@@ -1,9 +1,9 @@
-# Feature: User sign-up
+# Feature: User sign up
 
 As a new user,
 I want to be able to sign up
 
-## Scenario: Successful sign-up  [✅]
+## Scenario: Successful sign up  [✅]
 
     Given the user payload with firstname "new", lastname "user", username "new_user", email "newuser@gmail.com" and password "new_user@password"
     When I send a POST request to "api/signup"
@@ -80,7 +80,7 @@ I want to be able to sign up
     Then the response status should be 400
     And the response should contain "Invalid email."
 
-## Scenario: Unexpected error during sign-up [✅]
+## Scenario: Unexpected error during sign up [✅]
 
     Given the user payload with firstname "new", lastname "user", username "new_user", email "newuser@gmail.com" and password "new_user@password"
     When I send a POST request to "api/signup"

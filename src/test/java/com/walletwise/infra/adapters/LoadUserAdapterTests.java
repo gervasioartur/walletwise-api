@@ -1,6 +1,5 @@
 package com.walletwise.infra.adapters;
 
-import com.github.javafaker.Faker;
 import com.walletwise.infra.persistence.entities.UserEntity;
 import com.walletwise.infra.persistence.repositories.IUserRepository;
 import com.walletwise.mocks.Mocks;
@@ -18,7 +17,6 @@ import java.util.Optional;
 
 @SpringBootTest
 public class LoadUserAdapterTests {
-    private final Faker faker = new Faker();
     private LoadUserAdapter loasLoadUserAdapter;
     @MockBean
     private IUserRepository userRepository;
@@ -31,7 +29,7 @@ public class LoadUserAdapterTests {
     @Test
     @DisplayName("Should throw UsernameNotFoundException if user does not exist")
     void shouldReturnUsernameNotFoundExceptionIfUserDoesNotExist() {
-        String username = this.faker.name().username();
+        String username = Mocks.faker.name().username();
 
         Mockito.when(this.userRepository.findByUsernameAndActive(username, true))
                 .thenReturn(Optional.empty());
@@ -46,7 +44,7 @@ public class LoadUserAdapterTests {
     @Test
     @DisplayName("Should return user details")
     void shouldReturnUserDetails() {
-        String username = this.faker.name().username();
+        String username = Mocks.faker.name().username();
 
         UserEntity userEntity = Mocks.savedUserEntityFactory();
 

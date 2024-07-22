@@ -1,8 +1,8 @@
 package com.walletwise.infra.adapters;
 
-import com.github.javafaker.Faker;
 import com.walletwise.domain.adapters.IAuthAdapter;
 import com.walletwise.infra.gateways.token.GenerateToken;
+import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
@@ -27,7 +28,6 @@ public class AuthAdapterTests {
     @MockBean
     private GenerateToken generateToken;
 
-    private Faker faker = new Faker();
 
     @BeforeEach
     void setup() {
@@ -35,10 +35,34 @@ public class AuthAdapterTests {
     }
 
     @Test
+    @DisplayName("Should return null if authentication throws ")
+    void shouldReturnNullIfAuthenticationThrows() {
+        String username = Mocks.faker.name().username();
+        String password = Mocks.faker.internet().password();
+
+        Mockito.doThrow(new AuthenticationException("Bad credentials") {
+                    @Override
+                    public String getMessage() {
+                        return super.getMessage();
+                    }
+                }).when(this.authenticationManager)
+                .authenticate(Mockito.any(UsernamePasswordAuthenticationToken.class));
+
+        String result = this.authAdapter.authenticate(username, password);
+
+        Assertions.assertThat(result).isNull();
+        Mockito.verify(this.authenticationManager, Mockito.times(1))
+                .authenticate(Mockito.any(UsernamePasswordAuthenticationToken.class));
+        Mockito.verify(this.generateToken, Mockito.times(0))
+                .generate(username);
+    }
+
+
+    @Test
     @DisplayName("should return access token ")
     void shouldReturnAccessToken() {
-        String username = this.faker.name().username();
-        String password = this.faker.internet().password();
+        String username = Mocks.faker.name().username();
+        String password = Mocks.faker.internet().password();
         String accessToken = UUID.randomUUID().toString();
 
         Mockito.when(this.authenticationManager.authenticate(Mockito.any(UsernamePasswordAuthenticationToken.class)))
