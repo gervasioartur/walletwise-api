@@ -22,21 +22,21 @@ I want to be able to sign in
     Given the user payload with username "any_user" and password "any_password"
     When I send a POST request to "api/signin"
     Then the response status should be 401
-    And the response should contain "Invalid username or password."
+    And the response should contain "Invalid username/email or password."
 
 ## Scenario: Sign in with non-existing email []
 
     Given the user payload with email "anyuser@email.com" and password "any_password"
     When I send a POST request to "api/signin"
     Then the response status should be 401
-    And the response should contain "Invalid email or password."
+    And the response should contain "Invalid username/email or password."
 
 ## Scenario: Sign in with wrong password []
 
     Given the user payload with email "anyuser@email.com" and password "any_wrong_password"
     When I send a POST request to "api/signin"
     Then the response status should be 401
-    And the response should contain "Bad credentials."
+    And the response should contain "Invalid username/email or password."
 
 ## Scenario: Sign in without username when sign in with username []
 
