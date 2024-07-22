@@ -9,7 +9,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,7 +26,7 @@ class SigninTests {
 
     @BeforeEach
     void setup() {
-        this.signin = new Signin(userAdapter,authAdapter);
+        this.signin = new Signin(userAdapter, authAdapter);
     }
 
     @Test
@@ -41,7 +40,7 @@ class SigninTests {
         Throwable exception = Assertions.catchThrowable(() -> this.signin.signin(email, password));
 
         Assertions.assertThat(exception).isInstanceOf(UnauthorizedException.class);
-        Assertions.assertThat(exception.getMessage()).isEqualTo("Invalid email or password.");
+        Assertions.assertThat(exception.getMessage()).isEqualTo("Invalid username/email or password.");
         Mockito.verify(this.userAdapter, Mockito.times(1)).findByEmail(email);
     }
 
@@ -56,7 +55,7 @@ class SigninTests {
         Throwable exception = Assertions.catchThrowable(() -> this.signin.signin(username, password));
 
         Assertions.assertThat(exception).isInstanceOf(UnauthorizedException.class);
-        Assertions.assertThat(exception.getMessage()).isEqualTo("Invalid username or password.");
+        Assertions.assertThat(exception.getMessage()).isEqualTo("Invalid username/email or password.");
         Mockito.verify(this.userAdapter, Mockito.times(1)).findByUsername(username);
     }
 
@@ -70,19 +69,19 @@ class SigninTests {
 
 
         Mockito.when(this.userAdapter.findByUsername(username)).thenReturn(savedUser);
-        Mockito.when(this.authAdapter.authenticate(username,password)).thenReturn(null);
+        Mockito.when(this.authAdapter.authenticate(username, password)).thenReturn(null);
 
         Throwable exception = Assertions.catchThrowable(() -> this.signin.signin(username, password));
 
         Assertions.assertThat(exception).isInstanceOf(UnauthorizedException.class);
-        Assertions.assertThat(exception.getMessage()).isEqualTo("Bad credentials.");
+        Assertions.assertThat(exception.getMessage()).isEqualTo("Invalid username/email or password.");
         Mockito.verify(this.userAdapter, Mockito.times(1)).findByUsername(username);
-        Mockito.verify(this.authAdapter,Mockito.times(1)).authenticate(username,password);
+        Mockito.verify(this.authAdapter, Mockito.times(1)).authenticate(username, password);
     }
 
     @Test
     @DisplayName("Should return access token on sign in success")
-    void shouldReturnAccessTokenOnSignInSuccess(){
+    void shouldReturnAccessTokenOnSignInSuccess() {
         User savedUser = Mocks.savedUserDomainObjectFactory();
 
         String username = savedUser.getUsername();
@@ -91,12 +90,12 @@ class SigninTests {
         String accessToken = UUID.randomUUID().toString();
 
         Mockito.when(this.userAdapter.findByUsername(username)).thenReturn(savedUser);
-        Mockito.when(this.authAdapter.authenticate(username,password)).thenReturn(accessToken);
+        Mockito.when(this.authAdapter.authenticate(username, password)).thenReturn(accessToken);
 
         String result = this.signin.signin(username, password);
 
         Assertions.assertThat(result).isEqualTo(accessToken);
         Mockito.verify(this.userAdapter, Mockito.times(1)).findByUsername(username);
-        Mockito.verify(this.authAdapter,Mockito.times(1)).authenticate(username,password);
+        Mockito.verify(this.authAdapter, Mockito.times(1)).authenticate(username, password);
     }
 }

@@ -15,18 +15,14 @@ public class Signin {
     }
 
     public String signin(String usernameOrEmail, String password) {
-        User userResult = null;
+        User userResult = usernameOrEmail.contains("@")
+                ? userAdapter.findByEmail(usernameOrEmail)
+                : userAdapter.findByUsername(usernameOrEmail);
 
-        if (usernameOrEmail.contains("@")) {
-           userResult =  this.userAdapter.findByEmail(usernameOrEmail);
-            if (userResult == null) throw new UnauthorizedException("Invalid email or password.");
-        } else {
-            userResult = this.userAdapter.findByUsername(usernameOrEmail);
-            if (userResult == null) throw new UnauthorizedException("Invalid username or password.");
-        }
+        if (userResult == null) throw new UnauthorizedException("Invalid username/email or password.");
 
-        String result = this.authAdapter.authenticate(userResult.getUsername(),password);
-        if(result == null) throw new UnauthorizedException("Bad credentials.");
+        String result = this.authAdapter.authenticate(userResult.getUsername(), password);
+        if (result == null) throw new UnauthorizedException("Invalid username/email or password.");
         return result;
     }
 }
