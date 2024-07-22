@@ -17,7 +17,12 @@ public class AuthAdapter implements IAuthAdapter {
 
     @Override
     public String authenticate(String username, String password) {
-        Authentication auth = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        return this.generateToken.generate(auth.getName());
+        try {
+            Authentication auth = this.authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            return this.generateToken.generate(auth.getName());
+        }catch (Exception ex){
+            return null;
+        }
     }
 }
