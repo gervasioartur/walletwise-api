@@ -40,6 +40,6 @@ public class PasswordRecovery {
 
         String resetUrl = this.baseUrl + "/reset-password?token=" + token;
         String message = "Password Reset Request,\n Click the link to reset your password: " + resetUrl;
-        this.emailAdapter.sendEmail(userResult.getEmail(), message);
+        this.emailAdapter.sendEmail(userResult.getEmail(), message, "Password Reset Request");
     }
 }
