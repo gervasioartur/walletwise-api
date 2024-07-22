@@ -62,7 +62,7 @@ class PasswordRecoveryTests {
         String message = "Password Reset Request,\n Click the link to reset your password: " + resetUrl;
 
         Mockito.when(this.userAdapter.findByEmail(savedUser.getEmail())).thenReturn(savedUser);
-        Mockito.when(this.cryptoAdapter.generateToken()).thenReturn(token);
+        Mockito.when(this.cryptoAdapter.generateValidationToken()).thenReturn(token);
         Mockito.when(this.cryptoAdapter.encode(token)).thenReturn(encodedToken);
         Mockito.when(this.authAdapter.saveValidationToken(Mockito.any(ValidationToken.class))).thenReturn(savedValidationToken);
         Mockito.doNothing().when(this.emailAdapter).sendEmail(savedUser.getEmail(), message);
@@ -70,7 +70,7 @@ class PasswordRecoveryTests {
         this.passwordRecovery.recover(savedUser.getEmail());
 
         Mockito.verify(this.userAdapter, Mockito.times(1)).findByEmail(savedUser.getEmail());
-        Mockito.verify(this.cryptoAdapter, Mockito.times(1)).generateToken();
+        Mockito.verify(this.cryptoAdapter, Mockito.times(1)).generateValidationToken();
         Mockito.verify(this.cryptoAdapter, Mockito.times(1)).encode(token);
         Mockito.verify(this.authAdapter, Mockito.times(1)).saveValidationToken(Mockito.any(ValidationToken.class));
         Mockito.verify(this.emailAdapter, Mockito.times(1)).sendEmail(savedUser.getEmail(), message);

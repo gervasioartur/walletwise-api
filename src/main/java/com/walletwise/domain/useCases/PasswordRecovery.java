@@ -32,7 +32,7 @@ public class PasswordRecovery {
         User userResult = this.userAdapter.findByEmail(email);
         if (userResult == null) return;
 
-        String token = this.cryptoAdapter.generateToken();
+        String token = this.cryptoAdapter.generateValidationToken();
         String encodedToken = this.cryptoAdapter.encode(token);
 
         ValidationToken validationToken = new ValidationToken(encodedToken, LocalDateTime.now().plusHours(1));
