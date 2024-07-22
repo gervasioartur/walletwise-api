@@ -38,6 +38,14 @@ jobs:
       - name: Use provided IMAGE_TAG
         run: echo "IMAGE_TAG=${{ github.event.inputs.version }}" >> $GITHUB_ENV
 
+      - name: Determine Application  name
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/staging" ]; then
+            echo "SPRING_APPLICATION_NAME=walletwise-api-staging" >> $GITHUB_ENV
+          else
+            echo "SPRING_APPLICATION_NAME=walletwise-api-production" >> $GITHUB_ENV
+          fi
+
       - name: Pull Docker image
         run: docker pull "${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}"
 
@@ -51,7 +59,7 @@ jobs:
 
       - name: 'Deploy to GCP cloud run'
         run: |
-          gcloud run deploy ${{ vars.SPRING_APPLICATION_NAME }} \
+          gcloud run deploy ${{ env.SPRING_APPLICATION_NAME }} \
             --image=gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }} \
             --platform=managed --region=southamerica-east1 --allow-unauthenticated --revision-suffix=${{ env.IMAGE_TAG }}
 
