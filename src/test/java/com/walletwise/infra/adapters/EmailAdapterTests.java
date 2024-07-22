@@ -45,4 +45,25 @@ class EmailAdapterTests {
         Assertions.assertThat(exception).isInstanceOf(RuntimeException.class);
         Mockito.verify(this.mailSender, Mockito.times(1)).send(messageParam);
     }
+
+    @Test
+    @DisplayName("Should sned email")
+    void shouldSendEmail(){
+        String receptor = Mocks.faker.internet().emailAddress();
+        String message = Mocks.faker.lorem().paragraph();
+        String subject = Mocks.faker.lorem().word();
+
+
+        SimpleMailMessage messageParam = new SimpleMailMessage();
+        messageParam.setFrom(this.emailSender);
+        messageParam.setTo(receptor);
+        messageParam.setSubject(subject);
+        messageParam.setText(message);
+
+        Mockito.doNothing().when(this.mailSender).send(messageParam);
+
+        this.emailAdapter.sendEmail(receptor, message, subject);
+
+        Mockito.verify(this.mailSender, Mockito.times(1)).send(messageParam);
+    }
 }
