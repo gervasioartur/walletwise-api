@@ -45,7 +45,6 @@ I want to be able to sign in
     Then the response status should be 400
     And the response should contain "Username is required."
 
-
 ## Scenario: Sign in without password [✅]
 
     Given the user payload with usernameOrEmail "" and password "any_password"
