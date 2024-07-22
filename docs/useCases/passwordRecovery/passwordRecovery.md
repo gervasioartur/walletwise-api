@@ -24,6 +24,13 @@ I want to be able to recover password
     Then the response status should be 400
     And the response should contain "E-mail is required."
 
+## Scenario: Recover password with invalid email []
+
+    Given the user payload with email "anyuser@email.com"
+    When I send a POST request to "api/password-recovery"
+    Then the response status should be 400
+    And the response should contain "Invalid E-mail."
+
 ## Scenario: Unexpected error during password recovery []
 
     Given the user payload with email "anyuser@email.com"
