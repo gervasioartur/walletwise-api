@@ -3,6 +3,8 @@ package com.walletwise.infra.adapters;
 import com.walletwise.domain.adapters.ICryptoAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.UUID;
+
 public class CryptoAdapter implements ICryptoAdapter {
     private final PasswordEncoder passwordEncoder;
 
@@ -16,7 +18,7 @@ public class CryptoAdapter implements ICryptoAdapter {
     }
 
     @Override
-    public String generateToken() {
-        return "";
+    public String generateValidationToken() {
+        return UUID.randomUUID().toString();
     }
 }
