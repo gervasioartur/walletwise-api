@@ -37,7 +37,7 @@ public class AuthAdapterTests {
 
     @Test
     @DisplayName("Should return null if authentication throws ")
-    void shouldReturnNullIfAuthenticationThrows(){
+    void shouldReturnNullIfAuthenticationThrows() {
         String username = this.faker.name().username();
         String password = this.faker.internet().password();
 
@@ -49,7 +49,7 @@ public class AuthAdapterTests {
                 }).when(this.authenticationManager)
                 .authenticate(Mockito.any(UsernamePasswordAuthenticationToken.class));
 
-        String result =  this.authAdapter.authenticate(username,password);
+        String result = this.authAdapter.authenticate(username, password);
 
         Assertions.assertThat(result).isNull();
         Mockito.verify(this.authenticationManager, Mockito.times(1))

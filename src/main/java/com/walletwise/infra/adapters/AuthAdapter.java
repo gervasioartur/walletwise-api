@@ -21,7 +21,7 @@ public class AuthAdapter implements IAuthAdapter {
             Authentication auth = this.authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(username, password));
             return this.generateToken.generate(auth.getName());
-        }catch (Exception ex){
+        } catch (Exception ex) {
             return null;
         }
     }
