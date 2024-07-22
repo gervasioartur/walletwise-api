@@ -54,32 +54,43 @@ jobs:
       - name: Run Maven tests
         run: mvn -B verify -Ptest
 
-      - name: Upload JaCoCo report
+      - name: Upload report
         uses: actions/upload-artifact@v4
         with:
-          name: jacoco-report
-          path: target/site/jacoco/jacoco.xml
+          name: report-upload
+          path: target/
 
-  qodana:
+  sonnar:
     runs-on: ubuntu-latest
+    needs: test
     permissions:
       contents: write
       pull-requests: write
       checks: write
     steps:
       - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download report
+        uses: actions/download-artifact@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
-          fetch-depth: 0  # a full history is required for pull request analysis
-     
-      - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@v2024.1
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
-          
-      - uses: github/codeql-action/upload-sarif@v2
+          name: report-upload
+          path: target/
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
         with:
-          sarif_file: ${{ runner.temp }}/qodana/results/qodana.sarif.json
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ vars.DOCKER_PASSWORD }}
+
+      - name: Pull sonarsource/sonar-scanner-cli image
+        run: docker pull "sonarsource/sonar-scanner-cli:latest"
+
+      - name: Analysing with sonarsource
+        run: |
+          docker run -e SONAR_TOKEN=${{ secrets.SONAR_TOKEN }} \
+            -v "${PWD}:/usr/src" sonarsource/sonar-scanner-cli
 
   docker:
     runs-on: ubuntu-latest
