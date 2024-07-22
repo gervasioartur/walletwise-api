@@ -1,6 +1,5 @@
 package com.walletwise.infra.adapters;
 
-import com.github.javafaker.Faker;
 import com.walletwise.domain.adapters.IUserAdapter;
 import com.walletwise.domain.entities.models.User;
 import com.walletwise.infra.gateways.mappers.UserEntityMapper;
@@ -26,8 +25,6 @@ public class UserAdapterTests {
     @MockBean
     private UserEntityMapper mapper;
 
-    private Faker faker = new Faker();
-
     @BeforeEach
     void setup() {
         this.userAdapter = new UserAdapter(userRepository, mapper);
@@ -36,7 +33,7 @@ public class UserAdapterTests {
     @Test
     @DisplayName("Should return null if user does not exist by username")
     void shouldReturnNullIfUserDOesNotExistByUsername() {
-        String username = faker.name().username();
+        String username = Mocks.faker.name().username();
 
         Mockito.when(this.userRepository.findByUsernameAndActive(username, true)).thenReturn(Optional.empty());
 
@@ -66,7 +63,7 @@ public class UserAdapterTests {
     @Test
     @DisplayName("Should return null if user does not exist by email")
     void shouldReturnNullIfUserDOesNotExistByEmail() {
-        String email = faker.internet().emailAddress();
+        String email = Mocks.faker.internet().emailAddress();
 
         Mockito.when(this.userRepository.findByEmailAndActive(email, true)).thenReturn(Optional.empty());
 
