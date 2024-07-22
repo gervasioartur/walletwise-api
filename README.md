@@ -1,4 +1,4 @@
-[![Run build, tests, sonarqube, docker and deploy](https://github.com/gervasioartur/walletwise-api/actions/workflows/deploy.yml/badge.svg)](https://github.com/gervasioartur/walletwise-api/actions/workflows/deploy.yml)
+[![Run build, tests, sonarqube, docker and deploy](https://github.com/gervasioartur/walletwise-api/actions/workflows/deploy-workflow.yml/badge.svg)](https://github.com/gervasioartur/walletwise-api/actions/workflows/deploy-workflow.yml)
 
 # **WALLETWISE-API**
 
