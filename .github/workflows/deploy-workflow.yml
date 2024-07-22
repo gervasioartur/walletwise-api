@@ -87,9 +87,9 @@ jobs:
       - name: Determinate branch name
         run: |
           if [ "${{ github.ref }}" == "refs/heads/staging" ]; then
-            echo "IMAGE_TAG=staging >> $GITHUB_ENV
+            echo "IMAGE_TAG=staging" >> $GITHUB_ENV
           else
-            echo "IMAGE_TAG=production >> $GITHUB_ENV
+            echo "IMAGE_TAG=production" >> $GITHUB_ENV
           fi
 
       - name: Pull sonarsource/sonar-scanner-cli image
