@@ -63,11 +63,6 @@ jobs:
   qodana:
     runs-on: ubuntu-latest
     needs: test
-
-#    permissions:
-#      contents: write
-#      pull-requests: write
-#      checks: write
     steps:
       - uses: actions/checkout@v3
         with:
@@ -80,10 +75,10 @@ jobs:
           name: jacoco-report
           path: target/site/jacoco
 
-#      - name: 'Qodana Scan'
-#        uses: JetBrains/qodana-action@v2024.1
-#        env:
-#          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+      - name: Move JaCoCo report to Qodana folder
+        run: |
+          mkdir -p .qodana/code-coverage
+          mv target/site/jacoco/jacoco.xml .qodana/code-coverage/
 
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2024.1
