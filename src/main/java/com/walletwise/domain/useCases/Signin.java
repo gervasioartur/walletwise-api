@@ -10,9 +10,15 @@ public class Signin {
         this.userAdapter = userAdapter;
     }
 
-    public String signin(String username, String password) {
-        if(this.userAdapter.findByUsername(username) == null)
-            throw new UnauthorizedException("Invalid username or password.");
+    public String signin(String usernameOrEmail, String password) {
+        if(usernameOrEmail.contains("@")){
+            if(this.userAdapter.findByEmail(usernameOrEmail) == null)
+                throw new UnauthorizedException("Invalid email or password.");
+        } else {
+            if(this.userAdapter.findByUsername(usernameOrEmail) == null)
+                throw new UnauthorizedException("Invalid username or password.");
+        }
+
         return null;
     }
 }
