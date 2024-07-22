@@ -1,6 +1,7 @@
 package com.walletwise.infra.adapters;
 
 import com.walletwise.domain.adapters.IAuthAdapter;
+import com.walletwise.domain.entities.models.ValidationToken;
 import com.walletwise.infra.gateways.token.GenerateToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,5 +25,10 @@ public class AuthAdapter implements IAuthAdapter {
         } catch (Exception ex) {
             return null;
         }
+    }
+
+    @Override
+    public ValidationToken saveValidationToken(ValidationToken validationToken) {
+        return null;
     }
 }
