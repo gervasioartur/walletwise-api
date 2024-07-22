@@ -32,12 +32,12 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public AuthAdapter authAdapter (AuthenticationManager authenticationManager,
-             GenerateToken generateToken,
-             ValidationTokenEntityMapper validationTokenEntityMapper,
-             IValidationTokenEntityRepository validationTokenEntityRepository) {
+    public AuthAdapter authAdapter(AuthenticationManager authenticationManager,
+                                   GenerateToken generateToken,
+                                   ValidationTokenEntityMapper validationTokenEntityMapper,
+                                   IValidationTokenEntityRepository validationTokenEntityRepository) {
 
-        return new AuthAdapter(authenticationManager, generateToken,validationTokenEntityMapper,validationTokenEntityRepository);
+        return new AuthAdapter(authenticationManager, generateToken, validationTokenEntityMapper, validationTokenEntityRepository);
     }
 
     @Bean
@@ -110,7 +110,7 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public ValidationTokenEntityMapper validationTokenEntityMapper(){
+    public ValidationTokenEntityMapper validationTokenEntityMapper() {
         return new ValidationTokenEntityMapper();
     }
 }

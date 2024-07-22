@@ -39,9 +39,9 @@ public class AuthAdapterTests {
     @BeforeEach
     void setup() {
         this.authAdapter = new AuthAdapter(authenticationManager,
-                        generateToken,
-                        validationTokenEntityMapper,
-                        validationTokenEntityRepository);
+                generateToken,
+                validationTokenEntityMapper,
+                validationTokenEntityRepository);
     }
 
     @Test
@@ -126,12 +126,12 @@ public class AuthAdapterTests {
 
     @Test
     @DisplayName("Should save ValidationToken information")
-    void shouldSaveValidationTokenInformation(){
+    void shouldSaveValidationTokenInformation() {
         ValidationToken validationToken = Mocks.validationWithOutIdTokenFactory();
 
-        ValidationTokenEntity toSaveValidationTokenEntity =  Mocks.validationTokenEntityFactory();
+        ValidationTokenEntity toSaveValidationTokenEntity = Mocks.validationTokenEntityFactory();
 
-        ValidationTokenEntity savedValidationTokenEntity =  Mocks.validationTokenEntityFactory();
+        ValidationTokenEntity savedValidationTokenEntity = Mocks.validationTokenEntityFactory();
         savedValidationTokenEntity.setId(UUID.randomUUID());
 
         ValidationToken savedValidationToken = Mocks.validationTokenFactory(savedValidationTokenEntity);
@@ -147,11 +147,11 @@ public class AuthAdapterTests {
         ValidationToken result = this.authAdapter.saveValidationToken(validationToken);
 
         Assertions.assertThat(result).isEqualTo(savedValidationToken);
-        Mockito.verify(this.validationTokenEntityMapper,Mockito.times(1))
+        Mockito.verify(this.validationTokenEntityMapper, Mockito.times(1))
                 .toValidationTokenEntity(validationToken);
-        Mockito.verify(this.validationTokenEntityRepository,Mockito.times(1))
+        Mockito.verify(this.validationTokenEntityRepository, Mockito.times(1))
                 .save(toSaveValidationTokenEntity);
-        Mockito.verify(this.validationTokenEntityMapper,Mockito.times(1))
+        Mockito.verify(this.validationTokenEntityMapper, Mockito.times(1))
                 .toValidationTokenDomainObject(savedValidationTokenEntity);
     }
 }

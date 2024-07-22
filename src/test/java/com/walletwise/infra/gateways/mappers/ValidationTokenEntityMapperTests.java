@@ -14,7 +14,7 @@ class ValidationTokenEntityMapperTests {
 
     @Test
     @DisplayName("should return validation token entity")
-    void shouldReturnToValidationTokenEntity(){
+    void shouldReturnToValidationTokenEntity() {
         ValidationToken validationTokenDomainObject = Mocks.validationTokenFactory();
 
         ValidationTokenEntity result = this.mapper.toValidationTokenEntity(validationTokenDomainObject);
@@ -26,7 +26,7 @@ class ValidationTokenEntityMapperTests {
 
     @Test
     @DisplayName("should return validation token domain object")
-    void shouldReturnValidationTokenDomainObject(){
+    void shouldReturnValidationTokenDomainObject() {
         ValidationTokenEntity validationTokenEntity = Mocks.validationTokenEntityFactory();
 
         ValidationToken result = this.mapper.toValidationTokenDomainObject(validationTokenEntity);

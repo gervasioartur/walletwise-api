@@ -4,7 +4,7 @@ import com.walletwise.domain.entities.models.ValidationToken;
 import com.walletwise.infra.persistence.entities.ValidationTokenEntity;
 
 public class ValidationTokenEntityMapper {
-    public ValidationTokenEntity toValidationTokenEntity(ValidationToken validationToken){
+    public ValidationTokenEntity toValidationTokenEntity(ValidationToken validationToken) {
         return ValidationTokenEntity
                 .builder()
                 .id(validationToken.getId())
@@ -13,7 +13,7 @@ public class ValidationTokenEntityMapper {
                 .build();
     }
 
-    public ValidationToken toValidationTokenDomainObject(ValidationTokenEntity entity){
-        return new ValidationToken(entity.getId(),entity.getToken(),entity.getExpirationDate());
+    public ValidationToken toValidationTokenDomainObject(ValidationTokenEntity entity) {
+        return new ValidationToken(entity.getId(), entity.getToken(), entity.getExpirationDate());
     }
 }

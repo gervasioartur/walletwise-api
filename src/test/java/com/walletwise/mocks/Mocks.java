@@ -121,7 +121,7 @@ public class Mocks {
 
     public static ValidationToken validationTokenFactory(ValidationTokenEntity entity) {
         return new ValidationToken
-                (entity.getId(),entity.getToken(),entity.getExpirationDate());
+                (entity.getId(), entity.getToken(), entity.getExpirationDate());
     }
 
     public static ValidationToken validationTokenFactory() {
@@ -130,16 +130,16 @@ public class Mocks {
     }
 
     public static ValidationTokenEntity validationTokenEntityFactory() {
-        return  ValidationTokenEntity
+        return ValidationTokenEntity
                 .builder()
                 .id(UUID.randomUUID())
                 .token(UUID.randomUUID().toString())
-                .expirationDate( LocalDateTime.now().plusHours(1))
+                .expirationDate(LocalDateTime.now().plusHours(1))
                 .build();
     }
 
     public static ValidationTokenEntity validationTokenEntityFactory(ValidationToken validationToken) {
-        return  ValidationTokenEntity
+        return ValidationTokenEntity
                 .builder()
                 .id(validationToken.getId())
                 .token(validationToken.getToken())
