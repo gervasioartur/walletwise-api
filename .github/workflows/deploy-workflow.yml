@@ -83,6 +83,14 @@ jobs:
         with:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ vars.DOCKER_PASSWORD }}
+      
+      - name: Determinate branch name
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/staging" ]; then
+            echo "IMAGE_TAG=staging >> $GITHUB_ENV
+          else
+            echo "IMAGE_TAG=production >> $GITHUB_ENV
+          fi
 
       - name: Pull sonarsource/sonar-scanner-cli image
         run: docker pull "sonarsource/sonar-scanner-cli:latest"
@@ -90,6 +98,7 @@ jobs:
       - name: Analysing with sonarsource
         run: |
           docker run -e SONAR_TOKEN=${{ secrets.SONAR_TOKEN }} \
+            -e SONAR_BRANCH_NAME="${{ env.IMAGE_TAG }}" \
             -v "${PWD}:/usr/src" sonarsource/sonar-scanner-cli
 
   docker:
