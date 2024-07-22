@@ -1,5 +1,15 @@
 [![Run build, tests, sonarqube, docker and deploy](https://github.com/gervasioartur/walletwise-api/actions/workflows/deploy-workflow.yml/badge.svg)](https://github.com/gervasioartur/walletwise-api/actions/workflows/deploy-workflow.yml)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=walletwise-api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=walletwise-api)
+
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=walletwise-api&metric=bugs)](https://sonarcloud.io/summary/new_code?id=walletwise-api)
+
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=walletwise-api&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=walletwise-api)
+
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=walletwise-api&metric=coverage)](https://sonarcloud.io/summary/new_code?id=walletwise-api)
+
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=walletwise-api&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=walletwise-api)
+
 # **WALLETWISE-API**
 
 WALLET-WISE is a Personal Budgeting app designed to provide users with a comprehensive and
