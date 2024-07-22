@@ -31,6 +31,13 @@ I want to be able to sign in
     Then the response status should be 401
     And the response should contain "Invalid email or password."
 
+## Scenario: Sign in with wrong password []
+
+    Given the user payload with email "anyuser@email.com" and password "any_wrong_password"
+    When I send a POST request to "api/signin"
+    Then the response status should be 401
+    And the response should contain "Bad credentials."
+
 ## Scenario: Sign in without username when sign in with username []
 
     Given the user payload with username "" and password "any_password"
