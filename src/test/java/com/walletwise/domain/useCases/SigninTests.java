@@ -25,31 +25,31 @@ class SigninTests {
 
     @Test
     @DisplayName("Should throw UnauthorizedException if user does not exist by email ")
-    void shouldThrowUnauthorizedExceptionIfUserDoesNotExistsByEmail(){
+    void shouldThrowUnauthorizedExceptionIfUserDoesNotExistsByEmail() {
         String email = Mocks.faker.internet().emailAddress();
         String password = Mocks.faker.internet().password();
 
         Mockito.when(this.userAdapter.findByEmail(email)).thenReturn(null);
 
-        Throwable exception = Assertions.catchThrowable(() -> this.signin.signin(email,password));
+        Throwable exception = Assertions.catchThrowable(() -> this.signin.signin(email, password));
 
         Assertions.assertThat(exception).isInstanceOf(UnauthorizedException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("Invalid email or password.");
-        Mockito.verify(this.userAdapter,Mockito.times(1)).findByEmail(email);
+        Mockito.verify(this.userAdapter, Mockito.times(1)).findByEmail(email);
     }
 
     @Test
     @DisplayName("Should throw UnauthorizedException if user does not exist by username ")
-    void shouldThrowUnauthorizedExceptionIfUserDoesNotExistsByUsername(){
+    void shouldThrowUnauthorizedExceptionIfUserDoesNotExistsByUsername() {
         String username = Mocks.faker.name().username();
         String password = Mocks.faker.internet().password();
 
         Mockito.when(this.userAdapter.findByUsername(username)).thenReturn(null);
 
-        Throwable exception = Assertions.catchThrowable(() -> this.signin.signin(username,password));
+        Throwable exception = Assertions.catchThrowable(() -> this.signin.signin(username, password));
 
         Assertions.assertThat(exception).isInstanceOf(UnauthorizedException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("Invalid username or password.");
-        Mockito.verify(this.userAdapter,Mockito.times(1)).findByUsername(username);
+        Mockito.verify(this.userAdapter, Mockito.times(1)).findByUsername(username);
     }
 }

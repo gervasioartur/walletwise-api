@@ -11,11 +11,11 @@ public class Signin {
     }
 
     public String signin(String usernameOrEmail, String password) {
-        if(usernameOrEmail.contains("@")){
-            if(this.userAdapter.findByEmail(usernameOrEmail) == null)
+        if (usernameOrEmail.contains("@")) {
+            if (this.userAdapter.findByEmail(usernameOrEmail) == null)
                 throw new UnauthorizedException("Invalid email or password.");
         } else {
-            if(this.userAdapter.findByUsername(usernameOrEmail) == null)
+            if (this.userAdapter.findByUsername(usernameOrEmail) == null)
                 throw new UnauthorizedException("Invalid username or password.");
         }
 
