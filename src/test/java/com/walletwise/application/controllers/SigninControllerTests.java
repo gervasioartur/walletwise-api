@@ -2,12 +2,8 @@ package com.walletwise.application.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walletwise.application.http.SigninRequest;
-import com.walletwise.application.http.SignupRequest;
-import com.walletwise.domain.entities.exceptions.ConflictException;
 import com.walletwise.domain.entities.exceptions.UnauthorizedException;
-import com.walletwise.domain.entities.models.User;
 import com.walletwise.domain.useCases.Signin;
-import com.walletwise.domain.useCases.Signup;
 import com.walletwise.infra.gateways.mappers.UserDTOMapper;
 import com.walletwise.mocks.Mocks;
 import org.hamcrest.Matchers;
@@ -169,7 +165,7 @@ public class SigninControllerTests {
                 Mocks.faker.internet().password());
         String accessToken = UUID.randomUUID().toString();
 
-        BDDMockito.when(this.signin.signin(requestParams.usernameOrEmail(),requestParams.password())).thenReturn(accessToken);
+        BDDMockito.when(this.signin.signin(requestParams.usernameOrEmail(), requestParams.password())).thenReturn(accessToken);
 
         String json = new ObjectMapper().writeValueAsString(requestParams);
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders

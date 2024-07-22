@@ -2,15 +2,10 @@ package com.walletwise.application.controllers;
 
 import com.walletwise.application.http.Response;
 import com.walletwise.application.http.SigninRequest;
-import com.walletwise.application.http.SignupRequest;
 import com.walletwise.application.validation.ValidationBuilder;
 import com.walletwise.application.validation.contract.IValidator;
-import com.walletwise.domain.entities.exceptions.ConflictException;
 import com.walletwise.domain.entities.exceptions.UnauthorizedException;
-import com.walletwise.domain.entities.models.User;
 import com.walletwise.domain.useCases.Signin;
-import com.walletwise.domain.useCases.Signup;
-import com.walletwise.infra.gateways.mappers.UserDTOMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -55,13 +50,13 @@ public class SigninController extends AbstractController<SigninRequest, Response
         }
 
         try {
-            String accessToken = this.signin.signin(request.usernameOrEmail(),request.password());
+            String accessToken = this.signin.signin(request.usernameOrEmail(), request.password());
             response = Response.builder().body(accessToken).build();
             responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (UnauthorizedException ex){
+        } catch (UnauthorizedException ex) {
             response = Response.builder().body(ex.getMessage()).build();
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             response = Response.builder()
                     .body("An unexpected error occurred. Please try again later.").build();
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
