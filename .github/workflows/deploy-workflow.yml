@@ -89,12 +89,15 @@ jobs:
 #        env:
 #          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
 
-      - name: Run Qodana
-        run: |
-          docker run --rm -v ${{ github.workspace }}:/data/project \
-            -v ${{ github.workspace }}/qodana-report:/data/results \
-            -v ${{ github.workspace }}/target/site/jacoco/jacoco.xml:/data/project/target/site/jacoco/jacoco.xml \
-            jetbrains/qodana-jvm --show-report
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@v2024.1
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+        with:
+          project-dir: ./
+          results-dir: qodana-report
+          project-key: walletwise-api
+          baseline-path: target/site/jacoco/jacoco.xml
 
       - name: Upload Qodana report
         uses: actions/upload-artifact@v2
