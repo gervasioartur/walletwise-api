@@ -27,6 +27,6 @@ public class Signin {
 
         String result = this.authAdapter.authenticate(userResult.getUsername(),password);
         if(result == null) throw new UnauthorizedException("Bad credentials.");
-        return null;
+        return result;
     }
 }
