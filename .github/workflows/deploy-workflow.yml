@@ -1,4 +1,4 @@
-name: Run build, tests, sonarqube, docker and deploy
+name: deploy workflow
 
 on:
   pull_request:
