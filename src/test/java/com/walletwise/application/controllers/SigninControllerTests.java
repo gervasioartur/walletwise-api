@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walletwise.application.http.SigninRequest;
 import com.walletwise.domain.entities.exceptions.UnauthorizedException;
 import com.walletwise.domain.useCases.Signin;
-import com.walletwise.infra.gateways.mappers.UserDTOMapper;
 import com.walletwise.mocks.Mocks;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
