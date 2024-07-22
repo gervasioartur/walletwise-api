@@ -13,14 +13,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.UUID;
 
 @SpringBootTest
-class EncoderAdapterTests {
-    private ICryptoAdapter encoderAdapter;
+class CryptoAdapterTests {
+    private ICryptoAdapter cryptoAdapter;
     @MockBean
     private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     void setup() {
-        this.encoderAdapter = new CryptoAdapter(passwordEncoder);
+        this.cryptoAdapter = new CryptoAdapter(passwordEncoder);
     }
 
     @Test
@@ -31,9 +31,18 @@ class EncoderAdapterTests {
 
         Mockito.when(this.passwordEncoder.encode(password)).thenReturn(encodedPassword);
 
-        String result = this.encoderAdapter.encode(password);
+        String result = this.cryptoAdapter.encode(password);
 
         Assertions.assertThat(result).isEqualTo(encodedPassword);
         Mockito.verify(this.passwordEncoder, Mockito.times(1)).encode(password);
+    }
+
+    @Test
+    @DisplayName("Should return validation token")
+    void shouldReturnValidationToken(){
+        String validationToken = this.cryptoAdapter.generateValidationToken();
+        Assertions.assertThat(validationToken).isNotBlank();
+        Assertions.assertThat(validationToken).isNotNull();
+        Assertions.assertThat(validationToken).isNotEmpty();
     }
 }
