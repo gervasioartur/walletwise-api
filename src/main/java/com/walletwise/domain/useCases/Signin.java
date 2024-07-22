@@ -6,8 +6,8 @@ import com.walletwise.domain.entities.exceptions.UnauthorizedException;
 import com.walletwise.domain.entities.models.User;
 
 public class Signin {
-    private IUserAdapter userAdapter;
-    private IAuthAdapter authAdapter;
+    private final IUserAdapter userAdapter;
+    private final IAuthAdapter authAdapter;
 
     public Signin(IUserAdapter userAdapter, IAuthAdapter authAdapter) {
         this.userAdapter = userAdapter;
