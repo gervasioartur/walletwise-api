@@ -4,9 +4,11 @@ import com.walletwise.infra.adapters.AuthAdapter;
 import com.walletwise.infra.adapters.CryptoAdapter;
 import com.walletwise.infra.adapters.LoadUserAdapter;
 import com.walletwise.infra.gateways.mappers.UserEntityMapper;
+import com.walletwise.infra.gateways.mappers.ValidationTokenEntityMapper;
 import com.walletwise.infra.gateways.security.SignKey;
 import com.walletwise.infra.gateways.token.*;
 import com.walletwise.infra.persistence.repositories.IUserRepository;
+import com.walletwise.infra.persistence.repositories.IValidationTokenEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,8 +32,12 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public AuthAdapter authenticationGateway(AuthenticationManager authenticationManager, GenerateToken generateToken) {
-        return new AuthAdapter(authenticationManager, generateToken);
+    public AuthAdapter authAdapter (AuthenticationManager authenticationManager,
+             GenerateToken generateToken,
+             ValidationTokenEntityMapper validationTokenEntityMapper,
+             IValidationTokenEntityRepository validationTokenEntityRepository) {
+
+        return new AuthAdapter(authenticationManager, generateToken,validationTokenEntityMapper,validationTokenEntityRepository);
     }
 
     @Bean
@@ -101,5 +107,10 @@ public class ApplicationConfig {
     @Bean
     public ValidateToken validateToken() {
         return new ValidateToken();
+    }
+
+    @Bean
+    public ValidationTokenEntityMapper validationTokenEntityMapper(){
+        return new ValidationTokenEntityMapper();
     }
 }
