@@ -28,12 +28,12 @@ class PasswordRecoveryTests {
     private IAuthAdapter authAdapter;
     @MockBean
     private IEmailAdapter emailAdapter;
-    private String baseUrl =  Mocks.faker.internet().url();
+    private String baseUrl = Mocks.faker.internet().url();
 
     @BeforeEach
     void setup() {
         this.passwordRecovery = new PasswordRecovery
-                (userAdapter, cryptoAdapter,authAdapter,emailAdapter,baseUrl);
+                (userAdapter, cryptoAdapter, authAdapter, emailAdapter, baseUrl);
     }
 
     @Test
@@ -50,29 +50,29 @@ class PasswordRecoveryTests {
 
     @Test
     @DisplayName("Should send email to user with instruction to recover password")
-    void shouldSendEmailToUserWithInstructionsToRecoverPassword(){
+    void shouldSendEmailToUserWithInstructionsToRecoverPassword() {
         User savedUser = Mocks.savedUserDomainObjectFactory();
 
-        ValidationToken savedValidationToken =  Mocks.validationTokenFactory();
+        ValidationToken savedValidationToken = Mocks.validationTokenFactory();
 
         String token = UUID.randomUUID().toString();
-        String encodedToken =  savedValidationToken.getToken();
+        String encodedToken = savedValidationToken.getToken();
 
-        String resetUrl =  this.baseUrl + "/reset-password?token=" + token;
+        String resetUrl = this.baseUrl + "/reset-password?token=" + token;
         String message = "Password Reset Request,\n Click the link to reset your password: " + resetUrl;
 
         Mockito.when(this.userAdapter.findByEmail(savedUser.getEmail())).thenReturn(savedUser);
         Mockito.when(this.cryptoAdapter.generateToken()).thenReturn(token);
         Mockito.when(this.cryptoAdapter.encode(token)).thenReturn(encodedToken);
         Mockito.when(this.authAdapter.saveValidationToken(Mockito.any(ValidationToken.class))).thenReturn(savedValidationToken);
-        Mockito.doNothing().when(this.emailAdapter).sendEmail(savedUser.getEmail(),message);
+        Mockito.doNothing().when(this.emailAdapter).sendEmail(savedUser.getEmail(), message);
 
         this.passwordRecovery.recover(savedUser.getEmail());
 
         Mockito.verify(this.userAdapter, Mockito.times(1)).findByEmail(savedUser.getEmail());
-        Mockito.verify(this.cryptoAdapter,Mockito.times(1)).generateToken();
-        Mockito.verify(this.cryptoAdapter,Mockito.times(1)).encode(token);
-        Mockito.verify(this.authAdapter,Mockito.times(1)).saveValidationToken(Mockito.any(ValidationToken.class));
-        Mockito.verify(this.emailAdapter,Mockito.times(1)).sendEmail(savedUser.getEmail(),message);
+        Mockito.verify(this.cryptoAdapter, Mockito.times(1)).generateToken();
+        Mockito.verify(this.cryptoAdapter, Mockito.times(1)).encode(token);
+        Mockito.verify(this.authAdapter, Mockito.times(1)).saveValidationToken(Mockito.any(ValidationToken.class));
+        Mockito.verify(this.emailAdapter, Mockito.times(1)).sendEmail(savedUser.getEmail(), message);
     }
 }

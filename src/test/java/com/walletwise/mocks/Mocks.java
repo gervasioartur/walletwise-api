@@ -113,13 +113,13 @@ public class Mocks {
         return new Role(UUID.randomUUID(), faker.name().name());
     }
 
-    public static ValidationToken validationWithOutTokenFactory(){
-        return  new ValidationToken
+    public static ValidationToken validationWithOutTokenFactory() {
+        return new ValidationToken
                 (UUID.randomUUID().toString(), LocalDateTime.now().plusHours(1));
     }
 
-    public static ValidationToken validationTokenFactory(){
-        return  new ValidationToken
-                (UUID.randomUUID(),UUID.randomUUID().toString(), LocalDateTime.now().plusHours(1));
+    public static ValidationToken validationTokenFactory() {
+        return new ValidationToken
+                (UUID.randomUUID(), UUID.randomUUID().toString(), LocalDateTime.now().plusHours(1));
     }
 }

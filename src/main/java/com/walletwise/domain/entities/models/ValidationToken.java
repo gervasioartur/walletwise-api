@@ -31,12 +31,12 @@ public class ValidationToken {
         return token;
     }
 
-    public LocalDateTime getExpirationDate() {
-        return expirationDate;
-    }
-
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
     }
 
     public void setExpirationDate(LocalDateTime expirationDate) {

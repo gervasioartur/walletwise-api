@@ -1,8 +1,8 @@
 package com.walletwise.main.config.beans.security;
 
 import com.walletwise.infra.adapters.AuthAdapter;
-import com.walletwise.infra.adapters.LoadUserAdapter;
 import com.walletwise.infra.adapters.CryptoAdapter;
+import com.walletwise.infra.adapters.LoadUserAdapter;
 import com.walletwise.infra.gateways.mappers.UserEntityMapper;
 import com.walletwise.infra.gateways.security.SignKey;
 import com.walletwise.infra.gateways.token.*;

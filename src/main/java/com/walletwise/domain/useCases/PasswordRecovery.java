@@ -33,13 +33,13 @@ public class PasswordRecovery {
         if (userResult == null) return;
 
         String token = this.cryptoAdapter.generateToken();
-        String encodedToken =  this.cryptoAdapter.encode(token);
+        String encodedToken = this.cryptoAdapter.encode(token);
 
         ValidationToken validationToken = new ValidationToken(encodedToken, LocalDateTime.now().plusHours(1));
         this.authAdapter.saveValidationToken(validationToken);
 
-        String resetUrl =  this.baseUrl + "/reset-password?token=" + token;
+        String resetUrl = this.baseUrl + "/reset-password?token=" + token;
         String message = "Password Reset Request,\n Click the link to reset your password: " + resetUrl;
-        this.emailAdapter.sendEmail(userResult.getEmail(),message);
+        this.emailAdapter.sendEmail(userResult.getEmail(), message);
     }
 }
