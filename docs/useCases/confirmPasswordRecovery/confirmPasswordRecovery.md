@@ -36,7 +36,7 @@ I want to be able to confirm password recovery
     Given the user payload with token "any_token" newPassword ""
     When I send a POST request to "api/confirm-password-recovery"
     Then the response status should be 400
-    And the response should contain "Password is required."
+    And the response should contain "New Password is required."
 
 ## Scenario: Confirm password with weak newPassword []
 

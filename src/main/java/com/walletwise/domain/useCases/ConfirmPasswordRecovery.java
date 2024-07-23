@@ -22,7 +22,8 @@ public class ConfirmPasswordRecovery {
     }
 
     public void confirm(String token, String newPassword) {
-        ValidationToken validationToken = this.authAdapter.findByToken(token);
+        String encodedToken = this.cryptoAdapter.encode(token);
+        ValidationToken validationToken = this.authAdapter.findByToken(encodedToken);
 
         if (validationToken == null) throw new NotFoundException("User not found.");
 
@@ -33,6 +34,7 @@ public class ConfirmPasswordRecovery {
         String encodeNewPassword = this.cryptoAdapter.encode(newPassword);
         user.setPassword(encodeNewPassword);
         this.userAdapter.save(user);
+
         validationToken.setActive(false);
         this.authAdapter.saveValidationToken(validationToken);
     }
