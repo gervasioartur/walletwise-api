@@ -32,6 +32,8 @@ public class UserAdapter implements IUserAdapter {
 
     @Override
     public User findById(UUID id) {
+        if(this.userRepository.findByIdAndActive(id, true).isEmpty())
+            return null;
         return null;
     }
 
