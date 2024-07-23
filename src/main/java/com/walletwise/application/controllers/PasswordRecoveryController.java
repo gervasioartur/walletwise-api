@@ -36,7 +36,7 @@ public class PasswordRecoveryController extends AbstractController<PasswordRecov
             @ApiResponse(responseCode = "400", description = "Bad request happened"),
             @ApiResponse(responseCode = "500", description = "An unexpected error occurred."),
     })
-    public ResponseEntity<Response> perform(@RequestBody  PasswordRecoveryRequest request) {
+    public ResponseEntity<Response> perform(@RequestBody PasswordRecoveryRequest request) {
         Response response;
         ResponseEntity<Response> responseEntity;
 

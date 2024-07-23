@@ -2,9 +2,7 @@ package com.walletwise.application.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walletwise.application.http.PasswordRecoveryRequest;
-import com.walletwise.application.http.SigninRequest;
 import com.walletwise.domain.useCases.PasswordRecovery;
-import com.walletwise.domain.useCases.Signin;
 import com.walletwise.mocks.Mocks;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,8 +19,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
