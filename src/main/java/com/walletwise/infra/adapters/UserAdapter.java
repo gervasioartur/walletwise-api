@@ -32,6 +32,7 @@ public class UserAdapter implements IUserAdapter {
     @Override
     public User save(User user) {
         UserEntity userEntity = this.mapper.toUserEntity(user);
+        userEntity.setActive(true);
         userEntity = this.userRepository.save(userEntity);
         return this.mapper.toDomainObject(userEntity);
     }

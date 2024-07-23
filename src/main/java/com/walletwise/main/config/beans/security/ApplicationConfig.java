@@ -1,105 +1,46 @@
 package com.walletwise.main.config.beans.security;
 
-import com.walletwise.infra.adapters.AuthAdapter;
-import com.walletwise.infra.adapters.LoadUserAdapter;
-import com.walletwise.infra.adapters.PasswordAdapter;
-import com.walletwise.infra.gateways.mappers.UserEntityMapper;
-import com.walletwise.infra.gateways.security.SignKey;
-import com.walletwise.infra.gateways.token.*;
-import com.walletwise.infra.persistence.repositories.IUserRepository;
+import com.walletwise.infra.adapters.EmailAdapter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
+import java.util.Properties;
 
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
-    private final IUserRepository userRepository;
-    private final UserEntityMapper userEntityMapper;
+    @Value("${app.email.sender}")
+    private String appMailSender;
+
+    @Value("${app.email.password}")
+    private String password;
 
     @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthAdapter authenticationGateway(AuthenticationManager authenticationManager, GenerateToken generateToken) {
-        return new AuthAdapter(authenticationManager, generateToken);
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new LoadUserAdapter(userRepository);
-    }
-
-    @Bean
-    PasswordAdapter passwordEncoderGateway(PasswordEncoder passwordEncoder) {
-        return new PasswordAdapter(passwordEncoder);
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+    public EmailAdapter emailAdapter(JavaMailSender mailSender) {
+        return new EmailAdapter(mailSender, appMailSender);
     }
 
 
     @Bean
-    AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(this.userDetailsService());
-        authenticationProvider.setPasswordEncoder(this.passwordEncoder());
-        return authenticationProvider;
+    public JavaMailSender getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+
+        mailSender.setUsername(appMailSender);
+        mailSender.setPassword(password);
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+
+        return mailSender;
     }
 
-    @Bean
-    public SignKey singKey() {
-        return new SignKey();
-    }
-
-    @Bean
-    public CreateToken createToken() {
-        return new CreateToken(singKey());
-    }
-
-    @Bean
-    public ExtractAllClaims extractAllClaims() {
-        return new ExtractAllClaims(singKey());
-    }
-
-    @Bean
-    public ExtractClaim extractClaim() {
-        return new ExtractClaim(extractAllClaims());
-    }
-
-    @Bean
-    public GenerateToken generateToken() {
-        return new GenerateToken(createToken());
-    }
-
-    @Bean
-    public GetUsernameFromToken getUsernameFromToken() {
-        return new GetUsernameFromToken(extractClaim());
-    }
-
-    @Bean
-    public IsTokenExpired isTokenExpired() {
-        return new IsTokenExpired(extractClaim());
-    }
-
-    @Bean
-    public IsValidToken isValidToken() {
-        return new IsValidToken(getUsernameFromToken(), isTokenExpired());
-    }
-
-    @Bean
-    public ValidateToken validateToken() {
-        return new ValidateToken();
-    }
 }

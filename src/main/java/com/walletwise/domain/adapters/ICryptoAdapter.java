@@ -1,5 +1,7 @@
 package com.walletwise.domain.adapters;
 
-public interface IPasswordAdapter {
+public interface ICryptoAdapter {
     String encode(String password);
+
+    String generateValidationToken();
 }

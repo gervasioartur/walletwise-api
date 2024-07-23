@@ -1,7 +1,13 @@
 package com.walletwise.infra.adapters;
 
 import com.walletwise.domain.adapters.IAuthAdapter;
+import com.walletwise.domain.entities.models.ValidationToken;
+import com.walletwise.infra.gateways.mappers.ValidationTokenEntityMapper;
 import com.walletwise.infra.gateways.token.GenerateToken;
+import com.walletwise.infra.persistence.entities.UserEntity;
+import com.walletwise.infra.persistence.entities.ValidationTokenEntity;
+import com.walletwise.infra.persistence.repositories.IUserRepository;
+import com.walletwise.infra.persistence.repositories.IValidationTokenEntityRepository;
 import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +24,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootTest
@@ -27,11 +34,20 @@ public class AuthAdapterTests {
     private AuthenticationManager authenticationManager;
     @MockBean
     private GenerateToken generateToken;
-
+    @MockBean
+    private ValidationTokenEntityMapper validationTokenEntityMapper;
+    @MockBean
+    private IValidationTokenEntityRepository validationTokenEntityRepository;
+    @MockBean
+    private IUserRepository userRepository;
 
     @BeforeEach
     void setup() {
-        this.authAdapter = new AuthAdapter(authenticationManager, generateToken);
+        this.authAdapter = new AuthAdapter(authenticationManager,
+                generateToken,
+                validationTokenEntityMapper,
+                validationTokenEntityRepository,
+                userRepository);
     }
 
     @Test
@@ -112,5 +128,42 @@ public class AuthAdapterTests {
                 .authenticate(Mockito.any(UsernamePasswordAuthenticationToken.class));
         Mockito.verify(this.generateToken, Mockito.times(1))
                 .generate(username);
+    }
+
+    @Test
+    @DisplayName("Should save ValidationToken information")
+    void shouldSaveValidationTokenInformation() {
+        ValidationToken validationToken = Mocks.validationTokenWithOutIdFactory();
+
+        UserEntity userEntity = Mocks.savedUserEntityFactory();
+        userEntity.setId(validationToken.getUserId());
+
+        ValidationTokenEntity toSaveValidationTokenEntity = Mocks.validationTokenEntityFactory();
+        toSaveValidationTokenEntity.setUser(userEntity);
+
+        ValidationTokenEntity savedValidationTokenEntity = Mocks.validationTokenEntityFactory();
+        savedValidationTokenEntity.setId(UUID.randomUUID());
+
+        ValidationToken savedValidationToken = Mocks.validationTokenFactory(savedValidationTokenEntity);
+
+
+        Mockito.when(this.validationTokenEntityMapper.toValidationTokenEntity(validationToken))
+                .thenReturn(toSaveValidationTokenEntity);
+        Mockito.when(this.userRepository.findById(validationToken.getUserId())).thenReturn(Optional.of(userEntity));
+        Mockito.when(this.validationTokenEntityRepository.save(toSaveValidationTokenEntity))
+                .thenReturn(savedValidationTokenEntity);
+        Mockito.when(this.validationTokenEntityMapper.toValidationTokenDomainObject(savedValidationTokenEntity))
+                .thenReturn(savedValidationToken);
+
+        ValidationToken result = this.authAdapter.saveValidationToken(validationToken);
+
+        Assertions.assertThat(result).isEqualTo(savedValidationToken);
+        Mockito.verify(this.validationTokenEntityMapper, Mockito.times(1))
+                .toValidationTokenEntity(validationToken);
+        Mockito.verify(this.userRepository, Mockito.times(1)).findById(userEntity.getId());
+        Mockito.verify(this.validationTokenEntityRepository, Mockito.times(1))
+                .save(toSaveValidationTokenEntity);
+        Mockito.verify(this.validationTokenEntityMapper, Mockito.times(1))
+                .toValidationTokenDomainObject(savedValidationTokenEntity);
     }
 }

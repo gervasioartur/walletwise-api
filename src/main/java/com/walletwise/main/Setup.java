@@ -1,6 +1,6 @@
 package com.walletwise.main;
 
-import com.walletwise.domain.adapters.IPasswordAdapter;
+import com.walletwise.domain.adapters.ICryptoAdapter;
 import com.walletwise.infra.persistence.entities.PrivilegeEntity;
 import com.walletwise.infra.persistence.entities.RoleEntity;
 import com.walletwise.infra.persistence.entities.UserEntity;
@@ -32,7 +32,7 @@ public class Setup implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     private IUserRepository userRepository;
     @Autowired
-    private IPasswordAdapter encoderAdapter;
+    private ICryptoAdapter encoderAdapter;
 
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (alreadySetup) return;

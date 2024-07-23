@@ -3,6 +3,7 @@ package com.walletwise.domain.useCases;
 import com.walletwise.domain.adapters.IUserAdapter;
 import com.walletwise.domain.entities.exceptions.ConflictException;
 import com.walletwise.domain.entities.models.User;
+import com.walletwise.infra.adapters.CryptoAdapter;
 import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,8 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.UUID;
+
 
 @SpringBootTest
 public class SignupTests {
@@ -19,10 +22,12 @@ public class SignupTests {
 
     @MockBean
     private IUserAdapter userAdapter;
+    @MockBean
+    private CryptoAdapter cryptoAdapter;
 
     @BeforeEach
     void setup() {
-        this.signup = new Signup(userAdapter);
+        this.signup = new Signup(userAdapter, cryptoAdapter);
     }
 
     @Test
@@ -64,16 +69,19 @@ public class SignupTests {
     @DisplayName("Should save user information successfully")
     void shouldSaveUserInformationSuccessfully() {
         User user = Mocks.userDomainObjectWithoutIdFactory();
+        String encodedPassword = UUID.randomUUID().toString();
+        String notEncodedPassword = user.getPassword();
 
-        Mockito.when(this.userAdapter.findByUsername(user.getUsername()))
-                .thenReturn(null);
-        Mockito.when(this.userAdapter.findByEmail(user.getEmail()))
-                .thenReturn(null);
+
+        Mockito.when(this.userAdapter.findByUsername(user.getUsername())).thenReturn(null);
+        Mockito.when(this.userAdapter.findByEmail(user.getEmail())).thenReturn(null);
+        Mockito.when(this.cryptoAdapter.encode(notEncodedPassword)).thenReturn(encodedPassword);
 
         this.signup.signup(user);
 
         Mockito.verify(this.userAdapter, Mockito.times(1)).findByUsername(user.getUsername());
         Mockito.verify(this.userAdapter, Mockito.times(1)).findByEmail(user.getEmail());
+        Mockito.verify(this.cryptoAdapter, Mockito.times(1)).encode(notEncodedPassword);
         Mockito.verify(this.userAdapter, Mockito.times(1)).save(user);
     }
 }

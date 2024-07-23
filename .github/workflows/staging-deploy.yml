@@ -81,7 +81,7 @@ jobs:
         with:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ vars.DOCKER_PASSWORD }}
-      
+
       - name: Determinate branch name
         run: |
           if [ "${{ github.ref }}" == "refs/heads/staging" ]; then
