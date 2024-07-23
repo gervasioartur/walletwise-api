@@ -8,6 +8,7 @@ public class ValidationToken {
     private UUID userId;
     private String token;
     private LocalDateTime expirationDate;
+    private LocalDateTime createdAt;
 
     public ValidationToken(String token) {
         this.token = token;
@@ -24,6 +25,14 @@ public class ValidationToken {
         this.userId = userId;
         this.token = token;
         this.expirationDate = expirationDate;
+    }
+
+    public ValidationToken(UUID id, UUID userId, String token, LocalDateTime expirationDate, LocalDateTime createdAt) {
+        this.id = id;
+        this.userId = userId;
+        this.token = token;
+        this.expirationDate = expirationDate;
+        this.createdAt = createdAt;
     }
 
     public UUID getId() {
@@ -50,7 +59,15 @@ public class ValidationToken {
         return expirationDate;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     public void setExpirationDate(LocalDateTime expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

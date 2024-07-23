@@ -12,10 +12,15 @@ public class ValidationTokenEntityMapper {
                 .user(UserEntity.builder().id(validationToken.getUserId()).build())
                 .token(validationToken.getToken())
                 .expirationDate(validationToken.getExpirationDate())
+                .createdAt(validationToken.getCreatedAt())
                 .build();
     }
 
     public ValidationToken toValidationTokenDomainObject(ValidationTokenEntity entity) {
-        return new ValidationToken(entity.getId(), entity.getUser().getId(), entity.getToken(), entity.getExpirationDate());
+        return new ValidationToken(entity.getId(),
+                entity.getUser().getId(),
+                entity.getToken(),
+                entity.getExpirationDate(),
+                entity.getCreatedAt());
     }
 }
