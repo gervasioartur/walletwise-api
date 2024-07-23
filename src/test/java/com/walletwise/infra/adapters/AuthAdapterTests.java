@@ -4,7 +4,9 @@ import com.walletwise.domain.adapters.IAuthAdapter;
 import com.walletwise.domain.entities.models.ValidationToken;
 import com.walletwise.infra.gateways.mappers.ValidationTokenEntityMapper;
 import com.walletwise.infra.gateways.token.GenerateToken;
+import com.walletwise.infra.persistence.entities.UserEntity;
 import com.walletwise.infra.persistence.entities.ValidationTokenEntity;
+import com.walletwise.infra.persistence.repositories.IUserRepository;
 import com.walletwise.infra.persistence.repositories.IValidationTokenEntityRepository;
 import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
@@ -22,6 +24,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootTest
@@ -35,13 +38,16 @@ public class AuthAdapterTests {
     private ValidationTokenEntityMapper validationTokenEntityMapper;
     @MockBean
     private IValidationTokenEntityRepository validationTokenEntityRepository;
+    @MockBean
+    private IUserRepository userRepository;
 
     @BeforeEach
     void setup() {
         this.authAdapter = new AuthAdapter(authenticationManager,
                 generateToken,
                 validationTokenEntityMapper,
-                validationTokenEntityRepository);
+                validationTokenEntityRepository,
+                userRepository);
     }
 
     @Test
@@ -127,9 +133,13 @@ public class AuthAdapterTests {
     @Test
     @DisplayName("Should save ValidationToken information")
     void shouldSaveValidationTokenInformation() {
-        ValidationToken validationToken = Mocks.validationWithOutIdTokenFactory();
+        ValidationToken validationToken = Mocks.validationTokenWithOutIdFactory();
+
+        UserEntity userEntity = Mocks.savedUserEntityFactory();
+        userEntity.setId(validationToken.getUserId());
 
         ValidationTokenEntity toSaveValidationTokenEntity = Mocks.validationTokenEntityFactory();
+        toSaveValidationTokenEntity.setUser(userEntity);
 
         ValidationTokenEntity savedValidationTokenEntity = Mocks.validationTokenEntityFactory();
         savedValidationTokenEntity.setId(UUID.randomUUID());
@@ -139,6 +149,7 @@ public class AuthAdapterTests {
 
         Mockito.when(this.validationTokenEntityMapper.toValidationTokenEntity(validationToken))
                 .thenReturn(toSaveValidationTokenEntity);
+        Mockito.when(this.userRepository.findById(validationToken.getUserId())).thenReturn(Optional.of(userEntity));
         Mockito.when(this.validationTokenEntityRepository.save(toSaveValidationTokenEntity))
                 .thenReturn(savedValidationTokenEntity);
         Mockito.when(this.validationTokenEntityMapper.toValidationTokenDomainObject(savedValidationTokenEntity))
@@ -149,6 +160,7 @@ public class AuthAdapterTests {
         Assertions.assertThat(result).isEqualTo(savedValidationToken);
         Mockito.verify(this.validationTokenEntityMapper, Mockito.times(1))
                 .toValidationTokenEntity(validationToken);
+        Mockito.verify(this.userRepository, Mockito.times(1)).findById(userEntity.getId());
         Mockito.verify(this.validationTokenEntityRepository, Mockito.times(1))
                 .save(toSaveValidationTokenEntity);
         Mockito.verify(this.validationTokenEntityMapper, Mockito.times(1))

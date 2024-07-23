@@ -43,9 +43,14 @@ public class AuthConfig {
     public AuthAdapter authAdapter(AuthenticationManager authenticationManager,
                                    GenerateToken generateToken,
                                    ValidationTokenEntityMapper validationTokenEntityMapper,
-                                   IValidationTokenEntityRepository validationTokenEntityRepository) {
+                                   IValidationTokenEntityRepository validationTokenEntityRepository,
+                                   IUserRepository userRepository) {
 
-        return new AuthAdapter(authenticationManager, generateToken, validationTokenEntityMapper, validationTokenEntityRepository);
+        return new AuthAdapter(authenticationManager,
+                generateToken,
+                validationTokenEntityMapper,
+                validationTokenEntityRepository,
+                userRepository);
     }
 
     @Bean

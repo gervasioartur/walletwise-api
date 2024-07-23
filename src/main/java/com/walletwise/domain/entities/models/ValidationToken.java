@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public class ValidationToken {
     private UUID id;
+    private UUID userId;
     private String token;
     private LocalDateTime expirationDate;
 
@@ -12,19 +13,29 @@ public class ValidationToken {
         this.token = token;
     }
 
-    public ValidationToken(String token, LocalDateTime expirationDate) {
+    public ValidationToken(UUID userId, String token, LocalDateTime expirationDate) {
+        this.userId = userId;
         this.token = token;
         this.expirationDate = expirationDate;
     }
 
-    public ValidationToken(UUID id, String token, LocalDateTime expirationDate) {
+    public ValidationToken(UUID id, UUID userId, String token, LocalDateTime expirationDate) {
         this.id = id;
+        this.userId = userId;
         this.token = token;
         this.expirationDate = expirationDate;
     }
 
     public UUID getId() {
         return id;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
     public String getToken() {

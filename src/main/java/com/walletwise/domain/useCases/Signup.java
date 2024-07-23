@@ -22,7 +22,7 @@ public class Signup {
         if (this.userAdapter.findByEmail(user.getEmail()) != null)
             throw new ConflictException("E-mail already in use.");
 
-        String encodedPassword =  this.cryptoAdapter.encode(user.getPassword());
+        String encodedPassword = this.cryptoAdapter.encode(user.getPassword());
         user.setPassword(encodedPassword);
         this.userAdapter.save(user);
     }

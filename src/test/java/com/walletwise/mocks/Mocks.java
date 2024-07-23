@@ -114,25 +114,26 @@ public class Mocks {
         return new Role(UUID.randomUUID(), faker.name().name());
     }
 
-    public static ValidationToken validationWithOutIdTokenFactory() {
+    public static ValidationToken validationTokenWithOutIdFactory() {
         return new ValidationToken
-                (UUID.randomUUID().toString(), LocalDateTime.now().plusHours(1));
+                (UUID.randomUUID(), UUID.randomUUID().toString(), LocalDateTime.now().plusHours(1));
     }
 
     public static ValidationToken validationTokenFactory(ValidationTokenEntity entity) {
         return new ValidationToken
-                (entity.getId(), entity.getToken(), entity.getExpirationDate());
+                (entity.getId(), entity.getUser().getId(), entity.getToken(), entity.getExpirationDate());
     }
 
     public static ValidationToken validationTokenFactory() {
         return new ValidationToken
-                (UUID.randomUUID(), UUID.randomUUID().toString(), LocalDateTime.now().plusHours(1));
+                (UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID().toString(), LocalDateTime.now().plusHours(1));
     }
 
     public static ValidationTokenEntity validationTokenEntityFactory() {
         return ValidationTokenEntity
                 .builder()
                 .id(UUID.randomUUID())
+                .user(UserEntity.builder().id(UUID.randomUUID()).build())
                 .token(UUID.randomUUID().toString())
                 .expirationDate(LocalDateTime.now().plusHours(1))
                 .build();
@@ -142,6 +143,7 @@ public class Mocks {
         return ValidationTokenEntity
                 .builder()
                 .id(validationToken.getId())
+                .user(UserEntity.builder().id(validationToken.getUserId()).build())
                 .token(validationToken.getToken())
                 .expirationDate(validationToken.getExpirationDate())
                 .build();

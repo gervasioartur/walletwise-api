@@ -1,6 +1,7 @@
 package com.walletwise.infra.gateways.mappers;
 
 import com.walletwise.domain.entities.models.ValidationToken;
+import com.walletwise.infra.persistence.entities.UserEntity;
 import com.walletwise.infra.persistence.entities.ValidationTokenEntity;
 
 public class ValidationTokenEntityMapper {
@@ -8,6 +9,7 @@ public class ValidationTokenEntityMapper {
         return ValidationTokenEntity
                 .builder()
                 .id(validationToken.getId())
+                .user(UserEntity.builder().id(validationToken.getUserId()).build())
                 .token(validationToken.getToken())
                 .expirationDate(validationToken.getExpirationDate())
                 .build();

@@ -35,7 +35,7 @@ public class PasswordRecovery {
         String token = this.cryptoAdapter.generateValidationToken();
         String encodedToken = this.cryptoAdapter.encode(token);
 
-        ValidationToken validationToken = new ValidationToken(encodedToken, LocalDateTime.now().plusHours(1));
+        ValidationToken validationToken = new ValidationToken(userResult.getUserId(), encodedToken, LocalDateTime.now().plusHours(1));
         this.authAdapter.saveValidationToken(validationToken);
 
         String resetUrl = this.baseUrl + "/reset-password?token=" + token;
