@@ -16,6 +16,6 @@ public class ValidationTokenEntityMapper {
     }
 
     public ValidationToken toValidationTokenDomainObject(ValidationTokenEntity entity) {
-        return new ValidationToken(entity.getId(),entity.getUser().getId(), entity.getToken(), entity.getExpirationDate());
+        return new ValidationToken(entity.getId(), entity.getUser().getId(), entity.getToken(), entity.getExpirationDate());
     }
 }
