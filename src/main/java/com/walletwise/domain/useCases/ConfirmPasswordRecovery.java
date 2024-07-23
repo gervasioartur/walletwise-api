@@ -21,16 +21,16 @@ public class ConfirmPasswordRecovery {
         this.cryptoAdapter = cryptoAdapter;
     }
 
-    void confirm(String token, String newPassword){
+    void confirm(String token, String newPassword) {
         ValidationToken validationToken = this.authAdapter.findByToken(token);
 
-        if(validationToken == null) throw new NotFoundException("User not found.");
+        if (validationToken == null) throw new NotFoundException("User not found.");
 
-        if(!validationToken.getCreatedAt().isBefore(validationToken.getExpirationDate()))
+        if (!validationToken.getCreatedAt().isBefore(validationToken.getExpirationDate()))
             throw new BusinessException("Invalid or expired token.");
 
-        User user =  this.userAdapter.findById(validationToken.getUserId());
-        String encodeNewPassword =  this.cryptoAdapter.encode(newPassword);
+        User user = this.userAdapter.findById(validationToken.getUserId());
+        String encodeNewPassword = this.cryptoAdapter.encode(newPassword);
         user.setPassword(encodeNewPassword);
         this.userAdapter.save(user);
     }
