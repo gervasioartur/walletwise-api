@@ -55,6 +55,8 @@ public class AuthAdapter implements IAuthAdapter {
 
     @Override
     public ValidationToken findByToken(String token) {
+        if(this.validationTokenEntityRepository.findByTokenAndActive(token,true).isEmpty())
+            return null;
         return null;
     }
 }
