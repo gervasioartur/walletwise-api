@@ -181,4 +181,28 @@ public class AuthAdapterTests {
                 .findByTokenAndActive(token,true);
     }
 
+    @Test
+    @DisplayName("Should return Validation token on success")
+    void shouldReturnValidationTokenOnSuccess(){
+        String token = UUID.randomUUID().toString();
+
+        ValidationTokenEntity validationTokenEntity =  Mocks.validationTokenEntityFactory();
+        validationTokenEntity.setToken(token);
+
+        ValidationToken validationToken = Mocks.validationTokenFactory(validationTokenEntity);
+
+        Mockito.when(this.validationTokenEntityRepository.findByTokenAndActive(token,true))
+                .thenReturn(Optional.of(validationTokenEntity));
+        Mockito.when(this.validationTokenEntityMapper.toValidationTokenDomainObject(validationTokenEntity))
+                .thenReturn(validationToken);
+
+        ValidationToken result =  this.authAdapter.findByToken(token);
+
+        Assertions.assertThat(result.getToken()).isEqualTo(token);
+        Mockito.verify(this.validationTokenEntityRepository,Mockito.times(1))
+                .findByTokenAndActive(token,true);
+        Mockito.verify(this.validationTokenEntityMapper,Mockito.times(1))
+                .toValidationTokenDomainObject(validationTokenEntity);
+
+    }
 }
