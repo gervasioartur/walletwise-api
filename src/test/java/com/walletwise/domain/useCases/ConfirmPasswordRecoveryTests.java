@@ -38,72 +38,74 @@ class ConfirmPasswordRecoveryTests {
     @DisplayName("Should throw notFoundException if token does not exist")
     void shouldThrowNotFoundExceptionIfTokenDoesNotExist() {
         String token = Mocks.faker.lorem().word();
-        String encodedToken = UUID.randomUUID().toString();
+        String hashedToken = UUID.randomUUID().toString();
 
         String newPassword = Mocks.faker.internet().password();
 
-        Mockito.when(this.cryptoAdapter.encode(token)).thenReturn(encodedToken);
-        Mockito.when(this.authAdapter.findByToken(encodedToken)).thenReturn(null);
+        Mockito.when(this.cryptoAdapter.hash(token)).thenReturn(hashedToken);
+        Mockito.when(this.authAdapter.findByToken(hashedToken)).thenReturn(null);
 
         Throwable exception = Assertions.catchThrowable(() -> this.confirmPasswordRecovery
                 .confirm(token, newPassword));
 
         Assertions.assertThat(exception).isInstanceOf(NotFoundException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("User not found.");
-        Mockito.verify(this.cryptoAdapter, Mockito.times(1)).encode(token);
-        Mockito.verify(this.authAdapter, Mockito.times(1)).findByToken(encodedToken);
+        Mockito.verify(this.cryptoAdapter, Mockito.times(1)).hash(token);
+        Mockito.verify(this.authAdapter, Mockito.times(1)).findByToken(hashedToken);
     }
 
     @Test
     @DisplayName("Should businessException if token has expired")
     void shouldReturnBusinessExceptionIfTokenHasExpired() {
         String token = Mocks.faker.lorem().word();
-        String encodedToken = UUID.randomUUID().toString();
+        String hashedToken = UUID.randomUUID().toString();
 
         String newPassword = Mocks.faker.internet().password();
 
         ValidationToken savedValidationToken = Mocks.validationTokenFactory();
-        savedValidationToken.setToken(encodedToken);
+        savedValidationToken.setToken(hashedToken);
         savedValidationToken.setCreatedAt(savedValidationToken.getExpirationDate());
 
-        Mockito.when(this.cryptoAdapter.encode(token)).thenReturn(encodedToken);
-        Mockito.when(this.authAdapter.findByToken(encodedToken)).thenReturn(savedValidationToken);
+        Mockito.when(this.cryptoAdapter.hash(token)).thenReturn(hashedToken);
+        Mockito.when(this.authAdapter.findByToken(hashedToken)).thenReturn(savedValidationToken);
 
         Throwable exception = Assertions.catchThrowable(() -> this.confirmPasswordRecovery
                 .confirm(token, newPassword));
 
         Assertions.assertThat(exception).isInstanceOf(BusinessException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("Invalid or expired token.");
-        Mockito.verify(this.authAdapter, Mockito.times(1)).findByToken(encodedToken);
+        Mockito.verify(this.cryptoAdapter, Mockito.times(1)).hash(token);
+        Mockito.verify(this.authAdapter, Mockito.times(1)).findByToken(hashedToken);
     }
 
     @Test
     @DisplayName("Should reset the password")
     void shouldResetThePassword() {
         String token = Mocks.faker.lorem().word();
-        String encodedToken = UUID.randomUUID().toString();
+        String hashedToken = UUID.randomUUID().toString();
 
         String newPassword = Mocks.faker.internet().password();
 
         String encodedNewPassword = Mocks.faker.internet().password();
 
         ValidationToken savedValidationToken = Mocks.validationTokenFactory();
-        savedValidationToken.setToken(encodedToken);
+        savedValidationToken.setToken(hashedToken);
 
 
         User savedUser = Mocks.savedUserDomainObjectFactory();
         savedUser.setUserId(savedValidationToken.getUserId());
         savedUser.setPassword(encodedNewPassword);
 
-        Mockito.when(this.cryptoAdapter.encode(token)).thenReturn(encodedToken);
-        Mockito.when(this.authAdapter.findByToken(encodedToken)).thenReturn(savedValidationToken);
+        Mockito.when(this.cryptoAdapter.hash(token)).thenReturn(hashedToken);
+        Mockito.when(this.authAdapter.findByToken(hashedToken)).thenReturn(savedValidationToken);
         Mockito.when(this.userAdapter.findById(savedUser.getUserId())).thenReturn(savedUser);
         Mockito.when(this.cryptoAdapter.encode(newPassword)).thenReturn(encodedNewPassword);
         savedValidationToken.setActive(true);
 
         this.confirmPasswordRecovery.confirm(token, newPassword);
 
-        Mockito.verify(this.authAdapter, Mockito.times(1)).findByToken(encodedToken);
+        Mockito.verify(this.cryptoAdapter, Mockito.times(1)).hash(token);
+        Mockito.verify(this.authAdapter, Mockito.times(1)).findByToken(hashedToken);
         Mockito.verify(this.userAdapter, Mockito.times(1)).findById(savedUser.getUserId());
         Mockito.verify(this.cryptoAdapter, Mockito.times(1)).encode(newPassword);
         Mockito.verify(this.userAdapter, Mockito.times(1)).save(savedUser);
