@@ -18,8 +18,8 @@ import java.util.UUID;
 
 @SpringBootTest
 class PasswordRecoveryTests {
+    private final String baseUrl = Mocks.faker.internet().url();
     private PasswordRecovery passwordRecovery;
-
     @MockBean
     private IUserAdapter userAdapter;
     @MockBean
@@ -28,7 +28,6 @@ class PasswordRecoveryTests {
     private IAuthAdapter authAdapter;
     @MockBean
     private IEmailAdapter emailAdapter;
-    private final String baseUrl = Mocks.faker.internet().url();
 
     @BeforeEach
     void setup() {
