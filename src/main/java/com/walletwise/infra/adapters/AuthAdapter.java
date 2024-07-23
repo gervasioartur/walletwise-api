@@ -12,6 +12,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
+import java.util.Optional;
+
 public class AuthAdapter implements IAuthAdapter {
     private final AuthenticationManager authenticationManager;
     private final GenerateToken generateToken;
@@ -55,8 +57,8 @@ public class AuthAdapter implements IAuthAdapter {
 
     @Override
     public ValidationToken findByToken(String token) {
-        if(this.validationTokenEntityRepository.findByTokenAndActive(token,true).isEmpty())
-            return null;
-        return null;
+        Optional<ValidationTokenEntity> entity =  this.validationTokenEntityRepository
+                .findByTokenAndActive(token,true);
+        return entity.map(this.validationTokenEntityMapper::toValidationTokenDomainObject).orElse(null);
     }
 }
