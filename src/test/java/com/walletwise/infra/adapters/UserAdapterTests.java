@@ -123,4 +123,23 @@ public class UserAdapterTests {
         Assertions.assertThat(userDomainObject).isNull();
         Mockito.verify(this.userRepository, Mockito.times(1)).findByIdAndActive(userId, true);
     }
+
+    @Test
+    @DisplayName("Should return user on find by id success")
+    void shouldReturnValidationUserOnFindByIdSuccess(){
+        UserEntity savedUserEntity =  Mocks.savedUserEntityFactory();
+        User savedUserDomainObject = Mocks.fromUserEntityToUserFactory(savedUserEntity);
+
+        Mockito.when(this.userRepository.findByIdAndActive(savedUserEntity.getId(), true))
+                .thenReturn(Optional.of(savedUserEntity));
+        Mockito.when(this.mapper.toDomainObject(savedUserEntity)).thenReturn(savedUserDomainObject);
+
+        User userDomainObject = this.userAdapter.findById(savedUserEntity.getId());
+
+        Assertions.assertThat(userDomainObject).isEqualTo(savedUserDomainObject);
+        Mockito.verify(this.userRepository, Mockito.times(1))
+                .findByIdAndActive(savedUserEntity.getId(), true);
+        Mockito.verify(this.mapper, Mockito.times(1))
+                .toDomainObject(savedUserEntity);
+    }
 }
