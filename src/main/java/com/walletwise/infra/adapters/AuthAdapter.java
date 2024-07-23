@@ -52,4 +52,9 @@ public class AuthAdapter implements IAuthAdapter {
         entity = this.validationTokenEntityRepository.save(entity);
         return this.validationTokenEntityMapper.toValidationTokenDomainObject(entity);
     }
+
+    @Override
+    public ValidationToken findByToken(String token) {
+        return null;
+    }
 }

@@ -6,4 +6,6 @@ public interface IAuthAdapter {
     String authenticate(String username, String password);
 
     ValidationToken saveValidationToken(ValidationToken validationToken);
+
+    ValidationToken findByToken(String token);
 }
