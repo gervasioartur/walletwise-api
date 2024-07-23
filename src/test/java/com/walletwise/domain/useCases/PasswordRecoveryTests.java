@@ -28,7 +28,7 @@ class PasswordRecoveryTests {
     private IAuthAdapter authAdapter;
     @MockBean
     private IEmailAdapter emailAdapter;
-    private String baseUrl = Mocks.faker.internet().url();
+    private final String baseUrl = Mocks.faker.internet().url();
 
     @BeforeEach
     void setup() {
