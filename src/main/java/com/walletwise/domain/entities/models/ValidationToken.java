@@ -9,6 +9,7 @@ public class ValidationToken {
     private String token;
     private LocalDateTime expirationDate;
     private LocalDateTime createdAt;
+    private boolean active;
 
     public ValidationToken(String token) {
         this.token = token;
@@ -67,7 +68,15 @@ public class ValidationToken {
         return createdAt;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

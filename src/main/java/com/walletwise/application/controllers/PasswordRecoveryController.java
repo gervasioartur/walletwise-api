@@ -55,7 +55,7 @@ public class PasswordRecoveryController extends AbstractController<PasswordRecov
         } catch (Exception ex) {
             response = Response.builder()
                     .body("An unexpected error occurred. Please try again later.").build();
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return responseEntity;

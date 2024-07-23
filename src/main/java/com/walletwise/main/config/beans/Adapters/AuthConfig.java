@@ -4,6 +4,7 @@ import com.walletwise.domain.adapters.IAuthAdapter;
 import com.walletwise.domain.adapters.ICryptoAdapter;
 import com.walletwise.domain.adapters.IEmailAdapter;
 import com.walletwise.domain.adapters.IUserAdapter;
+import com.walletwise.domain.useCases.ConfirmPasswordRecovery;
 import com.walletwise.domain.useCases.PasswordRecovery;
 import com.walletwise.infra.adapters.AuthAdapter;
 import com.walletwise.infra.adapters.CryptoAdapter;
@@ -57,6 +58,13 @@ public class AuthConfig {
                                              IAuthAdapter authAdapter,
                                              IEmailAdapter emailAdapter) {
         return new PasswordRecovery(userAdapter, cryptoAdapter, authAdapter, emailAdapter, appServerUrl);
+    }
+
+    @Bean
+    public ConfirmPasswordRecovery confirmPasswordRecovery(IAuthAdapter authAdapter,
+                                                           IUserAdapter userAdapter,
+                                                           ICryptoAdapter cryptoAdapter) {
+        return new ConfirmPasswordRecovery(authAdapter, userAdapter, cryptoAdapter);
     }
 
     @Bean
