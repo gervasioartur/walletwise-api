@@ -8,7 +8,6 @@ import com.walletwise.domain.useCases.PasswordRecovery;
 import com.walletwise.infra.adapters.AuthAdapter;
 import com.walletwise.infra.adapters.CryptoAdapter;
 import com.walletwise.infra.adapters.LoadUserAdapter;
-import com.walletwise.infra.gateways.mappers.UserEntityMapper;
 import com.walletwise.infra.gateways.mappers.ValidationTokenEntityMapper;
 import com.walletwise.infra.gateways.security.SignKey;
 import com.walletwise.infra.gateways.token.*;
@@ -30,7 +29,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class AuthConfig {
     private final IUserRepository userRepository;
-    private final UserEntityMapper userEntityMapper;
     @Value("${app.server.url}")
     private String appServerUrl;
 

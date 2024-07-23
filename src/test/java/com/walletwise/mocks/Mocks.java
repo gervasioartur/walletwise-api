@@ -138,14 +138,4 @@ public class Mocks {
                 .expirationDate(LocalDateTime.now().plusHours(1))
                 .build();
     }
-
-    public static ValidationTokenEntity validationTokenEntityFactory(ValidationToken validationToken) {
-        return ValidationTokenEntity
-                .builder()
-                .id(validationToken.getId())
-                .user(UserEntity.builder().id(validationToken.getUserId()).build())
-                .token(validationToken.getToken())
-                .expirationDate(validationToken.getExpirationDate())
-                .build();
-    }
 }
