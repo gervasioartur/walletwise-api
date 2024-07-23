@@ -68,12 +68,12 @@ public class ValidationToken {
         return createdAt;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public void setActive(boolean active) {
