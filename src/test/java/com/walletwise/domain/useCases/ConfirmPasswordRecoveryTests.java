@@ -86,6 +86,7 @@ class ConfirmPasswordRecoveryTests {
         Mockito.when(this.authAdapter.findByToken(token)).thenReturn(savedValidationToken);
         Mockito.when(this.userAdapter.findById(savedUser.getUserId())).thenReturn(savedUser);
         Mockito.when(this.cryptoAdapter.encode(newPassword)).thenReturn(encodedNewPassword);
+        savedValidationToken.setActive(true);
 
         this.confirmPasswordRecovery.confirm(token, newPassword);
 
@@ -93,5 +94,8 @@ class ConfirmPasswordRecoveryTests {
         Mockito.verify(this.userAdapter, Mockito.times(1)).findById(savedUser.getUserId());
         Mockito.verify(this.cryptoAdapter, Mockito.times(1)).encode(newPassword);
         Mockito.verify(this.userAdapter, Mockito.times(1)).save(savedUser);
+        Mockito.verify(this.authAdapter, Mockito.times(1))
+                .saveValidationToken(savedValidationToken);
+
     }
 }
