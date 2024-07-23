@@ -166,4 +166,19 @@ public class AuthAdapterTests {
         Mockito.verify(this.validationTokenEntityMapper, Mockito.times(1))
                 .toValidationTokenDomainObject(savedValidationTokenEntity);
     }
+
+    @Test
+    @DisplayName("Should return null if the Validation token does not exist by token")
+    void shouldReturnNullIfTheValidationTokenDoesNotExistByToken(){
+        String token = UUID.randomUUID().toString();
+        Mockito.when(this.validationTokenEntityRepository.findByTokenAndActive(token,true))
+                .thenReturn(Optional.empty());
+
+        ValidationToken result =  this.authAdapter.findByToken(token);
+
+        Assertions.assertThat(result).isNull();
+        Mockito.verify(this.validationTokenEntityRepository,Mockito.times(1))
+                .findByTokenAndActive(token,true);
+    }
+
 }
