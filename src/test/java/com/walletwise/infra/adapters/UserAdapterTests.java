@@ -110,4 +110,17 @@ public class UserAdapterTests {
         Mockito.verify(this.userRepository, Mockito.times(1)).save(toSaveUserEntity);
         Mockito.verify(this.mapper, Mockito.times(1)).toDomainObject(savedUserEntity);
     }
+
+    @Test
+    @DisplayName("Should return null if user does not exist by id")
+    void shouldReturnNullIfUserDOesNotExistById() {
+        UUID userId = UUID.randomUUID();
+
+        Mockito.when(this.userRepository.findByIdAndActive(userId, true)).thenReturn(Optional.empty());
+
+        User userDomainObject = this.userAdapter.findById(userId);
+
+        Assertions.assertThat(userDomainObject).isNull();
+        Mockito.verify(this.userRepository, Mockito.times(1)).findByIdAndActive(userId, true);
+    }
 }
