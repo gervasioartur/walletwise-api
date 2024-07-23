@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class AuthAdapter implements IAuthAdapter {
     private final AuthenticationManager authenticationManager;
@@ -56,9 +57,18 @@ public class AuthAdapter implements IAuthAdapter {
     }
 
     @Override
-    public ValidationToken findByToken(String token) {
+    public ValidationToken findValidationTokenByToken(String token) {
         Optional<ValidationTokenEntity> entity = this.validationTokenEntityRepository
                 .findByTokenAndActive(token, true);
         return entity.map(this.validationTokenEntityMapper::toValidationTokenDomainObject).orElse(null);
+    }
+
+    @Override
+    public void removeValidationToken(UUID id) {
+        this.validationTokenEntityRepository.findByIdAndActive(id, true)
+                .ifPresent(entity -> {
+                    entity.setActive(false);
+                    this.validationTokenEntityRepository.save(entity);
+                });
     }
 }

@@ -43,7 +43,7 @@ class ConfirmPasswordRecoveryTests {
         String newPassword = Mocks.faker.internet().password();
 
         Mockito.when(this.cryptoAdapter.hash(token)).thenReturn(hashedToken);
-        Mockito.when(this.authAdapter.findByToken(hashedToken)).thenReturn(null);
+        Mockito.when(this.authAdapter.findValidationTokenByToken(hashedToken)).thenReturn(null);
 
         Throwable exception = Assertions.catchThrowable(() -> this.confirmPasswordRecovery
                 .confirm(token, newPassword));
@@ -51,7 +51,7 @@ class ConfirmPasswordRecoveryTests {
         Assertions.assertThat(exception).isInstanceOf(NotFoundException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("User not found.");
         Mockito.verify(this.cryptoAdapter, Mockito.times(1)).hash(token);
-        Mockito.verify(this.authAdapter, Mockito.times(1)).findByToken(hashedToken);
+        Mockito.verify(this.authAdapter, Mockito.times(1)).findValidationTokenByToken(hashedToken);
     }
 
     @Test
@@ -67,7 +67,7 @@ class ConfirmPasswordRecoveryTests {
         savedValidationToken.setCreatedAt(savedValidationToken.getExpirationDate());
 
         Mockito.when(this.cryptoAdapter.hash(token)).thenReturn(hashedToken);
-        Mockito.when(this.authAdapter.findByToken(hashedToken)).thenReturn(savedValidationToken);
+        Mockito.when(this.authAdapter.findValidationTokenByToken(hashedToken)).thenReturn(savedValidationToken);
 
         Throwable exception = Assertions.catchThrowable(() -> this.confirmPasswordRecovery
                 .confirm(token, newPassword));
@@ -75,7 +75,7 @@ class ConfirmPasswordRecoveryTests {
         Assertions.assertThat(exception).isInstanceOf(BusinessException.class);
         Assertions.assertThat(exception.getMessage()).isEqualTo("Invalid or expired token.");
         Mockito.verify(this.cryptoAdapter, Mockito.times(1)).hash(token);
-        Mockito.verify(this.authAdapter, Mockito.times(1)).findByToken(hashedToken);
+        Mockito.verify(this.authAdapter, Mockito.times(1)).findValidationTokenByToken(hashedToken);
     }
 
     @Test
@@ -97,7 +97,7 @@ class ConfirmPasswordRecoveryTests {
         savedUser.setPassword(encodedNewPassword);
 
         Mockito.when(this.cryptoAdapter.hash(token)).thenReturn(hashedToken);
-        Mockito.when(this.authAdapter.findByToken(hashedToken)).thenReturn(savedValidationToken);
+        Mockito.when(this.authAdapter.findValidationTokenByToken(hashedToken)).thenReturn(savedValidationToken);
         Mockito.when(this.userAdapter.findById(savedUser.getUserId())).thenReturn(savedUser);
         Mockito.when(this.cryptoAdapter.encode(newPassword)).thenReturn(encodedNewPassword);
         savedValidationToken.setActive(true);
@@ -105,12 +105,12 @@ class ConfirmPasswordRecoveryTests {
         this.confirmPasswordRecovery.confirm(token, newPassword);
 
         Mockito.verify(this.cryptoAdapter, Mockito.times(1)).hash(token);
-        Mockito.verify(this.authAdapter, Mockito.times(1)).findByToken(hashedToken);
+        Mockito.verify(this.authAdapter, Mockito.times(1)).findValidationTokenByToken(hashedToken);
         Mockito.verify(this.userAdapter, Mockito.times(1)).findById(savedUser.getUserId());
         Mockito.verify(this.cryptoAdapter, Mockito.times(1)).encode(newPassword);
         Mockito.verify(this.userAdapter, Mockito.times(1)).save(savedUser);
         Mockito.verify(this.authAdapter, Mockito.times(1))
-                .saveValidationToken(savedValidationToken);
+                .removeValidationToken(savedValidationToken.getId());
 
     }
 }
