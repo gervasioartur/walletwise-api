@@ -7,6 +7,7 @@ import com.walletwise.infra.persistence.entities.UserEntity;
 import com.walletwise.infra.persistence.repositories.IUserRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class UserAdapter implements IUserAdapter {
     private final IUserRepository userRepository;
@@ -27,6 +28,11 @@ public class UserAdapter implements IUserAdapter {
     public User findByEmail(String email) {
         Optional<UserEntity> userEntity = this.userRepository.findByEmailAndActive(email, true);
         return userEntity.map(this.mapper::toDomainObject).orElse(null);
+    }
+
+    @Override
+    public User findById(UUID id) {
+        return null;
     }
 
     @Override
