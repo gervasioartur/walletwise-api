@@ -126,8 +126,8 @@ public class UserAdapterTests {
 
     @Test
     @DisplayName("Should return user on find by id success")
-    void shouldReturnValidationUserOnFindByIdSuccess(){
-        UserEntity savedUserEntity =  Mocks.savedUserEntityFactory();
+    void shouldReturnValidationUserOnFindByIdSuccess() {
+        UserEntity savedUserEntity = Mocks.savedUserEntityFactory();
         User savedUserDomainObject = Mocks.fromUserEntityToUserFactory(savedUserEntity);
 
         Mockito.when(this.userRepository.findByIdAndActive(savedUserEntity.getId(), true))

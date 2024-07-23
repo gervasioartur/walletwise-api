@@ -13,5 +13,5 @@ public interface IUserRepository extends JpaRepository<UserEntity, UUID> {
 
     Optional<UserEntity> findByEmailAndActive(String email, boolean activate);
 
-    Optional<UserEntity> findByIdAndActive(UUID id,boolean active);
+    Optional<UserEntity> findByIdAndActive(UUID id, boolean active);
 }
