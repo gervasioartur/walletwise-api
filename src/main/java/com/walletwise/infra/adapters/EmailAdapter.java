@@ -3,6 +3,7 @@ package com.walletwise.infra.adapters;
 import com.walletwise.domain.adapters.IEmailAdapter;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 
 public class EmailAdapter implements IEmailAdapter {
     private final JavaMailSender mailSender;
@@ -13,6 +14,7 @@ public class EmailAdapter implements IEmailAdapter {
         this.sender = sender;
     }
 
+    @Async
     @Override
     public void sendEmail(String receptor, String message, String subject) {
         SimpleMailMessage messageParams = new SimpleMailMessage();
