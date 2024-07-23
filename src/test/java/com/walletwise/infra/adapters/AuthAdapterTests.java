@@ -169,39 +169,39 @@ public class AuthAdapterTests {
 
     @Test
     @DisplayName("Should return null if the Validation token does not exist by token")
-    void shouldReturnNullIfTheValidationTokenDoesNotExistByToken(){
+    void shouldReturnNullIfTheValidationTokenDoesNotExistByToken() {
         String token = UUID.randomUUID().toString();
-        Mockito.when(this.validationTokenEntityRepository.findByTokenAndActive(token,true))
+        Mockito.when(this.validationTokenEntityRepository.findByTokenAndActive(token, true))
                 .thenReturn(Optional.empty());
 
-        ValidationToken result =  this.authAdapter.findByToken(token);
+        ValidationToken result = this.authAdapter.findByToken(token);
 
         Assertions.assertThat(result).isNull();
-        Mockito.verify(this.validationTokenEntityRepository,Mockito.times(1))
-                .findByTokenAndActive(token,true);
+        Mockito.verify(this.validationTokenEntityRepository, Mockito.times(1))
+                .findByTokenAndActive(token, true);
     }
 
     @Test
     @DisplayName("Should return Validation token on success")
-    void shouldReturnValidationTokenOnSuccess(){
+    void shouldReturnValidationTokenOnSuccess() {
         String token = UUID.randomUUID().toString();
 
-        ValidationTokenEntity validationTokenEntity =  Mocks.validationTokenEntityFactory();
+        ValidationTokenEntity validationTokenEntity = Mocks.validationTokenEntityFactory();
         validationTokenEntity.setToken(token);
 
         ValidationToken validationToken = Mocks.validationTokenFactory(validationTokenEntity);
 
-        Mockito.when(this.validationTokenEntityRepository.findByTokenAndActive(token,true))
+        Mockito.when(this.validationTokenEntityRepository.findByTokenAndActive(token, true))
                 .thenReturn(Optional.of(validationTokenEntity));
         Mockito.when(this.validationTokenEntityMapper.toValidationTokenDomainObject(validationTokenEntity))
                 .thenReturn(validationToken);
 
-        ValidationToken result =  this.authAdapter.findByToken(token);
+        ValidationToken result = this.authAdapter.findByToken(token);
 
         Assertions.assertThat(result.getToken()).isEqualTo(token);
-        Mockito.verify(this.validationTokenEntityRepository,Mockito.times(1))
-                .findByTokenAndActive(token,true);
-        Mockito.verify(this.validationTokenEntityMapper,Mockito.times(1))
+        Mockito.verify(this.validationTokenEntityRepository, Mockito.times(1))
+                .findByTokenAndActive(token, true);
+        Mockito.verify(this.validationTokenEntityMapper, Mockito.times(1))
                 .toValidationTokenDomainObject(validationTokenEntity);
 
     }

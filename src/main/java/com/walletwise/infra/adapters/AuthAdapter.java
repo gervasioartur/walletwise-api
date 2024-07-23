@@ -57,8 +57,8 @@ public class AuthAdapter implements IAuthAdapter {
 
     @Override
     public ValidationToken findByToken(String token) {
-        Optional<ValidationTokenEntity> entity =  this.validationTokenEntityRepository
-                .findByTokenAndActive(token,true);
+        Optional<ValidationTokenEntity> entity = this.validationTokenEntityRepository
+                .findByTokenAndActive(token, true);
         return entity.map(this.validationTokenEntityMapper::toValidationTokenDomainObject).orElse(null);
     }
 }
