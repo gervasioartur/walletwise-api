@@ -1,5 +1,6 @@
 package com.walletwise.infra.gateways.mappers;
 
+import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.entities.models.User;
 import com.walletwise.infra.persistence.entities.UserEntity;
 import com.walletwise.mocks.Mocks;
@@ -46,5 +47,21 @@ class UserEntityMapperTests {
         Assertions.assertThat(result.getUsername()).isEqualTo(userEntity.getUsername());
         Assertions.assertThat(result.getEmail()).isEqualTo(userEntity.getEmail());
         Assertions.assertThat(result.getPassword()).isEqualTo(userEntity.getPassword());
+    }
+
+
+    @Test
+    @DisplayName("Should return profile")
+    void shouldReturnProfile() {
+        UserEntity userEntity = Mocks.savedUserEntityFactory();
+
+        Profile result = this.mapper.toProfile(userEntity);
+
+        Assertions.assertThat(result.getUserId()).isEqualTo(userEntity.getId());
+        Assertions.assertThat(result.getFirstname()).isEqualTo(userEntity.getFirstName());
+        Assertions.assertThat(result.getLastname()).isEqualTo(userEntity.getLastName());
+        Assertions.assertThat(result.getUsername()).isEqualTo(userEntity.getUsername());
+        Assertions.assertThat(result.getEmail()).isEqualTo(userEntity.getEmail());
+        Assertions.assertThat(result.getTheme()).isEqualTo(userEntity.getTheme());
     }
 }

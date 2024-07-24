@@ -8,6 +8,8 @@ import com.walletwise.domain.entities.exceptions.NotFoundException;
 import com.walletwise.domain.entities.models.User;
 import com.walletwise.domain.entities.models.ValidationToken;
 
+import java.time.LocalDateTime;
+
 public class ConfirmPasswordRecovery {
     private final IAuthAdapter authAdapter;
     private final IUserAdapter userAdapter;
@@ -27,7 +29,7 @@ public class ConfirmPasswordRecovery {
 
         if (validationToken == null) throw new NotFoundException("User not found.");
 
-        if (!validationToken.getCreatedAt().isBefore(validationToken.getExpirationDate()))
+        if (!LocalDateTime.now().isBefore(validationToken.getExpirationDate()))
             throw new BusinessException("Invalid or expired token.");
 
         User user = this.userAdapter.findById(validationToken.getUserId());
@@ -37,5 +39,6 @@ public class ConfirmPasswordRecovery {
 
         validationToken.setActive(false);
         this.authAdapter.removeValidationToken(validationToken.getId());
+        this.authAdapter.closeAllSessions(user.getUserId());
     }
 }

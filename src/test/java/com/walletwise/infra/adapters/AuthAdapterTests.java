@@ -1,11 +1,17 @@
 package com.walletwise.infra.adapters;
 
 import com.walletwise.domain.adapters.IAuthAdapter;
+import com.walletwise.domain.entities.models.Profile;
+import com.walletwise.domain.entities.models.Session;
 import com.walletwise.domain.entities.models.ValidationToken;
+import com.walletwise.infra.gateways.mappers.SessionEntityMapper;
+import com.walletwise.infra.gateways.mappers.UserEntityMapper;
 import com.walletwise.infra.gateways.mappers.ValidationTokenEntityMapper;
 import com.walletwise.infra.gateways.token.GenerateToken;
+import com.walletwise.infra.persistence.entities.SessionEntity;
 import com.walletwise.infra.persistence.entities.UserEntity;
 import com.walletwise.infra.persistence.entities.ValidationTokenEntity;
+import com.walletwise.infra.persistence.repositories.ISessionEntityRepository;
 import com.walletwise.infra.persistence.repositories.IUserRepository;
 import com.walletwise.infra.persistence.repositories.IValidationTokenEntityRepository;
 import com.walletwise.mocks.Mocks;
@@ -21,6 +27,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Collection;
 import java.util.List;
@@ -40,6 +48,12 @@ public class AuthAdapterTests {
     private IValidationTokenEntityRepository validationTokenEntityRepository;
     @MockBean
     private IUserRepository userRepository;
+    @MockBean
+    private UserEntityMapper userEntityMapper;
+    @MockBean
+    private ISessionEntityRepository sessionEntityRepository;
+    @MockBean
+    private SessionEntityMapper sessionEntityMapper;
 
     @BeforeEach
     void setup() {
@@ -47,7 +61,10 @@ public class AuthAdapterTests {
                 generateToken,
                 validationTokenEntityMapper,
                 validationTokenEntityRepository,
-                userRepository);
+                userRepository,
+                userEntityMapper,
+                sessionEntityRepository,
+                sessionEntityMapper);
     }
 
     @Test
@@ -237,5 +254,86 @@ public class AuthAdapterTests {
                 .findByIdAndActive(validationTokenId, true);
         Mockito.verify(this.validationTokenEntityRepository, Mockito.times(1))
                 .save(Mockito.any(ValidationTokenEntity.class));
+    }
+
+    @Test
+    @DisplayName("Should save session info")
+    void shouldSaveSessionInfo() {
+        Session toSaveSession = Mocks.sessionWithOutIdDomainObjectFactory();
+        SessionEntity toSaveSessionEntity = Mocks.formSessionToSessionEntityFactory(toSaveSession);
+
+        SessionEntity savedSessionEntity = Mocks.sessionEntityFactory(toSaveSessionEntity);
+        Session savedSessionDomainObject = Mocks.formSessionEntityToSessionFactory(savedSessionEntity);
+
+        Mockito.when(this.sessionEntityMapper.toSessionEntity(toSaveSession)).thenReturn(toSaveSessionEntity);
+        Mockito.when(this.sessionEntityRepository.save(toSaveSessionEntity))
+                .thenReturn(savedSessionEntity);
+        Mockito.when(this.sessionEntityMapper.toSessionDomainObject(savedSessionEntity))
+                .thenReturn(savedSessionDomainObject);
+
+
+        Session result = this.authAdapter.saveSession(toSaveSession);
+
+        Assertions.assertThat(result).isEqualTo(savedSessionDomainObject);
+        Mockito.verify(this.sessionEntityMapper, Mockito.times(1))
+                .toSessionEntity(toSaveSession);
+        Mockito.verify(this.sessionEntityRepository, Mockito.times(1))
+                .save(toSaveSessionEntity);
+        Mockito.verify(this.sessionEntityMapper, Mockito.times(1))
+                .toSessionDomainObject(savedSessionEntity);
+    }
+
+    @Test
+    @DisplayName("Should return null if user does not exist")
+    void shouldReturnNullIfUserDoesNotExist() {
+        UserEntity userEntity = Mocks.savedUserEntityFactory();
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken
+                (userEntity.getUsername(), userEntity.getPassword());
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        Mockito.when(this.userRepository.findByUsernameAndActive(userEntity.getUsername(), true))
+                .thenReturn(Optional.empty());
+
+        Profile result = this.authAdapter.getUserProfile();
+
+        Assertions.assertThat(result).isNull();
+
+        Mockito.verify(this.userRepository, Mockito.times(1))
+                .findByUsernameAndActive(userEntity.getUsername(), true);
+    }
+
+    @Test
+    @DisplayName("Should Return profile on success")
+    void shouldReturnProfileOnSuccess() {
+        UserEntity userEntity = Mocks.savedUserEntityFactory();
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken
+                (userEntity.getUsername(), userEntity.getPassword());
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        Mockito.when(this.userRepository.findByUsernameAndActive(userEntity.getUsername(), true))
+                .thenReturn(Optional.empty());
+
+
+        Profile result = this.authAdapter.getUserProfile();
+
+        Assertions.assertThat(result).isNull();
+
+        Mockito.verify(this.userRepository, Mockito.times(1))
+                .findByUsernameAndActive(userEntity.getUsername(), true);
+    }
+
+    @Test
+    @DisplayName("Should close all user sessions")
+    void shouldCloseAllUerSession() {
+        UUID userId = UUID.randomUUID();
+        this.authAdapter.closeAllSessions(userId);
+        Mockito.verify(this.sessionEntityRepository, Mockito.times(1))
+                .deleteByUserId(userId);
     }
 }
