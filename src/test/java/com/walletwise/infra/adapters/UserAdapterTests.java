@@ -142,4 +142,25 @@ public class UserAdapterTests {
         Mockito.verify(this.mapper, Mockito.times(1))
                 .toDomainObject(savedUserEntity);
     }
+
+    @Test
+    @DisplayName("Should update user data")
+    void shouldReturnUserData() {
+        User toSaveUserDomainObject = Mocks.savedUserDomainObjectFactory();
+        UserEntity toUpdatedUserEntity = Mocks.fromUserToUserEntityFactory(toSaveUserDomainObject);
+
+        UserEntity savedUserEntity = toUpdatedUserEntity;
+        savedUserEntity.setId(toUpdatedUserEntity.getId());
+        savedUserEntity.setPassword(UUID.randomUUID().toString());
+
+        Mockito.when(this.userRepository.findByIdAndActive(toUpdatedUserEntity.getId(), true))
+                .thenReturn(Optional.of(savedUserEntity));
+
+        this.userAdapter.updatePassword(toSaveUserDomainObject.getUserId(), toSaveUserDomainObject.getPassword());
+
+        Mockito.verify(this.userRepository, Mockito.times(1))
+                .findByIdAndActive(toUpdatedUserEntity.getId(), true);
+        Mockito.verify(this.userRepository, Mockito.times(1))
+                .save(toUpdatedUserEntity);
+    }
 }

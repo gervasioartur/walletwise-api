@@ -43,4 +43,13 @@ public class UserAdapter implements IUserAdapter {
         userEntity = this.userRepository.save(userEntity);
         return this.mapper.toDomainObject(userEntity);
     }
+
+    @Override
+    public void updatePassword(UUID userId, String password) {
+        this.userRepository.findByIdAndActive(userId, true)
+                .ifPresent(entity -> {
+                    entity.setPassword(password);
+                    this.userRepository.save(entity);
+                });
+    }
 }

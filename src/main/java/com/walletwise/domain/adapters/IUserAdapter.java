@@ -13,4 +13,6 @@ public interface IUserAdapter {
     User findById(UUID id);
 
     User save(User user);
+
+    void updatePassword(UUID userId, String password);
 }
