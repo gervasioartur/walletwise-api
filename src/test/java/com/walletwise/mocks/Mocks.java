@@ -4,9 +4,11 @@ import com.github.javafaker.Faker;
 import com.walletwise.application.http.SignupRequest;
 import com.walletwise.domain.entities.enums.RoleEnum;
 import com.walletwise.domain.entities.models.Role;
+import com.walletwise.domain.entities.models.Session;
 import com.walletwise.domain.entities.models.User;
 import com.walletwise.domain.entities.models.ValidationToken;
 import com.walletwise.infra.persistence.entities.RoleEntity;
+import com.walletwise.infra.persistence.entities.SessionEntity;
 import com.walletwise.infra.persistence.entities.UserEntity;
 import com.walletwise.infra.persistence.entities.ValidationTokenEntity;
 
@@ -147,4 +149,84 @@ public class Mocks {
                 .createdAt(now)
                 .build();
     }
+
+    public static Session sessionWithOutIdDomainObjectFactory() {
+        LocalDateTime now = LocalDateTime.now();
+        return new Session(UUID.randomUUID().toString(),
+                Mocks.savedUserDomainObjectFactory(),
+                true,
+                now.plusHours(2),
+                now);
+    }
+
+    public static Session sessionDomainObjectFactory() {
+        LocalDateTime now = LocalDateTime.now();
+        return new Session(UUID.randomUUID(),
+                UUID.randomUUID().toString(),
+                Mocks.savedUserDomainObjectFactory(),
+                true,
+                now.plusHours(2),
+                now);
+    }
+
+    public static Session sessionDomainObjectFactory(Session session) {
+        return new Session(UUID.randomUUID(),
+                session.getToken(),
+                session.getUser(),
+                session.isActive(),
+                session.getExpirationDate(),
+                session.getCreatedAt());
+    }
+
+    public static SessionEntity formSessionToSessionEntityFactory(Session session) {
+        UserEntity userEntity = Mocks.fromUserToUserEntityFactory(session.getUser());
+        return SessionEntity
+                .builder()
+                .id(session.getId())
+                .token(session.getToken())
+                .user(userEntity)
+                .active(session.isActive())
+                .expirationDate(session.getExpirationDate())
+                .createdAt(session.getCreatedAt())
+                .build();
+    }
+
+    public static Session formSessionEntityToSessionFactory(SessionEntity session) {
+        User user = Mocks.fromUserEntityToUserFactory(session.getUser());
+        return new Session(session.getId(),
+                session.getToken(),
+                user,
+                true,
+                session.getExpirationDate(),
+                session.getCreatedAt());
+    }
+
+    public static SessionEntity sessionEntityFactory(SessionEntity session) {
+        return SessionEntity
+                .builder()
+                .id(UUID.randomUUID())
+                .token(session.getToken())
+                .user(session.getUser())
+                .active(session.isActive())
+                .expirationDate(session.getExpirationDate())
+                .createdAt(session.getCreatedAt())
+                .build();
+    }
+
+
+    public static SessionEntity sessionEntityFactory() {
+        UserEntity userEntity = Mocks.savedUserEntityFactory();
+        LocalDateTime now = LocalDateTime.now();
+
+        return SessionEntity
+                .builder()
+                .id(UUID.randomUUID())
+                .token(UUID.randomUUID().toString())
+                .user(userEntity)
+                .active(true)
+                .expirationDate(now.plusHours(1))
+                .createdAt(now)
+                .build();
+    }
+
 }

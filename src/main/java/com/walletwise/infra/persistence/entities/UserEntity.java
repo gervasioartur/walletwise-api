@@ -53,6 +53,9 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ValidationTokenEntity> validationTokens;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<SessionEntity> sessionEntities;
+
     @Column(nullable = false)
     private boolean active;
 

@@ -89,7 +89,7 @@ jobs:
           else
             echo "IMAGE_TAG=staging" >> $GITHUB_ENV
           fi
-  
+
       - name: Pull sonarsource/sonar-scanner-cli image
         run: docker pull "sonarsource/sonar-scanner-cli:latest"
 

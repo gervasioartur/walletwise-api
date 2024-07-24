@@ -3,6 +3,7 @@ package com.walletwise.domain.useCases;
 import com.walletwise.domain.adapters.IAuthAdapter;
 import com.walletwise.domain.adapters.IUserAdapter;
 import com.walletwise.domain.entities.exceptions.UnauthorizedException;
+import com.walletwise.domain.entities.models.Session;
 import com.walletwise.domain.entities.models.User;
 import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
@@ -23,6 +24,7 @@ class SigninTests {
     private IUserAdapter userAdapter;
     @MockBean
     private IAuthAdapter authAdapter;
+
 
     @BeforeEach
     void setup() {
@@ -89,13 +91,21 @@ class SigninTests {
 
         String accessToken = UUID.randomUUID().toString();
 
+        Session toSaveSession = Mocks.sessionWithOutIdDomainObjectFactory();
+        toSaveSession.setUser(savedUser);
+        toSaveSession.setToken(accessToken);
+
+        Session savedSession = Mocks.sessionDomainObjectFactory(toSaveSession);
+
         Mockito.when(this.userAdapter.findByUsername(username)).thenReturn(savedUser);
         Mockito.when(this.authAdapter.authenticate(username, password)).thenReturn(accessToken);
+        Mockito.when(this.authAdapter.saveSession(Mockito.any(Session.class))).thenReturn(savedSession);
 
         String result = this.signin.signin(username, password);
 
         Assertions.assertThat(result).isEqualTo(accessToken);
         Mockito.verify(this.userAdapter, Mockito.times(1)).findByUsername(username);
         Mockito.verify(this.authAdapter, Mockito.times(1)).authenticate(username, password);
+        Mockito.verify(this.authAdapter, Mockito.times(1)).saveSession(Mockito.any(Session.class));
     }
 }

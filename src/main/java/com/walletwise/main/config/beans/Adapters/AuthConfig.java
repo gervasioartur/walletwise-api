@@ -9,9 +9,12 @@ import com.walletwise.domain.useCases.PasswordRecovery;
 import com.walletwise.infra.adapters.AuthAdapter;
 import com.walletwise.infra.adapters.CryptoAdapter;
 import com.walletwise.infra.adapters.LoadUserAdapter;
+import com.walletwise.infra.gateways.mappers.SessionEntityMapper;
+import com.walletwise.infra.gateways.mappers.UserEntityMapper;
 import com.walletwise.infra.gateways.mappers.ValidationTokenEntityMapper;
 import com.walletwise.infra.gateways.security.SignKey;
 import com.walletwise.infra.gateways.token.*;
+import com.walletwise.infra.persistence.repositories.ISessionEntityRepository;
 import com.walletwise.infra.persistence.repositories.IUserRepository;
 import com.walletwise.infra.persistence.repositories.IValidationTokenEntityRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,13 +46,17 @@ public class AuthConfig {
                                    GenerateToken generateToken,
                                    ValidationTokenEntityMapper validationTokenEntityMapper,
                                    IValidationTokenEntityRepository validationTokenEntityRepository,
-                                   IUserRepository userRepository) {
+                                   IUserRepository userRepository,
+                                   ISessionEntityRepository sessionEntityRepository,
+                                   SessionEntityMapper sessionEntityMapper) {
 
         return new AuthAdapter(authenticationManager,
                 generateToken,
                 validationTokenEntityMapper,
                 validationTokenEntityRepository,
-                userRepository);
+                userRepository,
+                sessionEntityRepository,
+                sessionEntityMapper);
     }
 
     @Bean
@@ -127,8 +134,9 @@ public class AuthConfig {
     }
 
     @Bean
-    public IsValidToken isValidToken() {
-        return new IsValidToken(getUsernameFromToken(), isTokenExpired());
+    public IsValidToken isValidToken(GetUsernameFromToken getUsernameFromToken,
+                                     ISessionEntityRepository sessionEntityRepository) {
+        return new IsValidToken(getUsernameFromToken, sessionEntityRepository);
     }
 
     @Bean
@@ -139,5 +147,10 @@ public class AuthConfig {
     @Bean
     public ValidationTokenEntityMapper validationTokenEntityMapper() {
         return new ValidationTokenEntityMapper();
+    }
+
+    @Bean
+    public SessionEntityMapper sessionEntityMapper(UserEntityMapper userEntityMapper) {
+        return new SessionEntityMapper(userEntityMapper);
     }
 }

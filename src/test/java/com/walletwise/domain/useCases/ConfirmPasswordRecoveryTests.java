@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @SpringBootTest
@@ -64,7 +65,7 @@ class ConfirmPasswordRecoveryTests {
 
         ValidationToken savedValidationToken = Mocks.validationTokenFactory();
         savedValidationToken.setToken(hashedToken);
-        savedValidationToken.setCreatedAt(savedValidationToken.getExpirationDate());
+        savedValidationToken.setExpirationDate(LocalDateTime.now().minusHours(1));
 
         Mockito.when(this.cryptoAdapter.hash(token)).thenReturn(hashedToken);
         Mockito.when(this.authAdapter.findValidationTokenByToken(hashedToken)).thenReturn(savedValidationToken);
