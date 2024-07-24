@@ -39,5 +39,6 @@ public class ConfirmPasswordRecovery {
 
         validationToken.setActive(false);
         this.authAdapter.removeValidationToken(validationToken.getId());
+        this.authAdapter.closeAllSessions(user.getUserId());
     }
 }

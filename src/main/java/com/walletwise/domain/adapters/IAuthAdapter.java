@@ -18,4 +18,6 @@ public interface IAuthAdapter {
     Session saveSession(Session session);
 
     Profile getUserProfile();
+
+    void closeAllSessions(UUID userId);
 }

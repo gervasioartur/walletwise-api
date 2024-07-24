@@ -105,4 +105,9 @@ public class AuthAdapter implements IAuthAdapter {
                 .findByUsernameAndActive(authentication.getName(), true);
         return userEntity.map(this.userEntityMapper::toProfile).orElse(null);
     }
+
+    @Override
+    public void closeAllSessions(UUID userId) {
+        this.sessionEntityRepository.deleteByUserId(userId);
+    }
 }

@@ -16,14 +16,14 @@ the app aims to empower users to make informed financial decisions and promote a
 ## DOCUMENTATION
 
 ### Use cases
+
 #### AUTHENTICATION
+
 - [Signup useCase](docs/useCases/signup/signup.md)
 - [Signin useCase](docs/useCases/signin/signin.md)
 - [Password Recovery useCase](docs/useCases/passwordRecovery/passwordRecovery.md)
 - [Confirm Password Recovery useCase](docs/useCases/confirmPasswordRecovery/confirmPasswordRecovery.md)
 - [Get user Profile useCase](docs/useCases/getUserProfile/getUserProfile.md)
-
-
 
 <br/>
 

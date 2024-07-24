@@ -113,6 +113,8 @@ class ConfirmPasswordRecoveryTests {
                 .updatePassword(savedUser.getUserId(), savedUser.getPassword());
         Mockito.verify(this.authAdapter, Mockito.times(1))
                 .removeValidationToken(savedValidationToken.getId());
+        Mockito.verify(this.authAdapter, Mockito.times(1))
+                .closeAllSessions(savedUser.getUserId());
 
     }
 }

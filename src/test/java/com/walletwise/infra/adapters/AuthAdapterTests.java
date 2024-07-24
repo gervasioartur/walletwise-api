@@ -327,4 +327,13 @@ public class AuthAdapterTests {
         Mockito.verify(this.userRepository, Mockito.times(1))
                 .findByUsernameAndActive(userEntity.getUsername(), true);
     }
+
+    @Test
+    @DisplayName("Should close all user sessions")
+    void shouldCloseAllUerSession() {
+        UUID userId = UUID.randomUUID();
+        this.authAdapter.closeAllSessions(userId);
+        Mockito.verify(this.sessionEntityRepository, Mockito.times(1))
+                .deleteByUserId(userId);
+    }
 }
