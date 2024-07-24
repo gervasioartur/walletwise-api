@@ -18,8 +18,8 @@ import java.util.UUID;
 
 @SpringBootTest
 class PasswordRecoveryTests {
+    private final String baseUrl = Mocks.faker.internet().url();
     private PasswordRecovery passwordRecovery;
-
     @MockBean
     private IUserAdapter userAdapter;
     @MockBean
@@ -28,7 +28,6 @@ class PasswordRecoveryTests {
     private IAuthAdapter authAdapter;
     @MockBean
     private IEmailAdapter emailAdapter;
-    private String baseUrl = Mocks.faker.internet().url();
 
     @BeforeEach
     void setup() {
@@ -56,14 +55,14 @@ class PasswordRecoveryTests {
         ValidationToken savedValidationToken = Mocks.validationTokenFactory();
 
         String token = UUID.randomUUID().toString();
-        String encodedToken = savedValidationToken.getToken();
+        String hashedToken = savedValidationToken.getToken();
 
         String resetUrl = this.baseUrl + "/reset-password?token=" + token;
         String message = "Password Reset Request,\n Click the link to reset your password: " + resetUrl;
 
         Mockito.when(this.userAdapter.findByEmail(savedUser.getEmail())).thenReturn(savedUser);
         Mockito.when(this.cryptoAdapter.generateValidationToken()).thenReturn(token);
-        Mockito.when(this.cryptoAdapter.encode(token)).thenReturn(encodedToken);
+        Mockito.when(this.cryptoAdapter.hash(token)).thenReturn(hashedToken);
         Mockito.when(this.authAdapter.saveValidationToken(Mockito.any(ValidationToken.class))).thenReturn(savedValidationToken);
         Mockito.doNothing().when(this.emailAdapter).sendEmail(savedUser.getEmail(), message, "Password Reset Request");
 
@@ -71,7 +70,7 @@ class PasswordRecoveryTests {
 
         Mockito.verify(this.userAdapter, Mockito.times(1)).findByEmail(savedUser.getEmail());
         Mockito.verify(this.cryptoAdapter, Mockito.times(1)).generateValidationToken();
-        Mockito.verify(this.cryptoAdapter, Mockito.times(1)).encode(token);
+        Mockito.verify(this.cryptoAdapter, Mockito.times(1)).hash(token);
         Mockito.verify(this.authAdapter, Mockito.times(1)).saveValidationToken(Mockito.any(ValidationToken.class));
         Mockito.verify(this.emailAdapter, Mockito.times(1)).sendEmail(savedUser.getEmail(), message, "Password Reset Request");
     }

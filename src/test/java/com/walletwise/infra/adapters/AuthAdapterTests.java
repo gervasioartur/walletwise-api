@@ -166,4 +166,76 @@ public class AuthAdapterTests {
         Mockito.verify(this.validationTokenEntityMapper, Mockito.times(1))
                 .toValidationTokenDomainObject(savedValidationTokenEntity);
     }
+
+    @Test
+    @DisplayName("Should return null if the Validation token does not exist by token")
+    void shouldReturnNullIfTheValidationTokenDoesNotExistByToken() {
+        String token = UUID.randomUUID().toString();
+        Mockito.when(this.validationTokenEntityRepository.findByTokenAndActive(token, true))
+                .thenReturn(Optional.empty());
+
+        ValidationToken result = this.authAdapter.findValidationTokenByToken(token);
+
+        Assertions.assertThat(result).isNull();
+        Mockito.verify(this.validationTokenEntityRepository, Mockito.times(1))
+                .findByTokenAndActive(token, true);
+    }
+
+    @Test
+    @DisplayName("Should return Validation token on success")
+    void shouldReturnValidationTokenOnSuccess() {
+        String token = UUID.randomUUID().toString();
+
+        ValidationTokenEntity validationTokenEntity = Mocks.validationTokenEntityFactory();
+        validationTokenEntity.setToken(token);
+
+        ValidationToken validationToken = Mocks.validationTokenFactory(validationTokenEntity);
+
+        Mockito.when(this.validationTokenEntityRepository.findByTokenAndActive(token, true))
+                .thenReturn(Optional.of(validationTokenEntity));
+        Mockito.when(this.validationTokenEntityMapper.toValidationTokenDomainObject(validationTokenEntity))
+                .thenReturn(validationToken);
+
+        ValidationToken result = this.authAdapter.findValidationTokenByToken(token);
+
+        Assertions.assertThat(result.getToken()).isEqualTo(token);
+        Mockito.verify(this.validationTokenEntityRepository, Mockito.times(1))
+                .findByTokenAndActive(token, true);
+        Mockito.verify(this.validationTokenEntityMapper, Mockito.times(1))
+                .toValidationTokenDomainObject(validationTokenEntity);
+
+    }
+
+    @Test
+    @DisplayName("Should do nothing if validation does not exist when trying to remove")
+    void shouldRemoveDoNothingIdValidationTokenDoesNotExistWhenTryingToRemove() {
+        UUID validationTokenId = UUID.randomUUID();
+
+        Mockito.when(this.validationTokenEntityRepository.findByIdAndActive(validationTokenId, true))
+                .thenReturn(Optional.empty());
+
+        this.authAdapter.removeValidationToken(validationTokenId);
+
+        Mockito.verify(this.validationTokenEntityRepository, Mockito.times(1))
+                .findByIdAndActive(validationTokenId, true);
+        Mockito.verify(this.validationTokenEntityRepository, Mockito.times(0))
+                .save(Mockito.any(ValidationTokenEntity.class));
+    }
+
+    @Test
+    @DisplayName("Should remove validation token")
+    void shouldRemoveValidationToken() {
+        UUID validationTokenId = UUID.randomUUID();
+
+        ValidationTokenEntity validationTokenEntity = Mocks.validationTokenEntityFactory();
+        Mockito.when(this.validationTokenEntityRepository.findByIdAndActive(validationTokenId, true))
+                .thenReturn(Optional.of(validationTokenEntity));
+
+        this.authAdapter.removeValidationToken(validationTokenId);
+
+        Mockito.verify(this.validationTokenEntityRepository, Mockito.times(1))
+                .findByIdAndActive(validationTokenId, true);
+        Mockito.verify(this.validationTokenEntityRepository, Mockito.times(1))
+                .save(Mockito.any(ValidationTokenEntity.class));
+    }
 }

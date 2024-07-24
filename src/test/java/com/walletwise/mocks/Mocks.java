@@ -120,22 +120,31 @@ public class Mocks {
     }
 
     public static ValidationToken validationTokenFactory(ValidationTokenEntity entity) {
-        return new ValidationToken
-                (entity.getId(), entity.getUser().getId(), entity.getToken(), entity.getExpirationDate());
+        return new ValidationToken(entity.getId(),
+                entity.getUser().getId(),
+                entity.getToken(),
+                entity.getExpirationDate(),
+                entity.getCreatedAt());
     }
 
     public static ValidationToken validationTokenFactory() {
-        return new ValidationToken
-                (UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID().toString(), LocalDateTime.now().plusHours(1));
+        LocalDateTime now = LocalDateTime.now();
+        return new ValidationToken(UUID.randomUUID(),
+                UUID.randomUUID(),
+                UUID.randomUUID().toString(),
+                now.plusHours(1),
+                now);
     }
 
     public static ValidationTokenEntity validationTokenEntityFactory() {
+        LocalDateTime now = LocalDateTime.now();
         return ValidationTokenEntity
                 .builder()
                 .id(UUID.randomUUID())
                 .user(UserEntity.builder().id(UUID.randomUUID()).build())
                 .token(UUID.randomUUID().toString())
-                .expirationDate(LocalDateTime.now().plusHours(1))
+                .expirationDate(now.plusHours(1))
+                .createdAt(now)
                 .build();
     }
 }

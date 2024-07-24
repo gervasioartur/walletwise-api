@@ -50,7 +50,7 @@ public class UserEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<RoleEntity> roles;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ValidationTokenEntity> validationTokens;
 
     @Column(nullable = false)

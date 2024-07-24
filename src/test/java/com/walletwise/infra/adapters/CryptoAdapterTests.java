@@ -1,6 +1,7 @@
 package com.walletwise.infra.adapters;
 
 import com.walletwise.domain.adapters.ICryptoAdapter;
+import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,5 +45,15 @@ class CryptoAdapterTests {
         Assertions.assertThat(validationToken).isNotBlank();
         Assertions.assertThat(validationToken).isNotNull();
         Assertions.assertThat(validationToken).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("Should return hashed string")
+    void shouldReturnHashedString() {
+        String input = Mocks.faker.lorem().word();
+        String result = this.cryptoAdapter.hash(input);
+        Assertions.assertThat(result).isNotBlank();
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result).isNotEmpty();
     }
 }
