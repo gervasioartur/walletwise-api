@@ -237,16 +237,4 @@ public class Mocks {
                 faker.internet().image(),
                 GeneralEnumText.LIGHT_THEME.getValue());
     }
-
-    public static Profile profileFactory(UserEntity userEntity) {
-        return new Profile(
-                userEntity.getId(),
-                userEntity.getFirstName(),
-                userEntity.getLastName(),
-                userEntity.getUsername(),
-                userEntity.getEmail(),
-                userEntity.getImage(),
-                userEntity.getTheme());
-    }
-
 }
