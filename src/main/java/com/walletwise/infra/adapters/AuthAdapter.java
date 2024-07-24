@@ -14,6 +14,8 @@ import com.walletwise.infra.persistence.entities.ValidationTokenEntity;
 import com.walletwise.infra.persistence.repositories.ISessionEntityRepository;
 import com.walletwise.infra.persistence.repositories.IUserRepository;
 import com.walletwise.infra.persistence.repositories.IValidationTokenEntityRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class AuthAdapter implements IAuthAdapter {
+    private static final Logger log = LoggerFactory.getLogger(AuthAdapter.class);
     private final AuthenticationManager authenticationManager;
     private final GenerateToken generateToken;
     private final ValidationTokenEntityMapper validationTokenEntityMapper;
@@ -100,6 +103,7 @@ public class AuthAdapter implements IAuthAdapter {
 
     @Override
     public Profile getUserProfile() {
+        System.out.println("Getting user PROFILE ....");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Optional<UserEntity> userEntity = this.userRepository
                 .findByUsernameAndActive(authentication.getName(), true);
