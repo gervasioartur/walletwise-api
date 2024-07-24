@@ -1,5 +1,6 @@
 package com.walletwise.domain.adapters;
 
+import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.entities.models.Session;
 import com.walletwise.domain.entities.models.ValidationToken;
 
@@ -15,4 +16,6 @@ public interface IAuthAdapter {
     void removeValidationToken(UUID id);
 
     Session saveSession(Session session);
+
+    Profile getUserProfile();
 }

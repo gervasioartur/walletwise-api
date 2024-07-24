@@ -1,5 +1,6 @@
 package com.walletwise.infra.persistence.entities;
 
+import com.walletwise.domain.entities.enums.GeneralEnumText;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -43,7 +44,10 @@ public class UserEntity implements UserDetails {
     private String password;
 
     @Column(nullable = true)
-    private String image;
+    private String theme;
+
+    @Column(nullable = true)
+    private String image = GeneralEnumText.LIGHT_THEME.getValue();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(schema = "security", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),

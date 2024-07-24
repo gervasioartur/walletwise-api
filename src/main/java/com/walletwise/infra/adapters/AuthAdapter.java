@@ -1,9 +1,11 @@
 package com.walletwise.infra.adapters;
 
 import com.walletwise.domain.adapters.IAuthAdapter;
+import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.entities.models.Session;
 import com.walletwise.domain.entities.models.ValidationToken;
 import com.walletwise.infra.gateways.mappers.SessionEntityMapper;
+import com.walletwise.infra.gateways.mappers.UserEntityMapper;
 import com.walletwise.infra.gateways.mappers.ValidationTokenEntityMapper;
 import com.walletwise.infra.gateways.token.GenerateToken;
 import com.walletwise.infra.persistence.entities.SessionEntity;
@@ -15,6 +17,7 @@ import com.walletwise.infra.persistence.repositories.IValidationTokenEntityRepos
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -25,14 +28,17 @@ public class AuthAdapter implements IAuthAdapter {
     private final ValidationTokenEntityMapper validationTokenEntityMapper;
     private final IValidationTokenEntityRepository validationTokenEntityRepository;
     private final IUserRepository userRepository;
+    private final UserEntityMapper userEntityMapper;
     private final ISessionEntityRepository sessionEntityRepository;
     private final SessionEntityMapper sessionEntityMapper;
+
 
     public AuthAdapter(AuthenticationManager authenticationManager,
                        GenerateToken generateToken,
                        ValidationTokenEntityMapper validationTokenEntityMapper,
                        IValidationTokenEntityRepository validationTokenEntityRepository,
                        IUserRepository userRepository,
+                       UserEntityMapper userEntityMapper,
                        ISessionEntityRepository sessionEntityRepository,
                        SessionEntityMapper sessionEntityMapper) {
 
@@ -41,11 +47,13 @@ public class AuthAdapter implements IAuthAdapter {
         this.validationTokenEntityMapper = validationTokenEntityMapper;
         this.validationTokenEntityRepository = validationTokenEntityRepository;
         this.userRepository = userRepository;
+        this.userEntityMapper = userEntityMapper;
         this.sessionEntityRepository = sessionEntityRepository;
         this.sessionEntityMapper = sessionEntityMapper;
     }
 
     @Override
+
     public String authenticate(String username, String password) {
         try {
             Authentication auth = this.authenticationManager
@@ -88,5 +96,13 @@ public class AuthAdapter implements IAuthAdapter {
         entity.setActive(true);
         entity = this.sessionEntityRepository.save(entity);
         return this.sessionEntityMapper.toSessionDomainObject(entity);
+    }
+
+    @Override
+    public Profile getUserProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<UserEntity> userEntity = this.userRepository
+                .findByUsernameAndActive(authentication.getName(), true);
+        return userEntity.map(this.userEntityMapper::toProfile).orElse(null);
     }
 }

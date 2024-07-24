@@ -1,9 +1,11 @@
 package com.walletwise.infra.adapters;
 
 import com.walletwise.domain.adapters.IAuthAdapter;
+import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.entities.models.Session;
 import com.walletwise.domain.entities.models.ValidationToken;
 import com.walletwise.infra.gateways.mappers.SessionEntityMapper;
+import com.walletwise.infra.gateways.mappers.UserEntityMapper;
 import com.walletwise.infra.gateways.mappers.ValidationTokenEntityMapper;
 import com.walletwise.infra.gateways.token.GenerateToken;
 import com.walletwise.infra.persistence.entities.SessionEntity;
@@ -25,6 +27,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Collection;
 import java.util.List;
@@ -45,6 +49,8 @@ public class AuthAdapterTests {
     @MockBean
     private IUserRepository userRepository;
     @MockBean
+    private UserEntityMapper userEntityMapper;
+    @MockBean
     private ISessionEntityRepository sessionEntityRepository;
     @MockBean
     private SessionEntityMapper sessionEntityMapper;
@@ -56,6 +62,7 @@ public class AuthAdapterTests {
                 validationTokenEntityMapper,
                 validationTokenEntityRepository,
                 userRepository,
+                userEntityMapper,
                 sessionEntityRepository,
                 sessionEntityMapper);
     }
@@ -274,5 +281,50 @@ public class AuthAdapterTests {
                 .save(toSaveSessionEntity);
         Mockito.verify(this.sessionEntityMapper, Mockito.times(1))
                 .toSessionDomainObject(savedSessionEntity);
+    }
+
+    @Test
+    @DisplayName("Should return null if user does not exist")
+    void shouldReturnNullIfUserDoesNotExist() {
+        UserEntity userEntity = Mocks.savedUserEntityFactory();
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken
+                (userEntity.getUsername(), userEntity.getPassword());
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        Mockito.when(this.userRepository.findByUsernameAndActive(userEntity.getUsername(), true))
+                .thenReturn(Optional.empty());
+
+        Profile result = this.authAdapter.getUserProfile();
+
+        Assertions.assertThat(result).isNull();
+
+        Mockito.verify(this.userRepository, Mockito.times(1))
+                .findByUsernameAndActive(userEntity.getUsername(), true);
+    }
+
+    @Test
+    @DisplayName("Should Return profile on success")
+    void shouldReturnProfileOnSuccess() {
+        UserEntity userEntity = Mocks.savedUserEntityFactory();
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken
+                (userEntity.getUsername(), userEntity.getPassword());
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        Mockito.when(this.userRepository.findByUsernameAndActive(userEntity.getUsername(), true))
+                .thenReturn(Optional.empty());
+
+
+        Profile result = this.authAdapter.getUserProfile();
+
+        Assertions.assertThat(result).isNull();
+
+        Mockito.verify(this.userRepository, Mockito.times(1))
+                .findByUsernameAndActive(userEntity.getUsername(), true);
     }
 }

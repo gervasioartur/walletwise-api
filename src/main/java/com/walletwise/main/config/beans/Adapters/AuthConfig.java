@@ -5,6 +5,7 @@ import com.walletwise.domain.adapters.ICryptoAdapter;
 import com.walletwise.domain.adapters.IEmailAdapter;
 import com.walletwise.domain.adapters.IUserAdapter;
 import com.walletwise.domain.useCases.ConfirmPasswordRecovery;
+import com.walletwise.domain.useCases.GetUserProfile;
 import com.walletwise.domain.useCases.PasswordRecovery;
 import com.walletwise.infra.adapters.AuthAdapter;
 import com.walletwise.infra.adapters.CryptoAdapter;
@@ -47,6 +48,7 @@ public class AuthConfig {
                                    ValidationTokenEntityMapper validationTokenEntityMapper,
                                    IValidationTokenEntityRepository validationTokenEntityRepository,
                                    IUserRepository userRepository,
+                                   UserEntityMapper userEntityMapper,
                                    ISessionEntityRepository sessionEntityRepository,
                                    SessionEntityMapper sessionEntityMapper) {
 
@@ -55,6 +57,7 @@ public class AuthConfig {
                 validationTokenEntityMapper,
                 validationTokenEntityRepository,
                 userRepository,
+                userEntityMapper,
                 sessionEntityRepository,
                 sessionEntityMapper);
     }
@@ -96,6 +99,11 @@ public class AuthConfig {
         authenticationProvider.setUserDetailsService(this.userDetailsService());
         authenticationProvider.setPasswordEncoder(this.passwordEncoder());
         return authenticationProvider;
+    }
+
+    @Bean
+    public GetUserProfile getUserProfile(IAuthAdapter authAdapter) {
+        return new GetUserProfile(authAdapter);
     }
 
     @Bean
