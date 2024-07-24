@@ -100,7 +100,7 @@ jobs:
         run: ls
 
       - name: Analysing with sonarsource
-        run: docker run -e SONAR_TOKEN=${{ secrets.SONAR_TOKEN }} -e SONAR_BRANCH_NAME="${{ env.IMAGE_TAG }}" -v "${PWD}:/usr/src" sonarsource/sonar-scanner-cli
+        run: docker run -e SONAR_TOKEN=${{ secrets.SONAR_TOKEN }} -v "${PWD}:/usr/src" sonarsource/sonar-scanner-cli
 
   docker:
     runs-on: ubuntu-latest
