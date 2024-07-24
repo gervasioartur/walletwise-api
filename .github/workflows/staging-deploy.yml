@@ -84,11 +84,14 @@ jobs:
 
       - name: Determinate branch name
         run: |
-          if [ "${{ github.ref }}" == "refs/heads/staging" ]; then
-            echo "IMAGE_TAG=staging" >> $GITHUB_ENV
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "IMAGE_TAG=main" >> $GITHUB_ENV
           else
-            echo "IMAGE_TAG=production" >> $GITHUB_ENV
+            echo "IMAGE_TAG=staging" >> $GITHUB_ENV
           fi
+      
+      - name: Show branch name
+        run: echo ${{ env.IMAGE_TAG }}
 
       - name: Pull sonarsource/sonar-scanner-cli image
         run: docker pull "sonarsource/sonar-scanner-cli:latest"
