@@ -3,6 +3,7 @@ package com.walletwise.infra.gateways.token;
 import com.walletwise.infra.gateways.security.SignKey;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+import java.util.Date;
 import java.util.Map;
 
 public class CreateToken {
