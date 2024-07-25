@@ -26,22 +26,6 @@ services:
       - "8080"
     depends_on:
       - walletwise-database
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
-      - PORT:8080
-      - APP_VERSION=dev
-      - APP_SERVER_URL=http://localhost:8080
-      - APP_SECRET=5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437
-      - APP_ENVIRONMENT=dev
-      - APP_EMAIL_SENDER=gervasioarthur@gmail.com
-      - APP_EMAIL_PASSWORD=cgty tvbn qath mcoj
-      - SPRING_APPLICATION_NAME=walletwise-api
-      ## DATABASE CONFIGURATION
-      - CONNECTION_POOL_SIZE = 10
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://walletwise-database:5432/walletwise-database
-      - SPRING_DATASOURCE_USERNAME=walletwise
-      - SPRING_DATASOURCE_PASSWORD=walletwise
-      - SPRING_JPA_SHOW_SQL=true
     command: mvn spring-boot:run
     networks:
       - walletwise-network
