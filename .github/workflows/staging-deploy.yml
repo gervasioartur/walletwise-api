@@ -165,7 +165,7 @@ jobs:
 
       - name: Deploy to GCP Cloud Run
         run: |
-          gcloud run deploy ${{ env.SPRING_APPLICATION_NAME }} \
+          gcloud run deploy "walletwise-api-staging" \
             --image=gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APPLICATION_NAME }}:${{ github.sha }} \
             --platform=managed --region=southamerica-east1 --allow-unauthenticated --revision-suffix=${{ github.sha }}
 
