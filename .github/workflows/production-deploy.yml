@@ -1,4 +1,4 @@
-name: staging deploy workflow
+name: production deploy workflow
 
 on:
   push:
