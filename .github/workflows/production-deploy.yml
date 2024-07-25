@@ -89,7 +89,7 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     needs: test
-    environment: staging
+    environment: production
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
