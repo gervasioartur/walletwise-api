@@ -17,7 +17,7 @@ public class CreateToken {
         return io.jsonwebtoken.Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
-//                .setIssuedAt(new Date(System.currentTimeMillis()))
+               .setIssuedAt(new Date(System.currentTimeMillis()))
 //                .setExpiration(expirationDate)
                 .signWith(signKey.getSignKey(), SignatureAlgorithm.HS256).compact();
     }
