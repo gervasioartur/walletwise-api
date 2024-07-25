@@ -82,19 +82,11 @@ jobs:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ vars.DOCKER_PASSWORD }}
 
-      - name: Determinate branch name
-        run: |
-          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            echo "IMAGE_TAG=main" >> $GITHUB_ENV
-          else
-            echo "IMAGE_TAG=staging" >> $GITHUB_ENV
-          fi
-
       - name: Pull sonarsource/sonar-scanner-cli image
         run: docker pull "sonarsource/sonar-scanner-cli:latest"
 
       - name: Analysing with sonarsource
-        run: docker run -e SONAR_TOKEN=${{ secrets.SONAR_TOKEN }} -e SONAR_BRANCH_NAME=${{ env.IMAGE_TAG }} -v "${PWD}:/usr/src" sonarsource/sonar-scanner-cli
+        run: docker run -e SONAR_TOKEN=${{ secrets.SONAR_TOKEN }} -e SONAR_BRANCH_NAME="staging" -v "${PWD}:/usr/src" sonarsource/sonar-scanner-cli
 
   docker:
     runs-on: ubuntu-latest
@@ -110,20 +102,12 @@ jobs:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ vars.DOCKER_PASSWORD }}
 
-      - name: Determinate Image tag
-        run: |
-          if [ "${{ github.ref }}" == "refs/heads/staging" ]; then
-            echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
-          else
-            echo "IMAGE_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
-          fi
-
       - name: Build and push Docker image
         run: |
           docker build \
             --build-arg SPRING_PROFILES_ACTIVE="${{ vars.SPRING_PROFILES_ACTIVE }}" \
             --build-arg PORT="${{ vars.PORT }}" \
-            --build-arg APP_VERSION="${{ env.IMAGE_TAG }}" \
+            --build-arg APP_VERSION="${{ github.sha }}" \
             --build-arg APP_SERVER_URL="${{ vars.APP_SERVER_URL }}" \
             --build-arg APP_SECRET="${{ vars.APP_SECRET }}" \
             --build-arg APP_ENVIRONMENT="${{ vars.APP_ENVIRONMENT }}" \
@@ -135,11 +119,11 @@ jobs:
             --build-arg SPRING_DATASOURCE_USERNAME="${{ vars.SPRING_DATASOURCE_USERNAME }}" \
             --build-arg SPRING_DATASOURCE_PASSWORD="${{ vars.SPRING_DATASOURCE_PASSWORD }}" \
             --build-arg SPRING_JPA_SHOW_SQL="${{ vars.SPRING_JPA_SHOW_SQL }}" \
-            -t "${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}" .
+            -t "${{ vars.DOCKER_APPLICATION_NAME }}:${{ github.sha }}" .
 
       - name: Push Docker image
         run: |
-          docker push "${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}"
+          docker push "${{ vars.DOCKER_APPLICATION_NAME }}:${{ github.sha }}"
 
   deploy:
     runs-on: ubuntu-latest
@@ -168,41 +152,24 @@ jobs:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ vars.DOCKER_PASSWORD }}
 
-      - name: Determine Image tag
-        run: |
-          if [ "${{ github.ref }}" == "refs/heads/staging" ]; then
-            echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
-          else
-            echo "IMAGE_TAG=${{ github.ref_name }}" >> $GITHUB_ENV
-          fi
-
-      - name: Determine Application  name
-        run: |
-          if [ "${{ github.ref }}" == "refs/heads/staging" ]; then
-            echo "SPRING_APPLICATION_NAME=walletwise-api-staging" >> $GITHUB_ENV
-          else
-            echo "SPRING_APPLICATION_NAME=walletwise-api-production" >> $GITHUB_ENV
-          fi
-
       - name: Pull Docker image
-        run: docker pull "${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}"
+        run: docker pull "${{ vars.DOCKER_APPLICATION_NAME }}:${{ github.sha }}"
 
       - name: Tag Docker image
         run: |
-          docker tag "${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}" \
-            "gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}"
+          docker tag "${{ vars.DOCKER_APPLICATION_NAME }}:${{ github.sha }}" \
+            "gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APPLICATION_NAME }}:${{ github.sha }}"
 
       - name: Push Docker image to GCP
-        run: docker push "gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}"
+        run: docker push "gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APPLICATION_NAME }}:${{ github.sha }}"
 
       - name: Deploy to GCP Cloud Run
         run: |
           gcloud run deploy ${{ env.SPRING_APPLICATION_NAME }} \
-            --image=gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }} \
-            --platform=managed --region=southamerica-east1 --allow-unauthenticated --revision-suffix=${{ env.IMAGE_TAG }}
+            --image=gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APPLICATION_NAME }}:${{ github.sha }} \
+            --platform=managed --region=southamerica-east1 --allow-unauthenticated --revision-suffix=${{ github.sha }}
 
       - name: Remove Docker images
         run: |
-          docker rmi "${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}" \
-            "gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.IMAGE_TAG }}"
-            
+          docker rmi "${{ vars.DOCKER_APPLICATION_NAME }}:${{ github.sha }}" \
+            "gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APPLICATION_NAME }}:${{ github.sha }}"
