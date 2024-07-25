@@ -130,6 +130,7 @@ jobs:
             --build-arg APP_EMAIL_SENDER="${{ vars.APP_EMAIL_SENDER }}" \
             --build-arg APP_EMAIL_PASSWORD="${{ vars.APP_EMAIL_PASSWORD }}" \
             --build-arg SPRING_APPLICATION_NAME="${{ vars.SPRING_APPLICATION_NAME }}" \
+            --build-arg SPRING_APPLICATION_NAME="${{ vars.CONNECTION_POOL_SIZE }}" \
             --build-arg SPRING_DATASOURCE_URL="${{ vars.SPRING_DATASOURCE_URL }}" \
             --build-arg SPRING_DATASOURCE_USERNAME="${{ vars.SPRING_DATASOURCE_USERNAME }}" \
             --build-arg SPRING_DATASOURCE_PASSWORD="${{ vars.SPRING_DATASOURCE_PASSWORD }}" \
