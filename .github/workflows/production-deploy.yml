@@ -173,7 +173,7 @@ jobs:
         run: |
           gcloud run deploy "walletwise-api" \
             --image="gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.DOCKER_APPLICATION_NAME }}:${{ env.TAG_NAME }}" \
-            --platform=managed --region=southamerica-east1 --allow-unauthenticated --revision-suffix=${{ env.TAG_NAME }}
+            --platform=managed --region=southamerica-east1 --allow-unauthenticated
 
       - name: Remove Docker images
         run: |
