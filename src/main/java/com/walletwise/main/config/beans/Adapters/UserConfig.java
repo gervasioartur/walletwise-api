@@ -1,6 +1,9 @@
 package com.walletwise.main.config.beans.Adapters;
 
+import com.walletwise.domain.adapters.IAuthAdapter;
+import com.walletwise.domain.adapters.ICryptoAdapter;
 import com.walletwise.domain.adapters.IUserAdapter;
+import com.walletwise.domain.useCases.Signin;
 import com.walletwise.domain.useCases.Signup;
 import com.walletwise.infra.adapters.LoadUserAdapter;
 import com.walletwise.infra.adapters.UserAdapter;
@@ -14,8 +17,13 @@ import org.springframework.context.annotation.Configuration;
 public class UserConfig {
 
     @Bean
-    public Signup signup(IUserAdapter userAdapter) {
-        return new Signup(userAdapter);
+    public Signup signup(IUserAdapter userAdapter, ICryptoAdapter cryptoAdapter) {
+        return new Signup(userAdapter, cryptoAdapter);
+    }
+
+    @Bean
+    public Signin signin(IUserAdapter userAdapter, IAuthAdapter authAdapter) {
+        return new Signin(userAdapter, authAdapter);
     }
 
     @Bean

@@ -16,7 +16,7 @@
     <description>walletwise-api</description>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
         <springdoc.version>2.0.4</springdoc.version>
     </properties>
 
@@ -37,7 +37,6 @@
             </activation>
         </profile>
 
-
         <profile>
             <id>prod</id>
             <properties>
@@ -46,8 +45,8 @@
         </profile>
     </profiles>
 
-    <dependencies>
 
+    <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -95,6 +94,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>3.1.5</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
@@ -131,15 +136,6 @@
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -151,6 +147,16 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.9.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
 
@@ -173,25 +179,13 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <dataFile>target/jacoco.exec</dataFile>
+                    <output>file</output>
                     <excludes>
                         <exclude>**/entities/**</exclude>
                         <exclude>**/token/**</exclude>
-                        <exclude>**/ValidateToken*</exclude>
                         <exclude>**/Abstract**</exclude>
                         <exclude>**/Setup*</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <excludes>
-                        <exclude>**/Test*</exclude>
-                        <exclude>**/*Test*</exclude>
-                        <exclude>**/*Test*</exclude>
                     </excludes>
                 </configuration>
             </plugin>

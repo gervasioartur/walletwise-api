@@ -7,6 +7,7 @@ import com.walletwise.infra.persistence.entities.UserEntity;
 import com.walletwise.infra.persistence.repositories.IUserRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class UserAdapter implements IUserAdapter {
     private final IUserRepository userRepository;
@@ -30,9 +31,25 @@ public class UserAdapter implements IUserAdapter {
     }
 
     @Override
+    public User findById(UUID id) {
+        Optional<UserEntity> userEntity = this.userRepository.findByIdAndActive(id, true);
+        return userEntity.map(this.mapper::toDomainObject).orElse(null);
+    }
+
+    @Override
     public User save(User user) {
         UserEntity userEntity = this.mapper.toUserEntity(user);
+        userEntity.setActive(true);
         userEntity = this.userRepository.save(userEntity);
         return this.mapper.toDomainObject(userEntity);
+    }
+
+    @Override
+    public void updatePassword(UUID userId, String password) {
+        this.userRepository.findByIdAndActive(userId, true)
+                .ifPresent(entity -> {
+                    entity.setPassword(password);
+                    this.userRepository.save(entity);
+                });
     }
 }

@@ -15,8 +15,8 @@ class SingKeyTests {
 
     @Test
     @DisplayName("Should create sign key successfully")
-    void shouldCreateSignKeySuccessfully(){
-        Key key =  signKey.getSignKey();
+    void shouldCreateSignKeySuccessfully() {
+        Key key = signKey.getSignKey();
         Assertions.assertThat(key).isNotNull();
     }
 }

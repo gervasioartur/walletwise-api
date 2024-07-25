@@ -1,18 +1,36 @@
 package com.walletwise.infra.gateways.token;
 
+import com.walletwise.infra.persistence.entities.SessionEntity;
+import com.walletwise.infra.persistence.repositories.ISessionEntityRepository;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class IsValidToken {
     private final GetUsernameFromToken getUsernameFromToken;
-    private final IsTokenExpired isTokenExpired;
+    private final ISessionEntityRepository sessionEntityRepository;
 
-    public IsValidToken(GetUsernameFromToken getUsernameFromToken, IsTokenExpired isTokenExpired) {
+    public IsValidToken(GetUsernameFromToken getUsernameFromToken,
+                        ISessionEntityRepository sessionEntityRepository) {
         this.getUsernameFromToken = getUsernameFromToken;
-        this.isTokenExpired = isTokenExpired;
+        this.sessionEntityRepository = sessionEntityRepository;
     }
 
     public boolean isValid(String token, UserDetails userDetails) {
         final String username = this.getUsernameFromToken.get(token);
-        return (username.equals(userDetails.getUsername()) && !this.isTokenExpired.isTokenExpired(token));
+        boolean isValid = false;
+        if (username.equals(userDetails.getUsername())) {
+            Optional<SessionEntity> sessionEntity = this.sessionEntityRepository.findByTokenAndActive(token, true);
+            if (sessionEntity.isPresent()) {
+                if (LocalDateTime.now().isAfter(sessionEntity.get().getExpirationDate())) {
+                    sessionEntity.get().setActive(false);
+                    this.sessionEntityRepository.save(sessionEntity.get());
+                } else {
+                    isValid = true;
+                }
+            }
+        }
+        return isValid;
     }
 }

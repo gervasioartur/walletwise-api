@@ -14,16 +14,16 @@ class UserDTOMapperTests {
     private UserDTOMapper mapper;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         this.mapper = new UserDTOMapper();
     }
 
     @Test
     @DisplayName("Should return user domain object")
-    void shouldReturnUserDomainObject(){
+    void shouldReturnUserDomainObject() {
         SignupRequest request = Mocks.signupRequestToUserFactory();
 
-        User result =  this.mapper.toUserDomainObject(request);
+        User result = this.mapper.toUserDomainObject(request);
 
         Assertions.assertThat(result.getFirstname()).isEqualTo(request.firstname());
         Assertions.assertThat(result.getLastname()).isEqualTo(request.lastname());

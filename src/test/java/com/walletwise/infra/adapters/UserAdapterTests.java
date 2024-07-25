@@ -1,6 +1,5 @@
 package com.walletwise.infra.adapters;
 
-import com.github.javafaker.Faker;
 import com.walletwise.domain.adapters.IUserAdapter;
 import com.walletwise.domain.entities.models.User;
 import com.walletwise.infra.gateways.mappers.UserEntityMapper;
@@ -26,8 +25,6 @@ public class UserAdapterTests {
     @MockBean
     private UserEntityMapper mapper;
 
-    private Faker faker = new Faker();
-
     @BeforeEach
     void setup() {
         this.userAdapter = new UserAdapter(userRepository, mapper);
@@ -36,7 +33,7 @@ public class UserAdapterTests {
     @Test
     @DisplayName("Should return null if user does not exist by username")
     void shouldReturnNullIfUserDOesNotExistByUsername() {
-        String username = faker.name().username();
+        String username = Mocks.faker.name().username();
 
         Mockito.when(this.userRepository.findByUsernameAndActive(username, true)).thenReturn(Optional.empty());
 
@@ -66,7 +63,7 @@ public class UserAdapterTests {
     @Test
     @DisplayName("Should return null if user does not exist by email")
     void shouldReturnNullIfUserDOesNotExistByEmail() {
-        String email = faker.internet().emailAddress();
+        String email = Mocks.faker.internet().emailAddress();
 
         Mockito.when(this.userRepository.findByEmailAndActive(email, true)).thenReturn(Optional.empty());
 
@@ -112,5 +109,58 @@ public class UserAdapterTests {
         Assertions.assertThat(userDomainObjectResult).isEqualTo(savedUserDomainObject);
         Mockito.verify(this.userRepository, Mockito.times(1)).save(toSaveUserEntity);
         Mockito.verify(this.mapper, Mockito.times(1)).toDomainObject(savedUserEntity);
+    }
+
+    @Test
+    @DisplayName("Should return null if user does not exist by id")
+    void shouldReturnNullIfUserDOesNotExistById() {
+        UUID userId = UUID.randomUUID();
+
+        Mockito.when(this.userRepository.findByIdAndActive(userId, true)).thenReturn(Optional.empty());
+
+        User userDomainObject = this.userAdapter.findById(userId);
+
+        Assertions.assertThat(userDomainObject).isNull();
+        Mockito.verify(this.userRepository, Mockito.times(1)).findByIdAndActive(userId, true);
+    }
+
+    @Test
+    @DisplayName("Should return user on find by id success")
+    void shouldReturnValidationUserOnFindByIdSuccess() {
+        UserEntity savedUserEntity = Mocks.savedUserEntityFactory();
+        User savedUserDomainObject = Mocks.fromUserEntityToUserFactory(savedUserEntity);
+
+        Mockito.when(this.userRepository.findByIdAndActive(savedUserEntity.getId(), true))
+                .thenReturn(Optional.of(savedUserEntity));
+        Mockito.when(this.mapper.toDomainObject(savedUserEntity)).thenReturn(savedUserDomainObject);
+
+        User userDomainObject = this.userAdapter.findById(savedUserEntity.getId());
+
+        Assertions.assertThat(userDomainObject).isEqualTo(savedUserDomainObject);
+        Mockito.verify(this.userRepository, Mockito.times(1))
+                .findByIdAndActive(savedUserEntity.getId(), true);
+        Mockito.verify(this.mapper, Mockito.times(1))
+                .toDomainObject(savedUserEntity);
+    }
+
+    @Test
+    @DisplayName("Should update user data")
+    void shouldReturnUserData() {
+        User toSaveUserDomainObject = Mocks.savedUserDomainObjectFactory();
+        UserEntity toUpdatedUserEntity = Mocks.fromUserToUserEntityFactory(toSaveUserDomainObject);
+
+        UserEntity savedUserEntity = toUpdatedUserEntity;
+        savedUserEntity.setId(toUpdatedUserEntity.getId());
+        savedUserEntity.setPassword(UUID.randomUUID().toString());
+
+        Mockito.when(this.userRepository.findByIdAndActive(toUpdatedUserEntity.getId(), true))
+                .thenReturn(Optional.of(savedUserEntity));
+
+        this.userAdapter.updatePassword(toSaveUserDomainObject.getUserId(), toSaveUserDomainObject.getPassword());
+
+        Mockito.verify(this.userRepository, Mockito.times(1))
+                .findByIdAndActive(toUpdatedUserEntity.getId(), true);
+        Mockito.verify(this.userRepository, Mockito.times(1))
+                .save(toUpdatedUserEntity);
     }
 }

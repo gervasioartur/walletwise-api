@@ -1,5 +1,6 @@
 package com.walletwise.infra.persistence.entities;
 
+import com.walletwise.domain.entities.enums.GeneralEnumText;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,7 +23,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "t_user", schema = "security")
-public class UserEntity implements UserDetails {
+public class UserEntity implements UserDetails, Serializable {
     @Id
     @Column(length = 32)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,12 +45,21 @@ public class UserEntity implements UserDetails {
     private String password;
 
     @Column(nullable = true)
-    private String image;
+    private String theme;
+
+    @Column(nullable = true)
+    private String image = GeneralEnumText.LIGHT_THEME.getValue();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(schema = "security", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<RoleEntity> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ValidationTokenEntity> validationTokens;
+
+    @OneToMany(mappedBy = "user")
+    private List<SessionEntity> sessionEntities;
 
     @Column(nullable = false)
     private boolean active;

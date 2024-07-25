@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.UUID;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "t_privilege", schema = "security")
-public class PrivilegeEntity {
+public class PrivilegeEntity implements Serializable {
     @Id
     @Column(length = 32)
     @GeneratedValue(strategy = GenerationType.AUTO)

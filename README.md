@@ -1,3 +1,10 @@
+[![staging deploy workflow](https://github.com/gervasioartur/walletwise-api/actions/workflows/staging-deploy.yml/badge.svg)](https://github.com/gervasioartur/walletwise-api/actions/workflows/staging-deploy.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=walletwise-api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=walletwise-api)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=walletwise-api&metric=bugs)](https://sonarcloud.io/summary/new_code?id=walletwise-api)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=walletwise-api&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=walletwise-api)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=walletwise-api&metric=coverage)](https://sonarcloud.io/summary/new_code?id=walletwise-api)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=walletwise-api&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=walletwise-api)
+
 # **WALLETWISE-API**
 
 WALLET-WISE is a Personal Budgeting app designed to provide users with a comprehensive and
@@ -10,7 +17,13 @@ the app aims to empower users to make informed financial decisions and promote a
 
 ### Use cases
 
-- [Signup useCase](./docs/useCases/signup.md)
+#### AUTHENTICATION
+
+- [Signup useCase](docs/useCases/signup/signup.md)
+- [Signin useCase](docs/useCases/signin/signin.md)
+- [Password Recovery useCase](docs/useCases/passwordRecovery/passwordRecovery.md)
+- [Confirm Password Recovery useCase](docs/useCases/confirmPasswordRecovery/confirmPasswordRecovery.md)
+- [Get user Profile useCase](docs/useCases/getUserProfile/getUserProfile.md)
 
 <br/>
 
