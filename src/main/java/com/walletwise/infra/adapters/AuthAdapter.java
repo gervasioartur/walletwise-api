@@ -103,7 +103,6 @@ public class AuthAdapter implements IAuthAdapter {
 
     @Override
     public Profile getUserProfile() {
-        System.out.println("Getting user PROFILE ....");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Optional<UserEntity> userEntity = this.userRepository
                 .findByUsernameAndActive(authentication.getName(), true);
