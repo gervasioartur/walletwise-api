@@ -1,4 +1,4 @@
-[![staging deploy workflow](https://github.com/gervasioartur/walletwise-api/actions/workflows/staging-deploy.yml/badge.svg)](https://github.com/gervasioartur/walletwise-api/actions/workflows/staging-deploy.yml)
+[![production deploy workflow](https://github.com/gervasioartur/walletwise-api/actions/workflows/production-deploy.yml/badge.svg)](https://github.com/gervasioartur/walletwise-api/actions/workflows/production-deploy.yml)[![staging deploy workflow](https://github.com/gervasioartur/walletwise-api/actions/workflows/staging-deploy.yml/badge.svg)](https://github.com/gervasioartur/walletwise-api/actions/workflows/staging-deploy.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=walletwise-api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=walletwise-api)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=walletwise-api&metric=bugs)](https://sonarcloud.io/summary/new_code?id=walletwise-api)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=walletwise-api&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=walletwise-api)
