@@ -37,6 +37,7 @@ services:
       - APP_EMAIL_PASSWORD=cgty tvbn qath mcoj
       - SPRING_APPLICATION_NAME=walletwise-api
       ## DATABASE CONFIGURATION
+      - CONNECTION_POOL_SIZE = 10
       - SPRING_DATASOURCE_URL=jdbc:postgresql://walletwise-database:5432/walletwise-database
       - SPRING_DATASOURCE_USERNAME=walletwise
       - SPRING_DATASOURCE_PASSWORD=walletwise
