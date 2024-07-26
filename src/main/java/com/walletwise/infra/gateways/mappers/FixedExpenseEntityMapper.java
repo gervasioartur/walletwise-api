@@ -18,7 +18,7 @@ public class FixedExpenseEntityMapper {
                 fixedExpense.getEndDate());
     }
 
-    public FixedExpense toFixedExpense(FixedExpenseEntity entity){
+    public FixedExpense toFixedExpense(FixedExpenseEntity entity) {
         return new FixedExpense(
                 entity.getId(),
                 entity.getUser().getId(),
