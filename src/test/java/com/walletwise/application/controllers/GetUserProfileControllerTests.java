@@ -2,7 +2,7 @@ package com.walletwise.application.controllers;
 
 import com.walletwise.domain.entities.exceptions.ForbiddenException;
 import com.walletwise.domain.entities.models.Profile;
-import com.walletwise.domain.useCases.GetUserProfile;
+import com.walletwise.domain.useCases.auth.GetUserProfile;
 import com.walletwise.mocks.Mocks;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;

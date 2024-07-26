@@ -1,4 +1,4 @@
-package com.walletwise.domain.useCases;
+package com.walletwise.domain.useCases.auth;
 
 import com.walletwise.domain.adapters.IUserAdapter;
 import com.walletwise.domain.entities.exceptions.ConflictException;

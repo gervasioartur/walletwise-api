@@ -2,7 +2,7 @@ package com.walletwise.application.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walletwise.application.http.PasswordRecoveryRequest;
-import com.walletwise.domain.useCases.PasswordRecovery;
+import com.walletwise.domain.useCases.auth.PasswordRecovery;
 import com.walletwise.mocks.Mocks;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;

@@ -4,7 +4,7 @@ import com.walletwise.application.http.PasswordRecoveryRequest;
 import com.walletwise.application.http.Response;
 import com.walletwise.application.validation.ValidationBuilder;
 import com.walletwise.application.validation.contract.IValidator;
-import com.walletwise.domain.useCases.PasswordRecovery;
+import com.walletwise.domain.useCases.auth.PasswordRecovery;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
