@@ -1,4 +1,4 @@
-package com.walletwise.infra.persistence.entities;
+package com.walletwise.infra.persistence.entities.security;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,14 +15,14 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "t_session", schema = "security")
-public class SessionEntity implements Serializable {
+@Table(name = "t_validation_token", schema = "security")
+public class ValidationTokenEntity implements Serializable {
     @Id
     @Column(length = 32)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String token;
 
     @ManyToOne
@@ -30,10 +30,10 @@ public class SessionEntity implements Serializable {
     private UserEntity user;
 
     @Column(nullable = false)
-    private boolean active;
+    private LocalDateTime expirationDate;
 
     @Column(nullable = false)
-    private LocalDateTime expirationDate;
+    private boolean active;
 
     @CreationTimestamp
     @Column(nullable = false)
@@ -43,3 +43,4 @@ public class SessionEntity implements Serializable {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 }
+

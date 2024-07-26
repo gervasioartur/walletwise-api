@@ -1,6 +1,6 @@
-package com.walletwise.infra.persistence.repositories;
+package com.walletwise.infra.persistence.repositories.walletwise;
 
-import com.walletwise.infra.persistence.entities.ValidationTokenEntity;
+import com.walletwise.infra.persistence.entities.security.ValidationTokenEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

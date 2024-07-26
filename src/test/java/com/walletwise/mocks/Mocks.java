@@ -7,7 +7,11 @@ import com.walletwise.domain.entities.enums.GeneralEnumText;
 import com.walletwise.domain.entities.enums.PaymentFrequencyEnum;
 import com.walletwise.domain.entities.enums.RoleEnum;
 import com.walletwise.domain.entities.models.*;
-import com.walletwise.infra.persistence.entities.*;
+import com.walletwise.infra.persistence.entities.security.RoleEntity;
+import com.walletwise.infra.persistence.entities.security.SessionEntity;
+import com.walletwise.infra.persistence.entities.security.UserEntity;
+import com.walletwise.infra.persistence.entities.security.ValidationTokenEntity;
+import com.walletwise.infra.persistence.entities.walletwise.FixedExpenseEntity;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

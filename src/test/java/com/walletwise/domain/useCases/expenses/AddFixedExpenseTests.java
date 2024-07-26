@@ -25,7 +25,6 @@ class AddFixedExpenseTests {
     @DisplayName("Should add fixed expense")
     void shouldAddFixedExpense() {
         FixedExpense fixedExpense = Mocks.fixedExpenseWithNoIdFactory();
-        Mockito.doNothing().when(this.expenseAdapter).add(fixedExpense);
         this.addFixedExpense.add(fixedExpense);
         Mockito.verify(this.expenseAdapter, Mockito.times(1)).add(fixedExpense);
     }

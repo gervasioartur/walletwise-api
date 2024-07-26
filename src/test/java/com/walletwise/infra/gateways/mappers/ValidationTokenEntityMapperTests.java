@@ -1,7 +1,7 @@
 package com.walletwise.infra.gateways.mappers;
 
 import com.walletwise.domain.entities.models.ValidationToken;
-import com.walletwise.infra.persistence.entities.ValidationTokenEntity;
+import com.walletwise.infra.persistence.entities.security.ValidationTokenEntity;
 import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

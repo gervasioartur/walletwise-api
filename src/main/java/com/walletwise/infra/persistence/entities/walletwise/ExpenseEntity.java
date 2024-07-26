@@ -1,5 +1,6 @@
-package com.walletwise.infra.persistence.entities;
+package com.walletwise.infra.persistence.entities.walletwise;
 
+import com.walletwise.infra.persistence.entities.security.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

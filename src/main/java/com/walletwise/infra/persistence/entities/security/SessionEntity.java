@@ -1,4 +1,4 @@
-package com.walletwise.infra.persistence.entities;
+package com.walletwise.infra.persistence.entities.security;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,7 +7,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.UUID;
 
 @Getter
@@ -16,21 +15,25 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "t_privilege", schema = "security")
-public class PrivilegeEntity implements Serializable {
+@Table(name = "t_session", schema = "security")
+public class SessionEntity implements Serializable {
     @Id
     @Column(length = 32)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+    @Column(nullable = false)
+    private String token;
 
-    @ManyToMany(mappedBy = "privileges")
-    private Collection<RoleEntity> roles;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 
     @Column(nullable = false)
     private boolean active;
+
+    @Column(nullable = false)
+    private LocalDateTime expirationDate;
 
     @CreationTimestamp
     @Column(nullable = false)

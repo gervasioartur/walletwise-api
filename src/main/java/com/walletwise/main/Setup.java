@@ -1,12 +1,12 @@
 package com.walletwise.main;
 
 import com.walletwise.domain.adapters.ICryptoAdapter;
-import com.walletwise.infra.persistence.entities.PrivilegeEntity;
-import com.walletwise.infra.persistence.entities.RoleEntity;
-import com.walletwise.infra.persistence.entities.UserEntity;
-import com.walletwise.infra.persistence.repositories.IPrivilegeRepository;
-import com.walletwise.infra.persistence.repositories.IRoleRepository;
-import com.walletwise.infra.persistence.repositories.IUserRepository;
+import com.walletwise.infra.persistence.entities.security.PrivilegeEntity;
+import com.walletwise.infra.persistence.entities.security.RoleEntity;
+import com.walletwise.infra.persistence.entities.security.UserEntity;
+import com.walletwise.infra.persistence.repositories.walletwise.IPrivilegeRepository;
+import com.walletwise.infra.persistence.repositories.walletwise.IRoleRepository;
+import com.walletwise.infra.persistence.repositories.walletwise.IUserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

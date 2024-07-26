@@ -1,4 +1,4 @@
-package com.walletwise.infra.persistence.entities;
+package com.walletwise.infra.persistence.entities.security;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.UUID;
 
 @Getter
@@ -15,22 +16,18 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "t_validation_token", schema = "security")
-public class ValidationTokenEntity implements Serializable {
+@Table(name = "t_privilege", schema = "security")
+public class PrivilegeEntity implements Serializable {
     @Id
     @Column(length = 32)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column(nullable = false, unique = true)
-    private String token;
+    private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
-
-    @Column(nullable = false)
-    private LocalDateTime expirationDate;
+    @ManyToMany(mappedBy = "privileges")
+    private Collection<RoleEntity> roles;
 
     @Column(nullable = false)
     private boolean active;
@@ -43,4 +40,3 @@ public class ValidationTokenEntity implements Serializable {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 }
-

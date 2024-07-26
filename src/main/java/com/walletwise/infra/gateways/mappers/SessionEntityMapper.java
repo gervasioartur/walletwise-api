@@ -2,8 +2,8 @@ package com.walletwise.infra.gateways.mappers;
 
 import com.walletwise.domain.entities.models.Session;
 import com.walletwise.domain.entities.models.User;
-import com.walletwise.infra.persistence.entities.SessionEntity;
-import com.walletwise.infra.persistence.entities.UserEntity;
+import com.walletwise.infra.persistence.entities.security.SessionEntity;
+import com.walletwise.infra.persistence.entities.security.UserEntity;
 
 public class SessionEntityMapper {
     private final UserEntityMapper userEntityMapper;

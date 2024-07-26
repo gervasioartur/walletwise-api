@@ -1,6 +1,6 @@
-package com.walletwise.infra.persistence.repositories;
+package com.walletwise.infra.persistence.repositories.walletwise;
 
-import com.walletwise.infra.persistence.entities.UserEntity;
+import com.walletwise.infra.persistence.entities.security.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

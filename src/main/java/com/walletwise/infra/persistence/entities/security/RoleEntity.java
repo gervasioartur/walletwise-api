@@ -1,4 +1,4 @@
-package com.walletwise.infra.persistence.entities;
+package com.walletwise.infra.persistence.entities.security;
 
 import jakarta.persistence.*;
 import lombok.*;

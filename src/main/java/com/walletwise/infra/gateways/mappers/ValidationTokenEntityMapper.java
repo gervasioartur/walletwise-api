@@ -1,8 +1,8 @@
 package com.walletwise.infra.gateways.mappers;
 
 import com.walletwise.domain.entities.models.ValidationToken;
-import com.walletwise.infra.persistence.entities.UserEntity;
-import com.walletwise.infra.persistence.entities.ValidationTokenEntity;
+import com.walletwise.infra.persistence.entities.security.UserEntity;
+import com.walletwise.infra.persistence.entities.security.ValidationTokenEntity;
 
 public class ValidationTokenEntityMapper {
     public ValidationTokenEntity toValidationTokenEntity(ValidationToken validationToken) {

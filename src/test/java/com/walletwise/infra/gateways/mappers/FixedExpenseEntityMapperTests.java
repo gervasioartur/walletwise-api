@@ -1,7 +1,7 @@
 package com.walletwise.infra.gateways.mappers;
 
 import com.walletwise.domain.entities.models.FixedExpense;
-import com.walletwise.infra.persistence.entities.FixedExpenseEntity;
+import com.walletwise.infra.persistence.entities.walletwise.FixedExpenseEntity;
 import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

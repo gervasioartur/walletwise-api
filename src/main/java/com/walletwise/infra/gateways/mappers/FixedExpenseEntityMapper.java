@@ -1,8 +1,8 @@
 package com.walletwise.infra.gateways.mappers;
 
 import com.walletwise.domain.entities.models.FixedExpense;
-import com.walletwise.infra.persistence.entities.FixedExpenseEntity;
-import com.walletwise.infra.persistence.entities.UserEntity;
+import com.walletwise.infra.persistence.entities.security.UserEntity;
+import com.walletwise.infra.persistence.entities.walletwise.FixedExpenseEntity;
 
 public class FixedExpenseEntityMapper {
     public FixedExpenseEntity toFixedExpenseEntity(FixedExpense fixedExpense) {
