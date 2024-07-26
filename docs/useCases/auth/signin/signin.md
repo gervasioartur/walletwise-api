@@ -3,19 +3,13 @@
 As a user,
 I want to be able to sign in
 
-## Scenario: Successful sign in with username  [✅]
+## Scenario: Unexpected error during sign in with username or email [✅]
 
-    Given the user payload with usernameOrEmail "any_user" and password "any_password"
+    Given the user payload with usernameOrEmail "any_username" and password "any_password"
     When I send a POST request to "api/signin"
-    Then the response status should be 200
-    And the response should contain access token
-
-## Scenario: Successful sign in with email [✅]
-
-    Given the user payload with usernameOrEmail "anyuser@email.com" and password "any_password"
-    When I send a POST request to "api/signin"
-    Then the response status should be 200
-    And the response should contain access token
+    And an unexpected error occurs
+    Then the response status should be 500
+    And the response should contain "An unexpected error occurred. Please try again later."
 
 ## Scenario: Sign in with non-existing username [✅]
 
@@ -52,10 +46,16 @@ I want to be able to sign in
     Then the response status should be 400
     And the response should contain "Password is required."
 
-## Scenario: Unexpected error during sign in with username or email [✅]
+## Scenario: Successful sign in with username  [✅]
 
-    Given the user payload with usernameOrEmail "any_username" and password "any_password"
+    Given the user payload with usernameOrEmail "any_user" and password "any_password"
     When I send a POST request to "api/signin"
-    And an unexpected error occurs
-    Then the response status should be 500
-    And the response should contain "An unexpected error occurred. Please try again later."
+    Then the response status should be 200
+    And the response should contain access token
+
+## Scenario: Successful sign in with email [✅]
+
+    Given the user payload with usernameOrEmail "anyuser@email.com" and password "any_password"
+    When I send a POST request to "api/signin"
+    Then the response status should be 200
+    And the response should contain access token
