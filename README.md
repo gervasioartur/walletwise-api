@@ -45,7 +45,7 @@ the app aims to empower users to make informed financial decisions and promote a
 - [Get user profile feature dependency diagram](docs/useCases/auth/getUserProfile/getUserProfile.drawio)
 
 #### EXPENSES
-- [Add fixed expenses](docs/useCases/expenses/addFixedExpense/addFixedExpense.md)
+- [Add fixed expenses use case BDD documentation](docs/useCases/expenses/addFixedExpense/addFixedExpense.md)
 
 
 ## Technical Specification
