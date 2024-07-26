@@ -107,7 +107,7 @@ I want to be able to add fixed expense
     category "FOOD", dueDay 21,startDate 2020-05-12, endDate 2025-10-23 and paymentFrequency "any_invalid_payment_frequency"
     When I send a POST request to "api/fixed-expense"
     Then the response status should be 400
-    And the response should contain "Invalid Payment frequency! You must choose payment frequency between FOOD,
+    And the response should contain "Invalid Payment frequency! You must choose payment frequency between 
     DAILY,WEEKLY,MONTHLY or YEARLY."
 
 ## Scenario: Successful add fixed expense  []
