@@ -61,6 +61,9 @@ public class UserEntity implements UserDetails, Serializable {
     @OneToMany(mappedBy = "user")
     private List<SessionEntity> sessionEntities;
 
+    @OneToMany(mappedBy = "user")
+    private List<ExpenseEntity> expense;
+
     @Column(nullable = false)
     private boolean active;
 
