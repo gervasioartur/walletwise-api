@@ -26,7 +26,7 @@ class ExpenseAdapterTests {
 
     @BeforeEach
     public void setUp() {
-        expenseAdapter = new ExpenseAdapter(fixedExpenseRepository,fixedExpenseEntityMapper);
+        expenseAdapter = new ExpenseAdapter(fixedExpenseRepository, fixedExpenseEntityMapper);
     }
 
     @Test
@@ -42,7 +42,7 @@ class ExpenseAdapterTests {
         Mockito.when(this.fixedExpenseRepository.save(fixedExpenseEntity)).thenReturn(savedFixedExpenseEntity);
         Mockito.when(this.fixedExpenseEntityMapper.toFixedExpense(savedFixedExpenseEntity)).thenReturn(fixedExpense);
 
-        FixedExpense  result =  this.expenseAdapter.add(fixedExpense);
+        FixedExpense result = this.expenseAdapter.add(fixedExpense);
 
         Assertions.assertThat(result.getId()).isEqualTo(fixedExpense.getId());
         Assertions.assertThat(result.getUserId()).isEqualTo(fixedExpense.getUserId());

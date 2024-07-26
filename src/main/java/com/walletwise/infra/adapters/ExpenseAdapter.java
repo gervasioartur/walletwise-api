@@ -17,8 +17,8 @@ public class ExpenseAdapter implements IExpenseAdapter {
 
     @Override
     public FixedExpense add(FixedExpense request) {
-        FixedExpenseEntity entity =  this.fixedExpenseEntityMapper.toFixedExpenseEntity(request);
-        entity =  this.fixedExpenseRepository.save(entity);
+        FixedExpenseEntity entity = this.fixedExpenseEntityMapper.toFixedExpenseEntity(request);
+        entity = this.fixedExpenseRepository.save(entity);
         return this.fixedExpenseEntityMapper.toFixedExpense(entity);
     }
 }
