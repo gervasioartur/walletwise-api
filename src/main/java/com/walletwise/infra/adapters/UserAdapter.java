@@ -2,7 +2,7 @@ package com.walletwise.infra.adapters;
 
 import com.walletwise.domain.adapters.IUserAdapter;
 import com.walletwise.domain.entities.models.User;
-import com.walletwise.infra.gateways.mappers.UserEntityMapper;
+import com.walletwise.infra.gateways.mappers.security.UserEntityMapper;
 import com.walletwise.infra.persistence.entities.security.UserEntity;
 import com.walletwise.infra.persistence.repositories.walletwise.IUserRepository;
 

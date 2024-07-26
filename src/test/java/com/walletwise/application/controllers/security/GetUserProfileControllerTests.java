@@ -1,4 +1,4 @@
-package com.walletwise.application.controllers;
+package com.walletwise.application.controllers.security;
 
 import com.walletwise.domain.entities.exceptions.ForbiddenException;
 import com.walletwise.domain.entities.models.Profile;

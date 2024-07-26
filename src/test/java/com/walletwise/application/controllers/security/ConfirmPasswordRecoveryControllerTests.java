@@ -1,4 +1,4 @@
-package com.walletwise.application.controllers;
+package com.walletwise.application.controllers.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walletwise.application.http.ConfirmPasswordRecoveryRequest;

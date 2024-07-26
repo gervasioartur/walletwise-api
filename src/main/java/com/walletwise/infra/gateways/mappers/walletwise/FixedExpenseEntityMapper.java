@@ -1,4 +1,4 @@
-package com.walletwise.infra.gateways.mappers;
+package com.walletwise.infra.gateways.mappers.walletwise;
 
 import com.walletwise.domain.entities.models.FixedExpense;
 import com.walletwise.infra.persistence.entities.security.UserEntity;

@@ -1,5 +1,6 @@
-package com.walletwise.application.controllers;
+package com.walletwise.application.controllers.security;
 
+import com.walletwise.application.controllers.AbstractController;
 import com.walletwise.application.http.Response;
 import com.walletwise.application.http.SigninRequest;
 import com.walletwise.application.validation.ValidationBuilder;

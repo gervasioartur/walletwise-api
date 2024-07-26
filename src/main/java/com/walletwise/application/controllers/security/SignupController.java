@@ -1,5 +1,6 @@
-package com.walletwise.application.controllers;
+package com.walletwise.application.controllers.security;
 
+import com.walletwise.application.controllers.AbstractController;
 import com.walletwise.application.http.Response;
 import com.walletwise.application.http.SignupRequest;
 import com.walletwise.application.validation.ValidationBuilder;
@@ -7,7 +8,7 @@ import com.walletwise.application.validation.contract.IValidator;
 import com.walletwise.domain.entities.exceptions.ConflictException;
 import com.walletwise.domain.entities.models.User;
 import com.walletwise.domain.useCases.auth.Signup;
-import com.walletwise.infra.gateways.mappers.UserDTOMapper;
+import com.walletwise.infra.gateways.mappers.security.UserDTOMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

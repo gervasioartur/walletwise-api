@@ -2,7 +2,7 @@ package com.walletwise.infra.adapters;
 
 import com.walletwise.domain.adapters.IRoleAdapter;
 import com.walletwise.domain.entities.models.Role;
-import com.walletwise.infra.gateways.mappers.RoleEntityMapper;
+import com.walletwise.infra.gateways.mappers.security.RoleEntityMapper;
 import com.walletwise.infra.persistence.entities.security.RoleEntity;
 import com.walletwise.infra.persistence.repositories.walletwise.IRoleRepository;
 import com.walletwise.mocks.Mocks;

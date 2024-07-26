@@ -1,4 +1,4 @@
-package com.walletwise.infra.gateways.mappers;
+package com.walletwise.infra.gateways.mappers.security;
 
 import com.walletwise.domain.entities.models.Role;
 import com.walletwise.infra.persistence.entities.security.RoleEntity;
