@@ -33,4 +33,20 @@ class FixedExpenseEntityMapperTests {
         Assertions.assertThat(result.getStartDate()).isEqualTo(fixedExpense.getStartDate());
         Assertions.assertThat(result.getEndDate()).isEqualTo(fixedExpense.getEndDate());
     }
+
+    @Test
+    @DisplayName("Should return fixed expense domain object")
+    void shouldReturnFixedExpenseDomainObject() {
+        FixedExpenseEntity fixedExpenseEntity = Mocks.fixedExpenseEntityFactory();
+        FixedExpense result = this.mapper.toFixedExpense(fixedExpenseEntity);
+
+        Assertions.assertThat(result.getId()).isEqualTo(fixedExpenseEntity.getId());
+        Assertions.assertThat(result.getDescription()).isEqualTo(fixedExpenseEntity.getDescription());
+        Assertions.assertThat(result.getCategory()).isEqualTo(fixedExpenseEntity.getCategory());
+        Assertions.assertThat(result.getDueDay()).isEqualTo(fixedExpenseEntity.getDueDay());
+        Assertions.assertThat(result.getPaymentFrequency()).isEqualTo(fixedExpenseEntity.getPaymentFrequency());
+        Assertions.assertThat(result.getUserId()).isEqualTo(fixedExpenseEntity.getUser().getId());
+        Assertions.assertThat(result.getStartDate()).isEqualTo(fixedExpenseEntity.getStartDate());
+        Assertions.assertThat(result.getEndDate()).isEqualTo(fixedExpenseEntity.getEndDate());
+    }
 }
