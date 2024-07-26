@@ -2,13 +2,12 @@ package com.walletwise.mocks;
 
 import com.github.javafaker.Faker;
 import com.walletwise.application.http.SignupRequest;
+import com.walletwise.domain.entities.enums.ExpenseCategoryEnum;
 import com.walletwise.domain.entities.enums.GeneralEnumText;
+import com.walletwise.domain.entities.enums.PaymentFrequencyEnum;
 import com.walletwise.domain.entities.enums.RoleEnum;
 import com.walletwise.domain.entities.models.*;
-import com.walletwise.infra.persistence.entities.RoleEntity;
-import com.walletwise.infra.persistence.entities.SessionEntity;
-import com.walletwise.infra.persistence.entities.UserEntity;
-import com.walletwise.infra.persistence.entities.ValidationTokenEntity;
+import com.walletwise.infra.persistence.entities.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -236,5 +235,46 @@ public class Mocks {
                 faker.internet().emailAddress(),
                 faker.internet().image(),
                 GeneralEnumText.LIGHT_THEME.getValue());
+    }
+
+    public static FixedExpense fixedExpenseWithNoIdFactory() {
+        LocalDateTime now = LocalDateTime.now();
+        return new FixedExpense(
+                UUID.randomUUID(),
+                faker.lorem().paragraph(),
+                faker.number().randomNumber(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                1,
+                now,
+                now.plusDays(24),
+                PaymentFrequencyEnum.DAILY.getValue()
+        );
+    }
+
+    public static FixedExpenseEntity formFixedExpenseToEntity(FixedExpense fixedExpense) {
+        return new FixedExpenseEntity(
+                fixedExpense.getId(),
+                fixedExpense.getDescription(),
+                fixedExpense.getCategory(),
+                fixedExpense.getAmount(),
+                fixedExpense.getDueDay(),
+                fixedExpense.getPaymentFrequency(),
+                UserEntity.builder().id(fixedExpense.getUserId()).build(),
+                fixedExpense.getStartDate(),
+                fixedExpense.getEndDate());
+    }
+
+    public static FixedExpenseEntity fixedExpenseEntityFactory() {
+        LocalDateTime now = LocalDateTime.now();
+        return new FixedExpenseEntity(
+                UUID.randomUUID(),
+                faker.lorem().paragraph(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                20.00,
+                1,
+                PaymentFrequencyEnum.MONTHLY.getValue(),
+                UserEntity.builder().id(UUID.randomUUID()).build(),
+                now,
+                now.plusDays(24));
     }
 }
