@@ -1,6 +1,5 @@
 package com.walletwise.application.validation.validators;
 
-import com.walletwise.domain.entities.enums.ExpenseCategoryEnum;
 import com.walletwise.domain.entities.enums.PaymentFrequencyEnum;
 
 public class PaymenteMethodFieldValidator extends AbstractValidator {
