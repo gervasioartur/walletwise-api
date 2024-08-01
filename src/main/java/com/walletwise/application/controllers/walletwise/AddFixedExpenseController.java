@@ -3,6 +3,9 @@ package com.walletwise.application.controllers.walletwise;
 import com.walletwise.application.controllers.AbstractController;
 import com.walletwise.application.http.AddFixedExpenseRequest;
 import com.walletwise.application.http.Response;
+import com.walletwise.application.validation.ValidationBuilder;
+import com.walletwise.application.validation.ValidationComposite;
+import com.walletwise.application.validation.contract.IValidator;
 import com.walletwise.domain.entities.models.FixedExpense;
 import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.useCases.auth.GetUserProfile;
@@ -15,6 +18,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @Tag(name = "Fixed Expenses")
@@ -46,6 +52,12 @@ public class AddFixedExpenseController extends AbstractController<AddFixedExpens
         Response response;
         ResponseEntity<Response> responseEntity;
 
+        String error = this.validate(request);
+        if (error != null) {
+            response = Response.builder().body(error).build();
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
         try {
             Profile profile = this.getUserProfile.getUserProfile();
             FixedExpense fixedExpense = this.mapper.toFixedExpenseDomainObj(profile.getUserId(), request);
@@ -59,5 +71,12 @@ public class AddFixedExpenseController extends AbstractController<AddFixedExpens
 
         }
         return responseEntity;
+    }
+
+    @Override
+    public List<IValidator> buildValidators(AddFixedExpenseRequest request) {
+        List<IValidator> validators = new ArrayList<>();
+        validators.addAll(ValidationBuilder.of("Description", request.description()).required().build());
+        return validators;
     }
 }
