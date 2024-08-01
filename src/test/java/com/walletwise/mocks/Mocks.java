@@ -1,16 +1,22 @@
 package com.walletwise.mocks;
 
 import com.github.javafaker.Faker;
+import com.walletwise.application.http.AddFixedExpenseRequest;
 import com.walletwise.application.http.SignupRequest;
+import com.walletwise.domain.entities.enums.ExpenseCategoryEnum;
 import com.walletwise.domain.entities.enums.GeneralEnumText;
+import com.walletwise.domain.entities.enums.PaymentFrequencyEnum;
 import com.walletwise.domain.entities.enums.RoleEnum;
 import com.walletwise.domain.entities.models.*;
-import com.walletwise.infra.persistence.entities.RoleEntity;
-import com.walletwise.infra.persistence.entities.SessionEntity;
-import com.walletwise.infra.persistence.entities.UserEntity;
-import com.walletwise.infra.persistence.entities.ValidationTokenEntity;
+import com.walletwise.infra.persistence.entities.security.RoleEntity;
+import com.walletwise.infra.persistence.entities.security.SessionEntity;
+import com.walletwise.infra.persistence.entities.security.UserEntity;
+import com.walletwise.infra.persistence.entities.security.ValidationTokenEntity;
+import com.walletwise.infra.persistence.entities.walletwise.FixedExpenseEntity;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -236,5 +242,71 @@ public class Mocks {
                 faker.internet().emailAddress(),
                 faker.internet().image(),
                 GeneralEnumText.LIGHT_THEME.getValue());
+    }
+
+    public static FixedExpense fixedExpenseWithNoIdFactory() {
+        LocalDateTime now = LocalDateTime.now();
+        return new FixedExpense(
+                UUID.randomUUID(),
+                faker.lorem().paragraph(),
+                faker.number().randomNumber(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                1,
+                now,
+                now.plusDays(24),
+                PaymentFrequencyEnum.DAILY.getValue()
+        );
+    }
+
+    public static FixedExpenseEntity formFixedExpenseToEntity(FixedExpense fixedExpense) {
+        return new FixedExpenseEntity(
+                fixedExpense.getId(),
+                fixedExpense.getDescription(),
+                fixedExpense.getCategory(),
+                fixedExpense.getAmount(),
+                fixedExpense.getDueDay(),
+                fixedExpense.getPaymentFrequency(),
+                UserEntity.builder().id(fixedExpense.getUserId()).build(),
+                fixedExpense.getStartDate(),
+                fixedExpense.getEndDate());
+    }
+
+    public static FixedExpenseEntity fixedExpenseEntityFactory() {
+        LocalDateTime now = LocalDateTime.now();
+        return new FixedExpenseEntity(
+                UUID.randomUUID(),
+                faker.lorem().paragraph(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                20.00,
+                1,
+                PaymentFrequencyEnum.MONTHLY.getValue(),
+                UserEntity.builder().id(UUID.randomUUID()).build(),
+                now,
+                now.plusDays(24));
+    }
+
+    public static AddFixedExpenseRequest addFixedExpenseRequest() {
+        LocalDateTime now = LocalDateTime.now();
+        return new AddFixedExpenseRequest(
+                faker.lorem().word(),
+                (double) faker.number().randomNumber(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                10,
+                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
+                PaymentFrequencyEnum.WEEKLY.getValue()
+        );
+    }
+
+    public static FixedExpense formFixedExpenseRequestToObj(UUID userId, AddFixedExpenseRequest request) {
+        return new FixedExpense(
+                userId,
+                request.description(),
+                request.amount(),
+                request.category(),
+                request.dueDay(),
+                request.startDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                request.endDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                request.paymentFrequency());
     }
 }

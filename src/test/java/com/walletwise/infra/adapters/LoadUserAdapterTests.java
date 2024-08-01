@@ -1,7 +1,7 @@
 package com.walletwise.infra.adapters;
 
-import com.walletwise.infra.persistence.entities.UserEntity;
-import com.walletwise.infra.persistence.repositories.IUserRepository;
+import com.walletwise.infra.persistence.entities.security.UserEntity;
+import com.walletwise.infra.persistence.repositories.walletwise.IUserRepository;
 import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

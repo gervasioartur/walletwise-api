@@ -1,13 +1,11 @@
 package com.walletwise.application.validation;
 
 import com.walletwise.application.validation.contract.IValidator;
-import com.walletwise.application.validation.validators.EmailFieldValidator;
-import com.walletwise.application.validation.validators.PasswordFieldValidator;
-import com.walletwise.application.validation.validators.RequiredFieldValidator;
-import com.walletwise.application.validation.validators.UsernameFieldValidator;
+import com.walletwise.application.validation.validators.*;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -42,6 +40,26 @@ public class ValidationBuilder {
 
     public ValidationBuilder username() {
         this.validators.add(new UsernameFieldValidator(this.fieldValue));
+        return this;
+    }
+
+    public ValidationBuilder expenseCategory() {
+        this.validators.add(new ExpenseCategoryFieldValidator(this.fieldValue));
+        return this;
+    }
+
+    public ValidationBuilder dueDay() {
+        this.validators.add(new DueDayFieldValidator(this.fieldValue));
+        return this;
+    }
+
+    public ValidationBuilder endDate(Date startDate) {
+        this.validators.add(new EndDateFieldValidator(startDate, this.fieldValue));
+        return this;
+    }
+
+    public ValidationBuilder paymentMethod() {
+        this.validators.add(new PaymenteMethodFieldValidator(this.fieldValue));
         return this;
     }
 

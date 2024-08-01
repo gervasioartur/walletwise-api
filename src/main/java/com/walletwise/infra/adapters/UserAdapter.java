@@ -1,20 +1,27 @@
 package com.walletwise.infra.adapters;
 
 import com.walletwise.domain.adapters.IUserAdapter;
+import com.walletwise.domain.entities.enums.RoleEnum;
+import com.walletwise.domain.entities.exceptions.NotFoundException;
 import com.walletwise.domain.entities.models.User;
-import com.walletwise.infra.gateways.mappers.UserEntityMapper;
-import com.walletwise.infra.persistence.entities.UserEntity;
-import com.walletwise.infra.persistence.repositories.IUserRepository;
+import com.walletwise.infra.gateways.mappers.security.UserEntityMapper;
+import com.walletwise.infra.persistence.entities.security.RoleEntity;
+import com.walletwise.infra.persistence.entities.security.UserEntity;
+import com.walletwise.infra.persistence.repositories.walletwise.IRoleRepository;
+import com.walletwise.infra.persistence.repositories.walletwise.IUserRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public class UserAdapter implements IUserAdapter {
     private final IUserRepository userRepository;
+    private final IRoleRepository roleRepository;
     private final UserEntityMapper mapper;
 
-    public UserAdapter(IUserRepository userRepository, UserEntityMapper mapper) {
+    public UserAdapter(IUserRepository userRepository, IRoleRepository roleRepository, UserEntityMapper mapper) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
         this.mapper = mapper;
     }
 
@@ -38,8 +45,13 @@ public class UserAdapter implements IUserAdapter {
 
     @Override
     public User save(User user) {
+        RoleEntity roleEntity = this.roleRepository
+                .findByNameAndActive(RoleEnum.USER.getValue(), true)
+                .orElseThrow(() -> new NotFoundException("Role not found!"));
+
         UserEntity userEntity = this.mapper.toUserEntity(user);
         userEntity.setActive(true);
+        userEntity.setRoles(List.of(roleEntity));
         userEntity = this.userRepository.save(userEntity);
         return this.mapper.toDomainObject(userEntity);
     }

@@ -1,6 +1,6 @@
 package com.walletwise.infra.adapters;
 
-import com.walletwise.infra.persistence.repositories.IUserRepository;
+import com.walletwise.infra.persistence.repositories.walletwise.IUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
