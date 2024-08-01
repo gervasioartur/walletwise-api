@@ -17,7 +17,7 @@ public class RequiredFieldValidator extends AbstractValidator {
             return ((Double) this.fieldValue) == 0 ? this.returnMessage : null;
         } else if (this.fieldValue instanceof Integer) {
             return ((Integer) this.fieldValue) == 0 ? this.returnMessage : null;
-        }else if(this.fieldValue == null) {
+        } else if (this.fieldValue == null) {
             return this.returnMessage;
         }
         return null;

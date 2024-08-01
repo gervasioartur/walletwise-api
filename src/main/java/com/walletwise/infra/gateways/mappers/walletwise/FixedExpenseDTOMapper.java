@@ -3,7 +3,6 @@ package com.walletwise.infra.gateways.mappers.walletwise;
 import com.walletwise.application.http.AddFixedExpenseRequest;
 import com.walletwise.domain.entities.models.FixedExpense;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.UUID;
 

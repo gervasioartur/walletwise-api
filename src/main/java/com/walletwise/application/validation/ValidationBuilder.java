@@ -54,7 +54,7 @@ public class ValidationBuilder {
     }
 
     public ValidationBuilder endDate(Date startDate) {
-        this.validators.add(new EndDateFieldValidator(startDate,this.fieldValue));
+        this.validators.add(new EndDateFieldValidator(startDate, this.fieldValue));
         return this;
     }
 
