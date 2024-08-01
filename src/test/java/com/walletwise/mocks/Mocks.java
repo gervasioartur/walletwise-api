@@ -17,6 +17,7 @@ import com.walletwise.infra.persistence.entities.walletwise.FixedExpenseEntity;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -308,5 +309,24 @@ public class Mocks {
                 request.startDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
                 request.endDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
                 request.paymentFrequency());
+    }
+
+    public static FixedExpense fixedExpenseFactory(UUID userId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new FixedExpense(
+                UUID.randomUUID(),
+                userId,
+                faker.lorem().paragraph(),
+                faker.number().randomNumber(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                1,
+                now,
+                now.plusDays(24),
+                PaymentFrequencyEnum.DAILY.getValue()
+        );
+    }
+
+    public static List<FixedExpense> fixedExpenseListFactory(UUID userid){
+        return  List.of(fixedExpenseFactory(userid),fixedExpenseFactory(userid),fixedExpenseFactory(userid));
     }
 }
