@@ -2,6 +2,8 @@ package com.walletwise.application.controllers.walletwise;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walletwise.application.http.AddFixedExpenseRequest;
+import com.walletwise.domain.entities.enums.ExpenseCategoryEnum;
+import com.walletwise.domain.entities.enums.PaymentFrequencyEnum;
 import com.walletwise.domain.entities.models.FixedExpense;
 import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.useCases.auth.GetUserProfile;
@@ -23,6 +25,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -71,5 +77,59 @@ class AddFixedExpenseControllerTests {
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("body", Matchers
                         .is("An unexpected error occurred. Please try again later.")));
+    }
+
+    @Test
+    @DisplayName("Should return if badRequest if description is empty")
+    void shouldReturnBadRequestIfDescriptionIsEmpty() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
+                "",
+                Mocks.faker.number().randomNumber(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                10,
+                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
+                PaymentFrequencyEnum.WEEKLY.getValue());
+
+
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers
+                        .is("Description is required.")));
+    }
+
+    @Test
+    @DisplayName("Should return if badRequest if description is null")
+    void shouldReturnBadRequestIfDescriptionIsNull() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
+                null,
+                Mocks.faker.number().randomNumber(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                10,
+                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
+                PaymentFrequencyEnum.WEEKLY.getValue());
+
+
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers
+                        .is("Description is required.")));
     }
 }
