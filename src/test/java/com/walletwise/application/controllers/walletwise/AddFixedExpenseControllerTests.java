@@ -305,7 +305,7 @@ class AddFixedExpenseControllerTests {
                 (double) Mocks.faker.number().randomNumber(),
                 ExpenseCategoryEnum.SCHOOL.getValue(),
                 31,
-               null,
+                null,
                 Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
                 PaymentFrequencyEnum.WEEKLY.getValue());
 
@@ -375,5 +375,59 @@ class AddFixedExpenseControllerTests {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("body", Matchers
                         .is("The end date must be after start date.")));
+    }
+
+    @Test
+    @DisplayName("Should return if badRequest if payment frequency is empty")
+    void shouldReturnBadRequestIfPaymentFrequencyIsEmpty() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
+                Mocks.faker.lorem().paragraph(),
+                (double) Mocks.faker.number().randomNumber(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                31,
+                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
+                "");
+
+
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers
+                        .is("Payment frequency is required.")));
+    }
+
+    @Test
+    @DisplayName("Should return if badRequest if payment frequency is null")
+    void shouldReturnBadRequestIfPaymentFrequencyIsNull() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
+                Mocks.faker.lorem().paragraph(),
+                (double) Mocks.faker.number().randomNumber(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                31,
+                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
+                null);
+
+
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers
+                        .is("Payment frequency is required.")));
     }
 }
