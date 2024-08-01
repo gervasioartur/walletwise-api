@@ -430,4 +430,32 @@ class AddFixedExpenseControllerTests {
                 .andExpect(jsonPath("body", Matchers
                         .is("Payment frequency is required.")));
     }
+
+    @Test
+    @DisplayName("Should return if badRequest if payment frequency is invalid")
+    void shouldReturnBadRequestIfPaymentFrequencyIsInvalid() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
+                Mocks.faker.lorem().paragraph(),
+                (double) Mocks.faker.number().randomNumber(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                31,
+                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
+                Mocks.faker.lorem().word());
+
+
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers
+                        .is("Invalid Payment frequency! You must choose payment frequency between " +
+                                "DAILY,WEEKLY,MONTHLY or YEARLY.")));
+    }
 }
