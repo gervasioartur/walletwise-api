@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-public class ConfirmPasswordRecoveryControllerTests {
+class ConfirmPasswordRecoveryControllerTests {
     private final String URL = "/auth/confirm-password-recovery";
     @Autowired
     private WebApplicationContext context;
