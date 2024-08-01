@@ -1,6 +1,7 @@
 package com.walletwise.mocks;
 
 import com.github.javafaker.Faker;
+import com.walletwise.application.http.AddFixedExpenseRequest;
 import com.walletwise.application.http.SignupRequest;
 import com.walletwise.domain.entities.enums.ExpenseCategoryEnum;
 import com.walletwise.domain.entities.enums.GeneralEnumText;
@@ -14,6 +15,8 @@ import com.walletwise.infra.persistence.entities.security.ValidationTokenEntity;
 import com.walletwise.infra.persistence.entities.walletwise.FixedExpenseEntity;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -280,5 +283,30 @@ public class Mocks {
                 UserEntity.builder().id(UUID.randomUUID()).build(),
                 now,
                 now.plusDays(24));
+    }
+
+    public static AddFixedExpenseRequest addFixedExpenseRequest() {
+        LocalDateTime now = LocalDateTime.now();
+        return new AddFixedExpenseRequest(
+                faker.lorem().word(),
+                faker.number().randomNumber(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                10,
+                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
+                PaymentFrequencyEnum.WEEKLY.getValue()
+        );
+    }
+
+    public  static  FixedExpense formFixedExpenseRequestToObj(UUID userId, AddFixedExpenseRequest request) {
+        return new FixedExpense(
+                userId,
+                request.description(),
+                request.amount(),
+                request.category(),
+                request.dueDay(),
+                request.startDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                request.endDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                request.paymentFrequency());
     }
 }
