@@ -101,7 +101,7 @@ I want to be able to add fixed expense
     Then the response status should be 400
     And the response should contain "The end date must be after start date."
 
-## Scenario: Add fixed expense with no payment frequency []
+## Scenario: Add fixed expense with no payment frequency [✅]
 
     Given fixed expense payload with userId "any_user_id", description "any_description",amount 12, 
     category "FOOD", dueDay 21,startDate 2020-05-12, endDate 2025-10-23 and paymentFrequency ""
