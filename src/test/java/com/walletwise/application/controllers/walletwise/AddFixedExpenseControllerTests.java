@@ -297,6 +297,33 @@ class AddFixedExpenseControllerTests {
     }
 
     @Test
+    @DisplayName("Should return if badRequest if startDate is null")
+    void shouldReturnBadRequestIfStartDateIsNull() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
+                Mocks.faker.lorem().paragraph(),
+                (double) Mocks.faker.number().randomNumber(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                31,
+               null,
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
+                PaymentFrequencyEnum.WEEKLY.getValue());
+
+
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers
+                        .is("Start date is required.")));
+    }
+
+    @Test
     @DisplayName("Should return if badRequest if endDate is null")
     void shouldReturnBadRequestIfEndDateIsNull() throws Exception {
         LocalDateTime now = LocalDateTime.now();
@@ -321,5 +348,32 @@ class AddFixedExpenseControllerTests {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("body", Matchers
                         .is("End date is required.")));
+    }
+
+    @Test
+    @DisplayName("Should return if badRequest if end date before start date")
+    void shouldReturnBadRequestIfEndDateIsAfterStartDate() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
+                Mocks.faker.lorem().paragraph(),
+                (double) Mocks.faker.number().randomNumber(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                31,
+                Date.from(now.plusDays(27).atZone(ZoneId.systemDefault()).toInstant()),
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
+                PaymentFrequencyEnum.WEEKLY.getValue());
+
+
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers
+                        .is("The end date must be after start date.")));
     }
 }
