@@ -268,4 +268,31 @@ class AddFixedExpenseControllerTests {
                 .andExpect(jsonPath("body", Matchers
                         .is("Due day is required.")));
     }
+
+    @Test
+    @DisplayName("Should return if badRequest if Due day is invalid")
+    void shouldReturnBadRequestIfDueDayIsInvalid() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
+                Mocks.faker.lorem().paragraph(),
+                (double) Mocks.faker.number().randomNumber(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                32,
+                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
+                PaymentFrequencyEnum.WEEKLY.getValue());
+
+
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers
+                        .is("Invalid due day! Expiration day must be between 1 to 31.")));
+    }
 }
