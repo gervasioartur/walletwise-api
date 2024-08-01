@@ -47,6 +47,11 @@ public class ValidationBuilder {
         return  this;
     }
 
+    public  ValidationBuilder dueDay(){
+        this.validators.add(new DueDayFieldValidator(this.fieldValue));
+        return  this;
+    }
+
     public List<IValidator> build() {
         return this.validators;
     }

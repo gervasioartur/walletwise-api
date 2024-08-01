@@ -78,7 +78,7 @@ public class AddFixedExpenseController extends AbstractController<AddFixedExpens
         validators.addAll(ValidationBuilder.of("Description", request.description()).required().build());
         validators.addAll(ValidationBuilder.of("Amount", request.amount()).required().build());
         validators.addAll(ValidationBuilder.of("Category", request.category()).required().expenseCategory().build());
-        validators.addAll(ValidationBuilder.of("Due day", request.dueDay()).required().build());
+        validators.addAll(ValidationBuilder.of("Due day", request.dueDay()).required().dueDay().build());
         return validators;
     }
 }
