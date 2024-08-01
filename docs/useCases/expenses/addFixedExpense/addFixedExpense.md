@@ -12,7 +12,7 @@ I want to be able to add fixed expense
     Then the response status should be 500
     And the response should contain "An unexpected error occurred. Please try again later."
 
-## Scenario: Add fixed expense with no active session []
+## Scenario: Add fixed expense with no active session [✅]
 
     Given fixed expense payload with userId "any_user_id", description "any_description",amount 12,
     category "TRANSPORT", dueDay 21,startDate 2020-05-12, endDate 2025-10-23 and paymentFrequency "DAILY"
