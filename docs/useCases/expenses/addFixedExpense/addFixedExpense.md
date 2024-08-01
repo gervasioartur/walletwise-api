@@ -20,7 +20,7 @@ I want to be able to add fixed expense
     Then the response status should be 403
     And the response should contain "Forbidden."
 
-## Scenario: Add fixed expense with no description []
+## Scenario: Add fixed expense with no description [✅]
 
     Given fixed expense payload with userId "any_user_id", description "",amount 12, 
     category "TRANSPORT", dueDay 21,startDate 2020-05-12, endDate 2025-10-23 and paymentFrequency "DAILY"
