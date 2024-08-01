@@ -58,6 +58,11 @@ public class ValidationBuilder {
         return this;
     }
 
+    public ValidationBuilder paymentMethod() {
+        this.validators.add(new PaymenteMethodFieldValidator(this.fieldValue));
+        return this;
+    }
+
     public List<IValidator> build() {
         return this.validators;
     }
