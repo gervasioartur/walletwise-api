@@ -77,15 +77,15 @@ I want to be able to add fixed expense
     Then the response status should be 400
     And the response should contain "Invalid due day! Expiration day must be between 1 to 31."
 
-# Scenario: Add fixed expense with no start date []
+# Scenario: Add fixed expense with no end date [✅]
 
     Given fixed expense payload with userId "any_user_id", description "any_description",amount 12, 
     category "FOOD", dueDay 21,startDate , endDate 2025-10-23 and paymentFrequency "DAILY"
     When I send a POST request to "api/fixed-expense"
     Then the response status should be 400
-    And the response should contain "Start date is required."
+    And the response should contain "End date is required."
 
-# Scenario: Add fixed expense with start date after endDate []
+# Scenario: Add fixed expense with start date after end date []
 
     Given fixed expense payload with userId "any_user_id", description "any_description",amount 12, 
     category "FOOD", dueDay 21,startDate 2025-10-24  , endDate 2025-10-23 and paymentFrequency "DAILY"
