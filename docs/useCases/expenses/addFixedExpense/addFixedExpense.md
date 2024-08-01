@@ -61,7 +61,7 @@ I want to be able to add fixed expense
     And the response should contain "Invalid category! You must choose a category between FOOD,
     TRANSPORT,RENT,ENTERTAINMENT,SCHOOL or OTHERS."
 
-## Scenario: Add fixed expense with no due day []
+## Scenario: Add fixed expense with no due day [✅]
 
     Given fixed expense payload with userId "any_user_id", description "any_description",amount 12, 
     category "FOOD", dueDay 21,startDate 2020-05-12, endDate 2025-10-23 and paymentFrequency "DAILY"
