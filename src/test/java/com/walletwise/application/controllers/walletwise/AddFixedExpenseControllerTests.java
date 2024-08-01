@@ -159,4 +159,58 @@ class AddFixedExpenseControllerTests {
                 .andExpect(jsonPath("body", Matchers
                         .is("Amount is required.")));
     }
+
+    @Test
+    @DisplayName("Should return if badRequest if Category is empty")
+    void shouldReturnBadRequestIfCategoryIsEmpty() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
+                Mocks.faker.lorem().paragraph(),
+                (double) Mocks.faker.number().randomNumber(),
+                "",
+                10,
+                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
+                PaymentFrequencyEnum.WEEKLY.getValue());
+
+
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers
+                        .is("Category is required.")));
+    }
+
+    @Test
+    @DisplayName("Should return if badRequest if Category is null")
+    void shouldReturnBadRequestIfCategoryIsNull() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
+                Mocks.faker.lorem().paragraph(),
+                (double) Mocks.faker.number().randomNumber(),
+                null,
+                10,
+                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
+                PaymentFrequencyEnum.WEEKLY.getValue());
+
+
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers
+                        .is("Category is required.")));
+    }
 }
