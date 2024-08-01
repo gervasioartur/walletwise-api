@@ -14,7 +14,7 @@ public class ExpenseCategoryFieldValidator extends AbstractValidator {
     @Override
     public String validate() {
         String value = (String) fieldValue;
-        if(!value.equals(ExpenseCategoryEnum.RENT.getValue())
+        if (!value.equals(ExpenseCategoryEnum.RENT.getValue())
                 && !value.equals(ExpenseCategoryEnum.FOOD.getValue())
                 && !value.equals(ExpenseCategoryEnum.OTHER.getValue())
                 && !value.equals(ExpenseCategoryEnum.SCHOOL.getValue())

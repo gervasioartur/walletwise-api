@@ -15,10 +15,11 @@ public class RequiredFieldValidator extends AbstractValidator {
             return ((String) this.fieldValue).trim().isEmpty() ? this.returnMessage : null;
         } else if (this.fieldValue instanceof Double) {
             return ((Double) this.fieldValue) == 0 ? this.returnMessage : null;
-        }else if (this.fieldValue instanceof Integer) {
+        } else if (this.fieldValue instanceof Integer) {
             return ((Integer) this.fieldValue) == 0 ? this.returnMessage : null;
+        }else if(this.fieldValue == null) {
+            return this.returnMessage;
         }
-
-        return this.returnMessage;
+        return null;
     }
 }

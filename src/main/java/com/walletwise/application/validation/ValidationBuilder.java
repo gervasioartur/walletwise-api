@@ -42,14 +42,14 @@ public class ValidationBuilder {
         return this;
     }
 
-    public ValidationBuilder expenseCategory(){
+    public ValidationBuilder expenseCategory() {
         this.validators.add(new ExpenseCategoryFieldValidator(this.fieldValue));
-        return  this;
+        return this;
     }
 
-    public  ValidationBuilder dueDay(){
+    public ValidationBuilder dueDay() {
         this.validators.add(new DueDayFieldValidator(this.fieldValue));
-        return  this;
+        return this;
     }
 
     public List<IValidator> build() {
