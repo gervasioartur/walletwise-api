@@ -9,6 +9,7 @@ import com.walletwise.infra.adapters.LoadUserAdapter;
 import com.walletwise.infra.adapters.UserAdapter;
 import com.walletwise.infra.gateways.mappers.security.UserDTOMapper;
 import com.walletwise.infra.gateways.mappers.security.UserEntityMapper;
+import com.walletwise.infra.persistence.repositories.walletwise.IRoleRepository;
 import com.walletwise.infra.persistence.repositories.walletwise.IUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +43,7 @@ public class UserConfig {
     }
 
     @Bean
-    public UserAdapter userAdapter(IUserRepository userRepository, UserEntityMapper userEntityMapper) {
-        return new UserAdapter(userRepository, userEntityMapper);
+    public UserAdapter userAdapter(IUserRepository userRepository, IRoleRepository roleRepository, UserEntityMapper userEntityMapper) {
+        return new UserAdapter(userRepository, roleRepository, userEntityMapper);
     }
 }

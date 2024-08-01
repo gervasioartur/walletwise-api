@@ -1,9 +1,13 @@
 package com.walletwise.infra.adapters;
 
 import com.walletwise.domain.adapters.IUserAdapter;
+import com.walletwise.domain.entities.enums.RoleEnum;
+import com.walletwise.domain.entities.exceptions.NotFoundException;
 import com.walletwise.domain.entities.models.User;
 import com.walletwise.infra.gateways.mappers.security.UserEntityMapper;
+import com.walletwise.infra.persistence.entities.security.RoleEntity;
 import com.walletwise.infra.persistence.entities.security.UserEntity;
+import com.walletwise.infra.persistence.repositories.walletwise.IRoleRepository;
 import com.walletwise.infra.persistence.repositories.walletwise.IUserRepository;
 import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
@@ -14,6 +18,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,11 +28,13 @@ public class UserAdapterTests {
     @MockBean
     private IUserRepository userRepository;
     @MockBean
+    private IRoleRepository roleRepository;
+    @MockBean
     private UserEntityMapper mapper;
 
     @BeforeEach
     void setup() {
-        this.userAdapter = new UserAdapter(userRepository, mapper);
+        this.userAdapter = new UserAdapter(userRepository, roleRepository, mapper);
     }
 
     @Test
@@ -91,6 +98,30 @@ public class UserAdapterTests {
     }
 
     @Test
+    @DisplayName("Should throw NotFoundException if roleRepository throws")
+    void shouldThrowNotFoundExceptionIfRoleRepositoryThrows() {
+        User toSaveUserDomainObject = Mocks.userDomainObjectWithoutIdFactory();
+        UserEntity toSaveUserEntity = Mocks.fromUserToUserEntityFactory(toSaveUserDomainObject);
+
+        UserEntity savedUserEntity = toSaveUserEntity;
+        savedUserEntity.setId(UUID.randomUUID());
+        User savedUserDomainObject = Mocks.fromUserEntityToUserFactory(savedUserEntity);
+
+        Mockito.when(this.roleRepository.findByNameAndActive(RoleEnum.USER.getValue(), true))
+                .thenReturn(Optional.empty());
+        Mockito.when(this.mapper.toUserEntity(toSaveUserDomainObject)).thenReturn(toSaveUserEntity);
+        Mockito.when(this.userRepository.save(toSaveUserEntity)).thenReturn(savedUserEntity);
+        Mockito.when(this.mapper.toDomainObject(savedUserEntity)).thenReturn(savedUserDomainObject);
+
+        Throwable exception = Assertions.catchThrowable(() -> this.userAdapter.save(toSaveUserDomainObject));
+
+        Assertions.assertThat(exception).isInstanceOf(NotFoundException.class);
+        Assertions.assertThat(exception.getMessage()).isEqualTo("Role not found!");
+        Mockito.verify(this.roleRepository, Mockito.times(1))
+                .findByNameAndActive(RoleEnum.USER.getValue(), true);
+    }
+
+    @Test
     @DisplayName("Should return user domain object on save success")
     void shouldReturnUserDomainObjectOnSuccess() {
         User toSaveUserDomainObject = Mocks.userDomainObjectWithoutIdFactory();
@@ -99,7 +130,11 @@ public class UserAdapterTests {
         UserEntity savedUserEntity = toSaveUserEntity;
         savedUserEntity.setId(UUID.randomUUID());
         User savedUserDomainObject = Mocks.fromUserEntityToUserFactory(savedUserEntity);
+        RoleEntity savedRoleEntity = Mocks.savedRoleEntityFactory();
+        toSaveUserEntity.setRoles(List.of(savedRoleEntity));
 
+        Mockito.when(this.roleRepository.findByNameAndActive(RoleEnum.USER.getValue(), true))
+                .thenReturn(Optional.of(savedRoleEntity));
         Mockito.when(this.mapper.toUserEntity(toSaveUserDomainObject)).thenReturn(toSaveUserEntity);
         Mockito.when(this.userRepository.save(toSaveUserEntity)).thenReturn(savedUserEntity);
         Mockito.when(this.mapper.toDomainObject(savedUserEntity)).thenReturn(savedUserDomainObject);
@@ -107,6 +142,8 @@ public class UserAdapterTests {
         User userDomainObjectResult = this.userAdapter.save(toSaveUserDomainObject);
 
         Assertions.assertThat(userDomainObjectResult).isEqualTo(savedUserDomainObject);
+        Mockito.verify(this.roleRepository, Mockito.times(1))
+                .findByNameAndActive(RoleEnum.USER.getValue(), true);
         Mockito.verify(this.userRepository, Mockito.times(1)).save(toSaveUserEntity);
         Mockito.verify(this.mapper, Mockito.times(1)).toDomainObject(savedUserEntity);
     }
