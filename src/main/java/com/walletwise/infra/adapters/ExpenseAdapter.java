@@ -6,6 +6,9 @@ import com.walletwise.infra.gateways.mappers.walletwise.FixedExpenseEntityMapper
 import com.walletwise.infra.persistence.entities.walletwise.FixedExpenseEntity;
 import com.walletwise.infra.persistence.repositories.security.IFixedExpenseRepository;
 
+import java.util.List;
+import java.util.UUID;
+
 public class ExpenseAdapter implements IExpenseAdapter {
     private final IFixedExpenseRepository fixedExpenseRepository;
     private final FixedExpenseEntityMapper fixedExpenseEntityMapper;
@@ -20,5 +23,10 @@ public class ExpenseAdapter implements IExpenseAdapter {
         FixedExpenseEntity entity = this.fixedExpenseEntityMapper.toFixedExpenseEntity(request);
         entity = this.fixedExpenseRepository.save(entity);
         return this.fixedExpenseEntityMapper.toFixedExpense(entity);
+    }
+
+    @Override
+    public List<FixedExpense> getByUserId(UUID userId) {
+        return List.of();
     }
 }
