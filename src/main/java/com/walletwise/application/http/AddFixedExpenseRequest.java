@@ -4,7 +4,7 @@ import java.util.Date;
 
 public record AddFixedExpenseRequest(
         String description,
-        double amount,
+        Double amount,
         String category,
         int dueDay,
         Date startDate,

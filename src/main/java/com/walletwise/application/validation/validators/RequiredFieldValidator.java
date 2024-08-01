@@ -13,6 +13,8 @@ public class RequiredFieldValidator extends AbstractValidator {
     public String validate() {
         if (this.fieldValue instanceof String) {
             return ((String) this.fieldValue).trim().isEmpty() ? this.returnMessage : null;
+        } else if (this.fieldValue instanceof Double) {
+            return ((Double) this.fieldValue) == 0 ? this.returnMessage : null;
         }
         return this.returnMessage;
     }

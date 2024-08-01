@@ -77,6 +77,7 @@ public class AddFixedExpenseController extends AbstractController<AddFixedExpens
     public List<IValidator> buildValidators(AddFixedExpenseRequest request) {
         List<IValidator> validators = new ArrayList<>();
         validators.addAll(ValidationBuilder.of("Description", request.description()).required().build());
+        validators.addAll(ValidationBuilder.of("Amount", request.amount()).required().build());
         return validators;
     }
 }
