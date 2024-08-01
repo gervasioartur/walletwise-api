@@ -15,9 +15,10 @@ the app aims to empower users to make informed financial decisions and promote a
 
 ## DOCUMENTATION
 
-### Use cases
+> #### Use cases
 
-#### AUTHENTICATION
+#### Authentication
+
 
 ##### Sign up
 
@@ -47,8 +48,57 @@ the app aims to empower users to make informed financial decisions and promote a
 #### EXPENSES
 
 - [Add fixed expenses use case BDD documentation](docs/useCases/expenses/addFixedExpense/addFixedExpense.md)
+- [Add fixed expenses use case dependency diagram](docs/useCases/expenses/addFixedExpense/addFixedExpense.drawio)
 
-## Technical Specification
+
+## Technical Documentation
+> ###  Architecture Overview
+
+The architecture of "WALLETWISE-API" is based on a clean architecture: application, domain,infra and main. 
+We use Docker containers to ensure the portability and scalability of the system.
+
+> ###  System Components
+* Backend:  RESTful Api developed in Java with spring boot
+* Database: Postgresql for data storage
+
+> ###  Installation
+ #### Prerequisites
+* Java (version 17 or higher)
+* Postgresql
+* Docker
+
+#### Installation Steps
+* Clone the project repository and start service:
+    ```bash
+    git clone https://github.com/gervasioartur/walletwise-api.git
+    ```
+    ```bash
+    cd walletwise-api
+    ```
+    ```bash
+    docker-compose up -d
+    ```
+<br/>
+
+> ###  Testing
+#### Prerequisites
+* Java (version 17 or higher)
+* Maven (version 3)
+* Postgresql
+* Docker
+
+#### Unit Tests
+* Use JUnit for write and tests for the api.
+
+####  Integration Tests
+* Integration tests to ensure that different components of the system work correctly together.
+
+####  Running  Tests
+* Run unit tests:
+    ```bash
+    mvn clean test
+    ```
+<br/>
 
 > ### Principles
 
