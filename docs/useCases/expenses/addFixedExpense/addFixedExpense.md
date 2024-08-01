@@ -109,7 +109,7 @@ I want to be able to add fixed expense
     Then the response status should be 400
     And the response should contain "Payment frequency is required."
 
-## Scenario: Add fixed expense with invalid payment frequency []
+## Scenario: Add fixed expense with invalid payment frequency [✅]
 
     Given fixed expense payload with userId "any_user_id", description "any_description",amount 12, 
     category "FOOD", dueDay 21,startDate 2020-05-12, endDate 2025-10-23 and paymentFrequency "any_invalid_payment_frequency"
