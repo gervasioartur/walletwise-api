@@ -298,7 +298,7 @@ public class Mocks {
         );
     }
 
-    public  static  FixedExpense formFixedExpenseRequestToObj(UUID userId, AddFixedExpenseRequest request) {
+    public static FixedExpense formFixedExpenseRequestToObj(UUID userId, AddFixedExpenseRequest request) {
         return new FixedExpense(
                 userId,
                 request.description(),

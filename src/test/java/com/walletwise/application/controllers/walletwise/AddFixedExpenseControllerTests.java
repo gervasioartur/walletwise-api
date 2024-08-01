@@ -63,7 +63,7 @@ class AddFixedExpenseControllerTests {
         FixedExpense fixedExpense = Mocks.formFixedExpenseRequestToObj(profile.getUserId(), requestParams);
 
         BDDMockito.when(this.getUserProfile.getUserProfile()).thenReturn(profile);
-        BDDMockito.when(this.mapper.toFixedExpenseDomainObj(profile.getUserId(),requestParams)).thenReturn(fixedExpense);
+        BDDMockito.when(this.mapper.toFixedExpenseDomainObj(profile.getUserId(), requestParams)).thenReturn(fixedExpense);
         BDDMockito.doThrow(HttpServerErrorException.InternalServerError.class).when(this.useCase).add(fixedExpense);
 
         String json = new ObjectMapper().writeValueAsString(requestParams);
@@ -294,5 +294,32 @@ class AddFixedExpenseControllerTests {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("body", Matchers
                         .is("Invalid due day! Expiration day must be between 1 to 31.")));
+    }
+
+    @Test
+    @DisplayName("Should return if badRequest if endDate is null")
+    void shouldReturnBadRequestIfEndDateIsNull() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
+                Mocks.faker.lorem().paragraph(),
+                (double) Mocks.faker.number().randomNumber(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                31,
+                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
+                null,
+                PaymentFrequencyEnum.WEEKLY.getValue());
+
+
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers
+                        .is("End date is required.")));
     }
 }
