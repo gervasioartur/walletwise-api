@@ -28,7 +28,7 @@ I want to be able to add fixed expense
     Then the response status should be 400
     And the response should contain "Description is required."
 
-## Scenario: Add fixed expense with no amount []
+## Scenario: Add fixed expense with no amount [✅]
 
     Given fixed expense payload with userId "any_user_id", description "any_description",amount , 
     category "TRANSPORT", dueDay 21,startDate 2020-05-12, endDate 2025-10-23 and paymentFrequency "DAILY"
