@@ -118,7 +118,7 @@ I want to be able to add fixed expense
     And the response should contain "Invalid Payment frequency! You must choose payment frequency between 
     DAILY,WEEKLY,MONTHLY or YEARLY."
 
-## Scenario: Successful add fixed expense  []
+## Scenario: Successful add fixed expense  [✅]
 
     Given fixed expense payload with userId "any_user_id", description "any_description",amount 12, 
     category "TRANSPORT", dueDay 21,startDate 2020-05-12, endDate 2025-10-23 and paymentFrequency "DAILY"
