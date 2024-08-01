@@ -458,4 +458,28 @@ class AddFixedExpenseControllerTests {
                         .is("Invalid Payment frequency! You must choose payment frequency between " +
                                 "DAILY,WEEKLY,MONTHLY or YEARLY.")));
     }
+
+    @Test
+    @DisplayName("Should return if Created on success")
+    void shouldReturnCreatedOnSuccess() throws Exception {
+        Profile profile = Mocks.profileFactory();
+        AddFixedExpenseRequest requestParams = Mocks.addFixedExpenseRequest();
+        FixedExpense fixedExpense = Mocks.formFixedExpenseRequestToObj(profile.getUserId(), requestParams);
+
+        BDDMockito.when(this.getUserProfile.getUserProfile()).thenReturn(profile);
+        BDDMockito.when(this.mapper.toFixedExpenseDomainObj(profile.getUserId(), requestParams)).thenReturn(fixedExpense);
+        BDDMockito.doNothing().when(this.useCase).add(fixedExpense);
+
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("body", Matchers
+                        .is("Expense successful added.")));
+    }
 }
