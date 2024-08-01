@@ -4,7 +4,6 @@ import com.walletwise.application.controllers.AbstractController;
 import com.walletwise.application.http.AddFixedExpenseRequest;
 import com.walletwise.application.http.Response;
 import com.walletwise.application.validation.ValidationBuilder;
-import com.walletwise.application.validation.ValidationComposite;
 import com.walletwise.application.validation.contract.IValidator;
 import com.walletwise.domain.entities.models.FixedExpense;
 import com.walletwise.domain.entities.models.Profile;
@@ -78,6 +77,7 @@ public class AddFixedExpenseController extends AbstractController<AddFixedExpens
         List<IValidator> validators = new ArrayList<>();
         validators.addAll(ValidationBuilder.of("Description", request.description()).required().build());
         validators.addAll(ValidationBuilder.of("Amount", request.amount()).required().build());
+        validators.addAll(ValidationBuilder.of("Category", request.category()).required().build());
         return validators;
     }
 }
