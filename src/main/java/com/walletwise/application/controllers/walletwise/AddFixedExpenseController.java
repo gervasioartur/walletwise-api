@@ -18,6 +18,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +81,8 @@ public class AddFixedExpenseController extends AbstractController<AddFixedExpens
         validators.addAll(ValidationBuilder.of("Amount", request.amount()).required().build());
         validators.addAll(ValidationBuilder.of("Category", request.category()).required().expenseCategory().build());
         validators.addAll(ValidationBuilder.of("Due day", request.dueDay()).required().dueDay().build());
-        validators.addAll(ValidationBuilder.of("End date", request.endDate()).required().build());
+        validators.addAll(ValidationBuilder.of("Start date", request.startDate()).required().build());
+        validators.addAll(ValidationBuilder.of("End date", request.endDate()).required().endDate(request.startDate()).build());
         return validators;
     }
 }

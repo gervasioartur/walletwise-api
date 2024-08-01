@@ -10,15 +10,13 @@ import java.util.UUID;
 public class FixedExpenseDTOMapper {
 
     public FixedExpense toFixedExpenseDomainObj(UUID userId, AddFixedExpenseRequest request) {
-        LocalDateTime startDate = request.startDate() == null ? LocalDateTime.now()
-                :  request.startDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         return new FixedExpense(
                 userId,
                 request.description(),
                 request.amount(),
                 request.category(),
                 request.dueDay(),
-                startDate,
+                request.startDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
                 request.endDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
                 request.paymentFrequency());
     }

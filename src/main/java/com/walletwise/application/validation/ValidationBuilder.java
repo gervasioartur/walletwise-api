@@ -5,6 +5,7 @@ import com.walletwise.application.validation.validators.*;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -49,6 +50,11 @@ public class ValidationBuilder {
 
     public ValidationBuilder dueDay() {
         this.validators.add(new DueDayFieldValidator(this.fieldValue));
+        return this;
+    }
+
+    public ValidationBuilder endDate(Date startDate) {
+        this.validators.add(new EndDateFieldValidator(startDate,this.fieldValue));
         return this;
     }
 
