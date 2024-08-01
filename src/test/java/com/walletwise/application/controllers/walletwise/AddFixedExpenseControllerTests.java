@@ -85,7 +85,7 @@ class AddFixedExpenseControllerTests {
         LocalDateTime now = LocalDateTime.now();
         AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
                 "",
-                Mocks.faker.number().randomNumber(),
+                (double) Mocks.faker.number().randomNumber(),
                 ExpenseCategoryEnum.SCHOOL.getValue(),
                 10,
                 Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
@@ -112,7 +112,7 @@ class AddFixedExpenseControllerTests {
         LocalDateTime now = LocalDateTime.now();
         AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
                 null,
-                Mocks.faker.number().randomNumber(),
+                (double) Mocks.faker.number().randomNumber(),
                 ExpenseCategoryEnum.SCHOOL.getValue(),
                 10,
                 Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
@@ -131,5 +131,32 @@ class AddFixedExpenseControllerTests {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("body", Matchers
                         .is("Description is required.")));
+    }
+
+    @Test
+    @DisplayName("Should return if badRequest if Amount is empty")
+    void shouldReturnBadRequestIfAmountIsEmpty() throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
+                Mocks.faker.lorem().paragraph(),
+                (double) 0,
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                10,
+                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
+                PaymentFrequencyEnum.WEEKLY.getValue());
+
+
+        String json = new ObjectMapper().writeValueAsString(requestParams);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+        mvc
+                .perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("body", Matchers
+                        .is("Amount is required.")));
     }
 }

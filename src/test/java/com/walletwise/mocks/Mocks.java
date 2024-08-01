@@ -289,7 +289,7 @@ public class Mocks {
         LocalDateTime now = LocalDateTime.now();
         return new AddFixedExpenseRequest(
                 faker.lorem().word(),
-                faker.number().randomNumber(),
+                (double) faker.number().randomNumber(),
                 ExpenseCategoryEnum.SCHOOL.getValue(),
                 10,
                 Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
