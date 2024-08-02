@@ -19,8 +19,8 @@ public class ExpenseConfig {
     }
 
     @Bean
-    public ListFixedExpenses listFixedExpenses(IExpenseAdapter expenseAdapter){
-        return  new ListFixedExpenses(expenseAdapter);
+    public ListFixedExpenses listFixedExpenses(IExpenseAdapter expenseAdapter) {
+        return new ListFixedExpenses(expenseAdapter);
     }
 
     @Bean

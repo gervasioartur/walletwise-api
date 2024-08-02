@@ -1,14 +1,9 @@
 package com.walletwise.application.controllers.walletwise;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.walletwise.application.http.AddFixedExpenseRequest;
-import com.walletwise.application.http.FixedExpenseResponse;
 import com.walletwise.domain.entities.models.FixedExpense;
 import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.useCases.auth.GetUserProfile;
-import com.walletwise.domain.useCases.expenses.AddFixedExpense;
 import com.walletwise.domain.useCases.expenses.ListFixedExpenses;
-import com.walletwise.infra.gateways.mappers.walletwise.FixedExpenseDTOMapper;
 import com.walletwise.mocks.Mocks;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +38,6 @@ public class ListFixedExpensesControllerTests {
     private ListFixedExpenses useCase;
     @MockBean
     private GetUserProfile getUserProfile;
-    private FixedExpenseDTOMapper mapper;
 
     @BeforeEach
     void setup() {
@@ -77,7 +71,7 @@ public class ListFixedExpensesControllerTests {
     @DisplayName("Should return lis of fixed expenses on success")
     void shouldReturnListOfFixedExpenseOnSuccess() throws Exception {
         Profile profile = Mocks.profileFactory();
-        List<FixedExpense> fixedExpenseList =  Mocks.fixedExpenseListFactory(profile.getUserId());
+        List<FixedExpense> fixedExpenseList = Mocks.fixedExpenseListFactory(profile.getUserId());
 
         BDDMockito.when(this.getUserProfile.getUserProfile()).thenReturn(profile);
         BDDMockito.when(this.useCase.list(profile.getUserId())).thenReturn(fixedExpenseList);
