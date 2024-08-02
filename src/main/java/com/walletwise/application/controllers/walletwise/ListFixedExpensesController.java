@@ -1,7 +1,7 @@
 package com.walletwise.application.controllers.walletwise;
 
-import com.walletwise.application.dto.walletwise.FixedExpenseResponse;
 import com.walletwise.application.dto.Response;
+import com.walletwise.application.dto.walletwise.FixedExpenseResponse;
 import com.walletwise.domain.entities.models.FixedExpense;
 import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.useCases.auth.GetUserProfile;

@@ -1,8 +1,8 @@
 package com.walletwise.mocks;
 
 import com.github.javafaker.Faker;
-import com.walletwise.application.dto.walletwise.AddFixedExpenseRequest;
 import com.walletwise.application.dto.security.SignupRequest;
+import com.walletwise.application.dto.walletwise.AddFixedExpenseRequest;
 import com.walletwise.domain.entities.enums.ExpenseCategoryEnum;
 import com.walletwise.domain.entities.enums.GeneralEnumText;
 import com.walletwise.domain.entities.enums.PaymentFrequencyEnum;

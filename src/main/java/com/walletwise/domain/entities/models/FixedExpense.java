@@ -1,9 +1,10 @@
 package com.walletwise.domain.entities.models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class FixedExpense {
+public class FixedExpense implements Serializable {
     private UUID id;
     private UUID userId;
     private String description;
