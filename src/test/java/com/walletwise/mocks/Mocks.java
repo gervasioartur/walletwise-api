@@ -19,7 +19,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
@@ -285,7 +284,7 @@ public class Mocks {
                 entity.getStartDate(),
                 entity.getEndDate(),
                 entity.getPaymentFrequency()
-                );
+        );
     }
 
     public static FixedExpenseEntity fixedExpenseEntityFactory() {
@@ -342,8 +341,8 @@ public class Mocks {
         );
     }
 
-    public static List<FixedExpense> fixedExpenseListFactory(UUID userid){
-        return  List.of(fixedExpenseFactory(userid),fixedExpenseFactory(userid),fixedExpenseFactory(userid));
+    public static List<FixedExpense> fixedExpenseListFactory(UUID userid) {
+        return List.of(fixedExpenseFactory(userid), fixedExpenseFactory(userid), fixedExpenseFactory(userid));
     }
 
     public static FixedExpenseEntity fixedExpenseEntityFactory(UUID userId) {
@@ -361,11 +360,11 @@ public class Mocks {
         );
     }
 
-    public static List<FixedExpenseEntity> fixedExpenseEntityListFactory(UUID userid){
-        return  List.of(fixedExpenseEntityFactory(userid),fixedExpenseEntityFactory(userid),fixedExpenseEntityFactory(userid));
+    public static List<FixedExpenseEntity> fixedExpenseEntityListFactory(UUID userid) {
+        return List.of(fixedExpenseEntityFactory(userid), fixedExpenseEntityFactory(userid), fixedExpenseEntityFactory(userid));
     }
 
-    public static List<FixedExpense> fixedExpenseListFactory(List<FixedExpenseEntity> expenseEntityList){
+    public static List<FixedExpense> fixedExpenseListFactory(List<FixedExpenseEntity> expenseEntityList) {
         return expenseEntityList.stream()
                 .map(Mocks::formFixedExpenseEntityToObj)
                 .collect(Collectors.toList());

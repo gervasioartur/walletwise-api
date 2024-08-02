@@ -57,13 +57,13 @@ class ExpenseAdapterTests {
     void shouldReturnAListOfExpensesOnFIndByUserId() {
         UUID userId = UUID.randomUUID();
         List<FixedExpenseEntity> fiexExpenseEntityList = Mocks.fixedExpenseEntityListFactory(userId);
-        List<FixedExpense> fixedExpenseList =  Mocks.fixedExpenseListFactory(fiexExpenseEntityList);
+        List<FixedExpense> fixedExpenseList = Mocks.fixedExpenseListFactory(fiexExpenseEntityList);
 
         Mockito.when(this.fixedExpenseRepository.findByUserId(userId)).thenReturn(fiexExpenseEntityList);
         Mockito.when(this.fixedExpenseEntityMapper.toFixedExpenseList(fiexExpenseEntityList))
                 .thenReturn(fixedExpenseList);
 
-        List<FixedExpense> result =  this.expenseAdapter.getByUserId(userId);
+        List<FixedExpense> result = this.expenseAdapter.getByUserId(userId);
 
         Assertions.assertThat(result).isEqualTo(fixedExpenseList);
         Mockito.verify(this.fixedExpenseRepository, Mockito.times(1)).findByUserId(userId);

@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.UUID;
 
 public class ListFixedExpenses {
-    private final  IExpenseAdapter expenseAdapter;
+    private final IExpenseAdapter expenseAdapter;
 
     public ListFixedExpenses(IExpenseAdapter expenseAdapter) {
         this.expenseAdapter = expenseAdapter;
     }
 
-    public List<FixedExpense> list(UUID userId){
+    public List<FixedExpense> list(UUID userId) {
         return this.expenseAdapter.getByUserId(userId);
     }
 }

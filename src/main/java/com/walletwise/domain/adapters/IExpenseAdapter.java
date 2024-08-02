@@ -7,5 +7,6 @@ import java.util.UUID;
 
 public interface IExpenseAdapter {
     FixedExpense add(FixedExpense request);
+
     List<FixedExpense> getByUserId(UUID userId);
 }
