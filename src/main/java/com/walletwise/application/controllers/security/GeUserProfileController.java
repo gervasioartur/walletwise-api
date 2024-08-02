@@ -1,6 +1,6 @@
 package com.walletwise.application.controllers.security;
 
-import com.walletwise.application.http.Response;
+import com.walletwise.application.dto.Response;
 import com.walletwise.domain.entities.exceptions.ForbiddenException;
 import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.useCases.auth.GetUserProfile;

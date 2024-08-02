@@ -7,8 +7,8 @@ import com.walletwise.domain.entities.models.User;
 import com.walletwise.infra.gateways.mappers.security.UserEntityMapper;
 import com.walletwise.infra.persistence.entities.security.RoleEntity;
 import com.walletwise.infra.persistence.entities.security.UserEntity;
-import com.walletwise.infra.persistence.repositories.walletwise.IRoleRepository;
-import com.walletwise.infra.persistence.repositories.walletwise.IUserRepository;
+import com.walletwise.infra.persistence.repositories.security.IRoleRepository;
+import com.walletwise.infra.persistence.repositories.security.IUserRepository;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,7 +1,7 @@
 package com.walletwise.infra.gateways.mappers.walletwise;
 
-import com.walletwise.application.http.AddFixedExpenseRequest;
-import com.walletwise.application.http.FixedExpenseResponse;
+import com.walletwise.application.dto.walletwise.AddFixedExpenseRequest;
+import com.walletwise.application.dto.walletwise.FixedExpenseResponse;
 import com.walletwise.domain.entities.models.FixedExpense;
 
 import java.time.ZoneId;

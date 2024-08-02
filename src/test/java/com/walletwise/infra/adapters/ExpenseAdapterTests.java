@@ -4,7 +4,7 @@ import com.walletwise.domain.adapters.IExpenseAdapter;
 import com.walletwise.domain.entities.models.FixedExpense;
 import com.walletwise.infra.gateways.mappers.walletwise.FixedExpenseEntityMapper;
 import com.walletwise.infra.persistence.entities.walletwise.FixedExpenseEntity;
-import com.walletwise.infra.persistence.repositories.security.IFixedExpenseRepository;
+import com.walletwise.infra.persistence.repositories.walletwise.IFixedExpenseRepository;
 import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

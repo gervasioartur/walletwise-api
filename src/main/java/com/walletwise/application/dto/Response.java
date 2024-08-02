@@ -1,4 +1,4 @@
-package com.walletwise.application.http;
+package com.walletwise.application.dto;
 
 import lombok.Builder;
 import lombok.Data;

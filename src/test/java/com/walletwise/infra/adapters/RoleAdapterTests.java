@@ -4,7 +4,7 @@ import com.walletwise.domain.adapters.IRoleAdapter;
 import com.walletwise.domain.entities.models.Role;
 import com.walletwise.infra.gateways.mappers.security.RoleEntityMapper;
 import com.walletwise.infra.persistence.entities.security.RoleEntity;
-import com.walletwise.infra.persistence.repositories.walletwise.IRoleRepository;
+import com.walletwise.infra.persistence.repositories.security.IRoleRepository;
 import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

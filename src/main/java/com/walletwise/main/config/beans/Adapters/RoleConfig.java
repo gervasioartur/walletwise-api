@@ -2,7 +2,7 @@ package com.walletwise.main.config.beans.Adapters;
 
 import com.walletwise.infra.adapters.RoleAdapter;
 import com.walletwise.infra.gateways.mappers.security.RoleEntityMapper;
-import com.walletwise.infra.persistence.repositories.walletwise.IRoleRepository;
+import com.walletwise.infra.persistence.repositories.security.IRoleRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

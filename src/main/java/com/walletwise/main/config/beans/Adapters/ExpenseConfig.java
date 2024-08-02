@@ -6,7 +6,7 @@ import com.walletwise.domain.useCases.expenses.ListFixedExpenses;
 import com.walletwise.infra.adapters.ExpenseAdapter;
 import com.walletwise.infra.gateways.mappers.walletwise.FixedExpenseDTOMapper;
 import com.walletwise.infra.gateways.mappers.walletwise.FixedExpenseEntityMapper;
-import com.walletwise.infra.persistence.repositories.security.IFixedExpenseRepository;
+import com.walletwise.infra.persistence.repositories.walletwise.IFixedExpenseRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

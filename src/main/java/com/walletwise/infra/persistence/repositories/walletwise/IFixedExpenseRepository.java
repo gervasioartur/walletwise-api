@@ -1,4 +1,4 @@
-package com.walletwise.infra.persistence.repositories.security;
+package com.walletwise.infra.persistence.repositories.walletwise;
 
 import com.walletwise.infra.persistence.entities.walletwise.FixedExpenseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
 package com.walletwise.application.controllers.walletwise;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.walletwise.application.http.AddFixedExpenseRequest;
+import com.walletwise.application.dto.walletwise.AddFixedExpenseRequest;
 import com.walletwise.domain.entities.enums.ExpenseCategoryEnum;
 import com.walletwise.domain.entities.enums.PaymentFrequencyEnum;
 import com.walletwise.domain.entities.models.FixedExpense;

@@ -1,4 +1,4 @@
-package com.walletwise.application.http;
+package com.walletwise.application.dto.walletwise;
 
 import java.util.Date;
 import java.util.UUID;
