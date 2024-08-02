@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
@@ -50,4 +51,22 @@ class ExpenseAdapterTests {
         Mockito.verify(this.fixedExpenseRepository, Mockito.times(1)).save(fixedExpenseEntity);
         Mockito.verify(this.fixedExpenseEntityMapper, Mockito.times(1)).toFixedExpense(savedFixedExpenseEntity);
     }
+
+    @Test
+    @DisplayName("Should return a list of expenses on find by user id")
+    void shouldReturnAListOfExpensesOnFIndByUserId() {
+        UUID userId = UUID.randomUUID();
+        List<FixedExpenseEntity> fiexExpenseEntityList = Mocks.fixedExpenseEntityListFactory(userId);
+        List<FixedExpense> fixedExpenseList =  Mocks.fixedExpenseListFactory(fiexExpenseEntityList);
+
+        Mockito.when(this.fixedExpenseRepository.findByUserId(userId)).thenReturn(fiexExpenseEntityList);
+        Mockito.when(this.fixedExpenseEntityMapper.toFixedExpenseList(fiexExpenseEntityList))
+                .thenReturn(fixedExpenseList);
+
+        List<FixedExpense> result =  this.expenseAdapter.getByUserId(userId);
+
+        Assertions.assertThat(result).isEqualTo(fixedExpenseList);
+        Mockito.verify(this.fixedExpenseRepository, Mockito.times(1)).findByUserId(userId);
+    }
+
 }

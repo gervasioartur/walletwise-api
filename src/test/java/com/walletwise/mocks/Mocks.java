@@ -19,6 +19,8 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 
 public class Mocks {
@@ -272,6 +274,20 @@ public class Mocks {
                 fixedExpense.getEndDate());
     }
 
+    public static FixedExpense formFixedExpenseEntityToObj(FixedExpenseEntity entity) {
+        return new FixedExpense(
+                entity.getId(),
+                entity.getUser().getId(),
+                entity.getDescription(),
+                entity.getAmount(),
+                entity.getCategory(),
+                entity.getDueDay(),
+                entity.getStartDate(),
+                entity.getEndDate(),
+                entity.getPaymentFrequency()
+                );
+    }
+
     public static FixedExpenseEntity fixedExpenseEntityFactory() {
         LocalDateTime now = LocalDateTime.now();
         return new FixedExpenseEntity(
@@ -329,4 +345,30 @@ public class Mocks {
     public static List<FixedExpense> fixedExpenseListFactory(UUID userid){
         return  List.of(fixedExpenseFactory(userid),fixedExpenseFactory(userid),fixedExpenseFactory(userid));
     }
+
+    public static FixedExpenseEntity fixedExpenseEntityFactory(UUID userId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new FixedExpenseEntity(
+                UUID.randomUUID(),
+                faker.lorem().paragraph(),
+                ExpenseCategoryEnum.SCHOOL.getValue(),
+                faker.number().randomNumber(),
+                1,
+                PaymentFrequencyEnum.DAILY.getValue(),
+                UserEntity.builder().id(userId).build(),
+                now,
+                now.plusDays(24)
+        );
+    }
+
+    public static List<FixedExpenseEntity> fixedExpenseEntityListFactory(UUID userid){
+        return  List.of(fixedExpenseEntityFactory(userid),fixedExpenseEntityFactory(userid),fixedExpenseEntityFactory(userid));
+    }
+
+    public static List<FixedExpense> fixedExpenseListFactory(List<FixedExpenseEntity> expenseEntityList){
+        return expenseEntityList.stream()
+                .map(Mocks::formFixedExpenseEntityToObj)
+                .collect(Collectors.toList());
+    }
+
 }
