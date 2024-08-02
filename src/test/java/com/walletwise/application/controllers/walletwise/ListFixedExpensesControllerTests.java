@@ -2,6 +2,7 @@ package com.walletwise.application.controllers.walletwise;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walletwise.application.http.AddFixedExpenseRequest;
+import com.walletwise.application.http.FixedExpenseResponse;
 import com.walletwise.domain.entities.models.FixedExpense;
 import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.useCases.auth.GetUserProfile;
@@ -25,6 +26,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.List;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,6 +43,7 @@ public class ListFixedExpensesControllerTests {
     private ListFixedExpenses useCase;
     @MockBean
     private GetUserProfile getUserProfile;
+    private FixedExpenseDTOMapper mapper;
 
     @BeforeEach
     void setup() {
@@ -67,6 +71,26 @@ public class ListFixedExpensesControllerTests {
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("body", Matchers
                         .is("An unexpected error occurred. Please try again later.")));
+    }
+
+    @Test
+    @DisplayName("Should return lis of fixed expenses on success")
+    void shouldReturnListOfFixedExpenseOnSuccess() throws Exception {
+        Profile profile = Mocks.profileFactory();
+        List<FixedExpense> fixedExpenseList =  Mocks.fixedExpenseListFactory(profile.getUserId());
+
+        BDDMockito.when(this.getUserProfile.getUserProfile()).thenReturn(profile);
+        BDDMockito.when(this.useCase.list(profile.getUserId())).thenReturn(fixedExpenseList);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get(URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mvc
+                .perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("body", Matchers.iterableWithSize(fixedExpenseList.size())));
     }
 
 }
