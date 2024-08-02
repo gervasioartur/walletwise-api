@@ -57,6 +57,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=walletwise
       - SPRING_JPA_SHOW_SQL=true
       ## CONFIGURING CACHE
+      - SPRING_DATA_REDIS_URL=redis://localhost:6379/0
       - SPRING_DATA_REDIS_HOST=walletwise-redis
       - SPRING_DATA_REDIS_DATABASE=0
       - SPRING_DATA_REDIS_USERNAME=default
