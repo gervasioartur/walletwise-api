@@ -27,6 +27,7 @@ public class ExpenseAdapter implements IExpenseAdapter {
 
     @Override
     public List<FixedExpense> getByUserId(UUID userId) {
-        return List.of();
+        List<FixedExpenseEntity> entityList =  this.fixedExpenseRepository.findByUserId(userId);
+        return this.fixedExpenseEntityMapper.toFixedExpenseList(entityList);
     }
 }

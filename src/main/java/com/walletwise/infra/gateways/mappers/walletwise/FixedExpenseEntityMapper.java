@@ -4,6 +4,9 @@ import com.walletwise.domain.entities.models.FixedExpense;
 import com.walletwise.infra.persistence.entities.security.UserEntity;
 import com.walletwise.infra.persistence.entities.walletwise.FixedExpenseEntity;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class FixedExpenseEntityMapper {
     public FixedExpenseEntity toFixedExpenseEntity(FixedExpense fixedExpense) {
         return new FixedExpenseEntity(
@@ -29,5 +32,11 @@ public class FixedExpenseEntityMapper {
                 entity.getStartDate(),
                 entity.getEndDate(),
                 entity.getPaymentFrequency());
+    }
+
+    public List<FixedExpense> toFixedExpenseList(List<FixedExpenseEntity> expenseEntity) {
+        return expenseEntity.stream()
+                .map(this::toFixedExpense)
+                .collect(Collectors.toList());
     }
 }
