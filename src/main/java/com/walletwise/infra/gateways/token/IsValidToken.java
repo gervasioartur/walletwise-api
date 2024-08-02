@@ -1,7 +1,7 @@
 package com.walletwise.infra.gateways.token;
 
 import com.walletwise.infra.persistence.entities.security.SessionEntity;
-import com.walletwise.infra.persistence.repositories.walletwise.ISessionEntityRepository;
+import com.walletwise.infra.persistence.repositories.security.ISessionEntityRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;

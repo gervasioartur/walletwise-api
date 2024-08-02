@@ -9,8 +9,8 @@ import com.walletwise.infra.adapters.LoadUserAdapter;
 import com.walletwise.infra.adapters.UserAdapter;
 import com.walletwise.infra.gateways.mappers.security.UserDTOMapper;
 import com.walletwise.infra.gateways.mappers.security.UserEntityMapper;
-import com.walletwise.infra.persistence.repositories.walletwise.IRoleRepository;
-import com.walletwise.infra.persistence.repositories.walletwise.IUserRepository;
+import com.walletwise.infra.persistence.repositories.security.IRoleRepository;
+import com.walletwise.infra.persistence.repositories.security.IUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

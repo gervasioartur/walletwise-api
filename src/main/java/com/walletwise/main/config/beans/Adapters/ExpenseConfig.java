@@ -2,10 +2,11 @@ package com.walletwise.main.config.beans.Adapters;
 
 import com.walletwise.domain.adapters.IExpenseAdapter;
 import com.walletwise.domain.useCases.expenses.AddFixedExpense;
+import com.walletwise.domain.useCases.expenses.ListFixedExpenses;
 import com.walletwise.infra.adapters.ExpenseAdapter;
 import com.walletwise.infra.gateways.mappers.walletwise.FixedExpenseDTOMapper;
 import com.walletwise.infra.gateways.mappers.walletwise.FixedExpenseEntityMapper;
-import com.walletwise.infra.persistence.repositories.security.IFixedExpenseRepository;
+import com.walletwise.infra.persistence.repositories.walletwise.IFixedExpenseRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,12 +19,17 @@ public class ExpenseConfig {
     }
 
     @Bean
-    FixedExpenseDTOMapper fixedExpenseDTOMapper() {
+    public ListFixedExpenses listFixedExpenses(IExpenseAdapter expenseAdapter) {
+        return new ListFixedExpenses(expenseAdapter);
+    }
+
+    @Bean
+    public FixedExpenseDTOMapper fixedExpenseDTOMapper() {
         return new FixedExpenseDTOMapper();
     }
 
     @Bean
-    FixedExpenseEntityMapper fixedExpenseEntityMapper() {
+    public FixedExpenseEntityMapper fixedExpenseEntityMapper() {
         return new FixedExpenseEntityMapper();
     }
 

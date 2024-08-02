@@ -1,6 +1,6 @@
 package com.walletwise.infra.gateways.mappers.security;
 
-import com.walletwise.application.http.SignupRequest;
+import com.walletwise.application.dto.security.SignupRequest;
 import com.walletwise.domain.entities.models.User;
 import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;

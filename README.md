@@ -19,7 +19,6 @@ the app aims to empower users to make informed financial decisions and promote a
 
 #### Authentication
 
-
 ##### Sign up
 
 - [Sign up use case BDD documentation ](docs/useCases/auth/signup/signup.md)
@@ -47,27 +46,39 @@ the app aims to empower users to make informed financial decisions and promote a
 
 #### EXPENSES
 
+##### Add fixed expenses
+
 - [Add fixed expenses use case BDD documentation](docs/useCases/expenses/addFixedExpense/addFixedExpense.md)
 - [Add fixed expenses use case dependency diagram](docs/useCases/expenses/addFixedExpense/addFixedExpense.drawio)
 
+##### List fixed expenses
+
+- [List fixed expenses use case BDD documentation](docs/useCases/expenses/listFixedExpense/listFixedExpense.md)
+- [List fixed expenses use case dependency diagram](docs/useCases/expenses/listFixedExpense/listFixedExpense.drawio)
 
 ## Technical Documentation
-> ###  Architecture Overview
 
-The architecture of "WALLETWISE-API" is based on a clean architecture: application, domain,infra and main. 
+> ### Architecture Overview
+
+The architecture of "WALLETWISE-API" is based on a clean architecture: application, domain,infra and main.
 We use Docker containers to ensure the portability and scalability of the system.
 
-> ###  System Components
+> ### System Components
+
 * Backend:  RESTful Api developed in Java with spring boot
 * Database: Postgresql for data storage
 
-> ###  Installation
- #### Prerequisites
+> ### Installation
+
+#### Prerequisites
+
 * Java (version 17 or higher)
+* Redis (version 6)
 * Postgresql
 * Docker
 
 #### Installation Steps
+
 * Clone the project repository and start service:
     ```bash
     git clone https://github.com/gervasioartur/walletwise-api.git
@@ -78,26 +89,26 @@ We use Docker containers to ensure the portability and scalability of the system
     ```bash
     docker-compose up -d
     ```
+
 <br/>
 
-> ###  Testing
-#### Prerequisites
-* Java (version 17 or higher)
-* Maven (version 3)
-* Postgresql
-* Docker
+> ### Testing
 
 #### Unit Tests
+
 * Use JUnit for write and tests for the api.
 
-####  Integration Tests
+#### Integration Tests
+
 * Integration tests to ensure that different components of the system work correctly together.
 
-####  Running  Tests
+#### Running  Tests
+
 * Run unit tests:
     ```bash
     mvn clean test
     ```
+
 <br/>
 
 > ### Principles
@@ -162,6 +173,7 @@ We use Docker containers to ensure the portability and scalability of the system
 * Java 21
 * Spring Boot
 * Spring Data JPA
+* Spring Data Redis
 * Spring Security
 * Spring Devtools
 * JsonWebToken

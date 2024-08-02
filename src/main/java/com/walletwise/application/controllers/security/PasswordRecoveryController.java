@@ -1,8 +1,8 @@
 package com.walletwise.application.controllers.security;
 
 import com.walletwise.application.controllers.AbstractController;
-import com.walletwise.application.http.PasswordRecoveryRequest;
-import com.walletwise.application.http.Response;
+import com.walletwise.application.dto.Response;
+import com.walletwise.application.dto.security.PasswordRecoveryRequest;
 import com.walletwise.application.validation.ValidationBuilder;
 import com.walletwise.application.validation.contract.IValidator;
 import com.walletwise.domain.useCases.auth.PasswordRecovery;

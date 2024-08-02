@@ -1,37 +1,47 @@
-package com.walletwise.application.controllers.security;
+package com.walletwise.application.controllers.walletwise;
 
 import com.walletwise.application.dto.Response;
-import com.walletwise.domain.entities.exceptions.ForbiddenException;
+import com.walletwise.application.dto.walletwise.FixedExpenseResponse;
+import com.walletwise.domain.entities.models.FixedExpense;
 import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.useCases.auth.GetUserProfile;
+import com.walletwise.domain.useCases.expenses.ListFixedExpenses;
+import com.walletwise.infra.gateways.mappers.walletwise.FixedExpenseDTOMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@Tag(name = "Authentication")
-@RequestMapping("/auth/profile")
-public class GeUserProfileController {
-    private final GetUserProfile getUserProfile;
+import java.util.List;
 
-    public GeUserProfileController(GetUserProfile getUserProfile) {
+@RestController
+@Tag(name = "Fixed Expenses")
+@RequestMapping("/fixed-expenses")
+public class ListFixedExpensesController {
+    private final GetUserProfile getUserProfile;
+    private final FixedExpenseDTOMapper mapper;
+    private final ListFixedExpenses useCase;
+
+    public ListFixedExpensesController(GetUserProfile getUserProfile,
+                                       FixedExpenseDTOMapper mapper,
+                                       ListFixedExpenses useCase) {
         this.getUserProfile = getUserProfile;
+        this.mapper = mapper;
+        this.useCase = useCase;
     }
 
-    @Operation(summary = "Get user profile")
+    @GetMapping
+    @Operation(summary = "Get fixed expenses")
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Returns user Profile"),
+            @ApiResponse(responseCode = "200", description = "Returns successful message"),
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "500", description = "An unexpected error occurred."),
     })
@@ -42,17 +52,15 @@ public class GeUserProfileController {
 
         try {
             Profile profile = this.getUserProfile.getUserProfile();
-            response = Response.builder().body(profile).build();
+            List<FixedExpense> fixedExpenseList = this.useCase.list(profile.getUserId());
+            List<FixedExpenseResponse> result = this.mapper.toFixedExpenseListResponse(fixedExpenseList);
+            response = Response.builder().body(result).build();
             responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (ForbiddenException ex) {
-            response = Response.builder().body(ex.getMessage()).build();
-            responseEntity = new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
         } catch (Exception ex) {
             response = Response.builder()
                     .body("An unexpected error occurred. Please try again later.").build();
             responseEntity = new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
         return responseEntity;
     }
 }

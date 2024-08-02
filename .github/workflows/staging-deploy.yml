@@ -119,6 +119,12 @@ jobs:
             --build-arg SPRING_DATASOURCE_USERNAME="${{ vars.SPRING_DATASOURCE_USERNAME }}" \
             --build-arg SPRING_DATASOURCE_PASSWORD="${{ vars.SPRING_DATASOURCE_PASSWORD }}" \
             --build-arg SPRING_JPA_SHOW_SQL="${{ vars.SPRING_JPA_SHOW_SQL }}" \
+            --build-arg SPRING_DATA_REDIS_HOST="${{ vars.SPRING_DATA_REDIS_HOST }}" \
+            --build-arg SPRING_DATA_REDIS_DATABASE="${{ vars.SPRING_DATA_REDIS_DATABASE }}" \
+            --build-arg SPRING_DATA_REDIS_USERNAME="${{ vars.SPRING_DATA_REDIS_USERNAME }}" \
+            --build-arg SPRING_DATA_REDIS_PASSWORD="${{ vars.SPRING_DATA_REDIS_PASSWORD }}" \
+            --build-arg SPRING_DATA_REDIS_PORT="${{ vars.SPRING_DATA_REDIS_PORT }}" \
+
             -t "${{ vars.DOCKER_APPLICATION_NAME }}:${{ github.sha }}" .
 
       - name: Push Docker image
