@@ -11,7 +11,7 @@ I want to be able to list my fixed expense
     Then the response status should be 500
     And the response should contain "An unexpected error occurred. Please try again later."
 
-## Scenario: Get fixed expenses with no active session []
+## Scenario: Get fixed expenses with no active session [✅]
 
     Given fixed expense payload with userId "any_user_id"
     When I send a POST request to "api/fixed-expense"
