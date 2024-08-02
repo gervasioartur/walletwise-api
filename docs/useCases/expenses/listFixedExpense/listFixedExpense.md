@@ -18,7 +18,7 @@ I want to be able to list my fixed expense
     Then the response status should be 403
     And the response should contain "Forbidden."
 
-## Scenario: Successful get fixed expenses  []
+## Scenario: Successful get fixed expenses  [✅]
 
     Given fixed expense payload with userId "any_user_id"
     When I send a POST request to "api/fixed-expense"
