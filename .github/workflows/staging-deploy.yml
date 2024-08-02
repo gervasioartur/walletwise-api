@@ -124,7 +124,6 @@ jobs:
             --build-arg SPRING_DATA_REDIS_USERNAME="${{ vars.SPRING_DATA_REDIS_USERNAME }}" \
             --build-arg SPRING_DATA_REDIS_PASSWORD="${{ vars.SPRING_DATA_REDIS_PASSWORD }}" \
             --build-arg SPRING_DATA_REDIS_PORT="${{ vars.SPRING_DATA_REDIS_PORT }}" \
-
             -t "${{ vars.DOCKER_APPLICATION_NAME }}:${{ github.sha }}" .
 
       - name: Push Docker image
