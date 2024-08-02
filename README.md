@@ -46,8 +46,15 @@ the app aims to empower users to make informed financial decisions and promote a
 
 #### EXPENSES
 
+##### Add fixed expenses
+
 - [Add fixed expenses use case BDD documentation](docs/useCases/expenses/addFixedExpense/addFixedExpense.md)
 - [Add fixed expenses use case dependency diagram](docs/useCases/expenses/addFixedExpense/addFixedExpense.drawio)
+
+##### List fixed expenses
+
+- [List fixed expenses use case BDD documentation](docs/useCases/expenses/listFixedExpense/listFixedExpense.md)
+- [List fixed expenses use case dependency diagram](docs/useCases/expenses/listFixedExpense/listFixedExpense.drawio)
 
 ## Technical Documentation
 
@@ -66,6 +73,7 @@ We use Docker containers to ensure the portability and scalability of the system
 #### Prerequisites
 
 * Java (version 17 or higher)
+* Redis (version 6)
 * Postgresql
 * Docker
 
@@ -85,13 +93,6 @@ We use Docker containers to ensure the portability and scalability of the system
 <br/>
 
 > ### Testing
-
-#### Prerequisites
-
-* Java (version 17 or higher)
-* Maven (version 3)
-* Postgresql
-* Docker
 
 #### Unit Tests
 
@@ -172,6 +173,7 @@ We use Docker containers to ensure the portability and scalability of the system
 * Java 21
 * Spring Boot
 * Spring Data JPA
+* Spring Data Redis
 * Spring Security
 * Spring Devtools
 * JsonWebToken
