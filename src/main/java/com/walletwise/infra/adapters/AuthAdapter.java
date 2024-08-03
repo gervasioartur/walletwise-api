@@ -14,6 +14,7 @@ import com.walletwise.infra.persistence.entities.security.ValidationTokenEntity;
 import com.walletwise.infra.persistence.repositories.security.ISessionEntityRepository;
 import com.walletwise.infra.persistence.repositories.security.IUserRepository;
 import com.walletwise.infra.persistence.repositories.security.IValidationTokenEntityRepository;
+import io.sentry.Sentry;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -60,6 +61,7 @@ public class AuthAdapter implements IAuthAdapter {
                     .authenticate(new UsernamePasswordAuthenticationToken(username, password));
             return this.generateToken.generate(auth.getName());
         } catch (Exception ex) {
+            Sentry.captureException(ex);
             return null;
         }
     }

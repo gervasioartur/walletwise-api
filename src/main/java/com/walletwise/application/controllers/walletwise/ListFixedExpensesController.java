@@ -7,6 +7,7 @@ import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.useCases.auth.GetUserProfile;
 import com.walletwise.domain.useCases.expenses.ListFixedExpenses;
 import com.walletwise.infra.gateways.mappers.walletwise.FixedExpenseDTOMapper;
+import io.sentry.Sentry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -57,6 +58,7 @@ public class ListFixedExpensesController {
             response = Response.builder().body(result).build();
             responseEntity = new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception ex) {
+            Sentry.captureException(ex);
             response = Response.builder()
                     .body("An unexpected error occurred. Please try again later.").build();
             responseEntity = new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

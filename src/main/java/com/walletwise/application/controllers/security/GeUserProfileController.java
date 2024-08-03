@@ -4,6 +4,7 @@ import com.walletwise.application.dto.Response;
 import com.walletwise.domain.entities.exceptions.ForbiddenException;
 import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.useCases.auth.GetUserProfile;
+import io.sentry.Sentry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -48,6 +49,7 @@ public class GeUserProfileController {
             response = Response.builder().body(ex.getMessage()).build();
             responseEntity = new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
         } catch (Exception ex) {
+            Sentry.captureException(ex);
             response = Response.builder()
                     .body("An unexpected error occurred. Please try again later.").build();
             responseEntity = new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -5,6 +5,7 @@ import com.walletwise.domain.entities.exceptions.UnexpectedException;
 import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.useCases.auth.GetUserProfile;
 import com.walletwise.domain.useCases.expenses.GenerateFixedExpensesReport;
+import io.sentry.Sentry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -56,6 +57,7 @@ public class GenerateFixedExpensesReportController {
             response = Response.builder().body("OK").build();
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (UnexpectedException | IOException ex) {
+            Sentry.captureException(ex);
             response = Response.builder()
                     .body("An unexpected error occurred. Please try again later.").build();
             responseEntity = new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -19,11 +19,15 @@
         <java.version>17</java.version>
         <jwt.verion>0.11.5</jwt.verion>
         <maven.version>3.9.0</maven.version>
+        <sentry.version>7.3.0</sentry.version>
         <jacoco.version>0.8.10</jacoco.version>
         <springdoc.version>2.0.4</springdoc.version>
         <spring.mail.version>3.1.5</spring.mail.version>
         <github.faker.version>0.15</github.faker.version>
         <jasper.reports.version>7.0.0</jasper.reports.version>
+        <sentry.auth.token>
+            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
+        </sentry.auth.token>
     </properties>
 
     <profiles>
@@ -123,6 +127,11 @@
         </dependency>
 
         <dependency>
+            <groupId>io.sentry</groupId>
+            <artifactId>sentry-spring-boot-starter-jakarta</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
@@ -157,6 +166,39 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.sentry</groupId>
+                <artifactId>sentry-bom</artifactId>
+                <version>${sentry.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <plugins>
@@ -213,6 +255,26 @@
                         <exclude>**/Setup*</exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>io.sentry</groupId>
+                <artifactId>sentry-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <debugSentryCli>true</debugSentryCli>
+                    <org>walletwise</org>
+                    <project>walletwise-backend-staging</project>
+                    <authToken>${sentry.auth.token}</authToken>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>uploadSourceBundle</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
