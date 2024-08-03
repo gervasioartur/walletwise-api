@@ -8,7 +8,6 @@ public record AddFixedExpenseRequest(
         String category,
         int dueDay,
         Date startDate,
-        Date endDate,
-        String paymentFrequency
+        Date endDate
 ) {
 }

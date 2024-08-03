@@ -25,6 +25,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/users/").permitAll()
                         .requestMatchers("/fixed-expenses/").hasRole("USER")
                         .requestMatchers("/",
+                                "/actuator/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/images/**",

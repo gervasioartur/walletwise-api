@@ -1,6 +1,7 @@
 package com.walletwise.main.config.beans.security;
 
 import com.walletwise.infra.adapters.EmailAdapter;
+import com.walletwise.infra.gateways.helpers.JasperReportHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
@@ -41,5 +43,10 @@ public class ApplicationConfig {
         props.put("mail.debug", "true");
 
         return mailSender;
+    }
+
+    @Bean
+    public JasperReportHelper jasperReportHelper(DataSource dataSource) {
+        return new JasperReportHelper(dataSource);
     }
 }
