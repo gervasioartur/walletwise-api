@@ -7,6 +7,7 @@ import com.walletwise.application.validation.ValidationBuilder;
 import com.walletwise.application.validation.contract.IValidator;
 import com.walletwise.domain.entities.exceptions.UnauthorizedException;
 import com.walletwise.domain.useCases.auth.Signin;
+import io.sentry.Sentry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -58,6 +59,7 @@ public class SigninController extends AbstractController<SigninRequest, Response
             response = Response.builder().body(ex.getMessage()).build();
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         } catch (Exception ex) {
+            Sentry.captureException(ex);
             response = Response.builder()
                     .body("An unexpected error occurred. Please try again later.").build();
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

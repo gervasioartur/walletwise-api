@@ -8,6 +8,7 @@ import com.walletwise.application.validation.contract.IValidator;
 import com.walletwise.domain.entities.exceptions.BusinessException;
 import com.walletwise.domain.entities.exceptions.NotFoundException;
 import com.walletwise.domain.useCases.auth.ConfirmPasswordRecovery;
+import io.sentry.Sentry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -61,6 +62,7 @@ public class ConfirmPasswordRecoveryController extends AbstractController<Confir
             response = Response.builder().body(ex.getMessage()).build();
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         } catch (Exception ex) {
+            Sentry.captureException(ex);
             response = Response.builder()
                     .body("An unexpected error occurred. Please try again later.").build();
             responseEntity = new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);

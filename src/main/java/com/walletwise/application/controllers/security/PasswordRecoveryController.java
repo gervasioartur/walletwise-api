@@ -6,6 +6,7 @@ import com.walletwise.application.dto.security.PasswordRecoveryRequest;
 import com.walletwise.application.validation.ValidationBuilder;
 import com.walletwise.application.validation.contract.IValidator;
 import com.walletwise.domain.useCases.auth.PasswordRecovery;
+import io.sentry.Sentry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -54,6 +55,7 @@ public class PasswordRecoveryController extends AbstractController<PasswordRecov
                             "we have sent you an email with the steps to recover your password.").build();
             responseEntity = new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
+            Sentry.captureException(ex);
             response = Response.builder()
                     .body("An unexpected error occurred. Please try again later.").build();
             responseEntity = new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
