@@ -309,8 +309,7 @@ public class Mocks {
                 ExpenseCategoryEnum.SCHOOL.getValue(),
                 10,
                 Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
-                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
-                PaymentFrequencyEnum.WEEKLY.getValue()
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant())
         );
     }
 
@@ -323,7 +322,7 @@ public class Mocks {
                 request.dueDay(),
                 request.startDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
                 request.endDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
-                request.paymentFrequency());
+                "MONTHLY");
     }
 
     public static FixedExpense fixedExpenseFactory(UUID userId) {

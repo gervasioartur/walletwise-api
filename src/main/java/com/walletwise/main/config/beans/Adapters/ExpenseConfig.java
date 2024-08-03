@@ -2,8 +2,10 @@ package com.walletwise.main.config.beans.Adapters;
 
 import com.walletwise.domain.adapters.IExpenseAdapter;
 import com.walletwise.domain.useCases.expenses.AddFixedExpense;
+import com.walletwise.domain.useCases.expenses.GenerateFixedExpensesReport;
 import com.walletwise.domain.useCases.expenses.ListFixedExpenses;
 import com.walletwise.infra.adapters.ExpenseAdapter;
+import com.walletwise.infra.gateways.helpers.JasperReportHelper;
 import com.walletwise.infra.gateways.mappers.walletwise.FixedExpenseDTOMapper;
 import com.walletwise.infra.gateways.mappers.walletwise.FixedExpenseEntityMapper;
 import com.walletwise.infra.persistence.repositories.walletwise.IFixedExpenseRepository;
@@ -24,6 +26,11 @@ public class ExpenseConfig {
     }
 
     @Bean
+    public GenerateFixedExpensesReport generateFixedExpensesReport(IExpenseAdapter expenseAdapter) {
+        return new GenerateFixedExpensesReport(expenseAdapter);
+    }
+
+    @Bean
     public FixedExpenseDTOMapper fixedExpenseDTOMapper() {
         return new FixedExpenseDTOMapper();
     }
@@ -34,7 +41,9 @@ public class ExpenseConfig {
     }
 
     @Bean
-    public ExpenseAdapter expenseAdapter(IFixedExpenseRepository fixedExpenseRepository, FixedExpenseEntityMapper fixedExpenseEntityMapper) {
-        return new ExpenseAdapter(fixedExpenseRepository, fixedExpenseEntityMapper);
+    public ExpenseAdapter expenseAdapter(IFixedExpenseRepository fixedExpenseRepository,
+                                         FixedExpenseEntityMapper fixedExpenseEntityMapper,
+                                         JasperReportHelper jasperReportHelper) {
+        return new ExpenseAdapter(fixedExpenseRepository, fixedExpenseEntityMapper, jasperReportHelper);
     }
 }

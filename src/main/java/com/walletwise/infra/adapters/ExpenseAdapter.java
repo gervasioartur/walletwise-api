@@ -2,22 +2,32 @@ package com.walletwise.infra.adapters;
 
 import com.walletwise.domain.adapters.IExpenseAdapter;
 import com.walletwise.domain.entities.models.FixedExpense;
+import com.walletwise.infra.gateways.helpers.JasperReportHelper;
 import com.walletwise.infra.gateways.mappers.walletwise.FixedExpenseEntityMapper;
 import com.walletwise.infra.persistence.entities.walletwise.FixedExpenseEntity;
 import com.walletwise.infra.persistence.repositories.walletwise.IFixedExpenseRepository;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
+import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class ExpenseAdapter implements IExpenseAdapter {
     private final IFixedExpenseRepository fixedExpenseRepository;
     private final FixedExpenseEntityMapper fixedExpenseEntityMapper;
+    private final JasperReportHelper jasperReportHelper;
 
-    public ExpenseAdapter(IFixedExpenseRepository fixedExpenseRepository, FixedExpenseEntityMapper fixedExpenseEntityMapper) {
+    public ExpenseAdapter(IFixedExpenseRepository fixedExpenseRepository,
+                          FixedExpenseEntityMapper fixedExpenseEntityMapper,
+                          JasperReportHelper jasperReportHelper) {
         this.fixedExpenseRepository = fixedExpenseRepository;
         this.fixedExpenseEntityMapper = fixedExpenseEntityMapper;
+        this.jasperReportHelper = jasperReportHelper;
     }
 
     @Override
@@ -34,5 +44,15 @@ public class ExpenseAdapter implements IExpenseAdapter {
     public List<FixedExpense> getByUserId(UUID userId) {
         List<FixedExpenseEntity> entityList = this.fixedExpenseRepository.findByUserId(userId);
         return this.fixedExpenseEntityMapper.toFixedExpenseList(entityList);
+    }
+
+    @Override
+    public void generateFixedExpensesReport(UUID userId, OutputStream outputStream) throws Exception {
+        String reportName = "fixedExpense.jasper";
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("USER_ID", userId.toString());
+        parameters.put("CURRENCY", "R$");
+        JasperPrint jasperPrint = this.jasperReportHelper.exportPDF(reportName, parameters);
+        JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
     }
 }

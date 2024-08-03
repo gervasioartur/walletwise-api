@@ -21,7 +21,7 @@ public class FixedExpenseDTOMapper {
                 request.dueDay(),
                 request.startDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
                 request.endDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
-                request.paymentFrequency());
+                "MONTHLY");
     }
 
     public FixedExpenseResponse toFixedExpenseResponse(FixedExpense request) {

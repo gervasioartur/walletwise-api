@@ -3,7 +3,6 @@ package com.walletwise.application.controllers.walletwise;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walletwise.application.dto.walletwise.AddFixedExpenseRequest;
 import com.walletwise.domain.entities.enums.ExpenseCategoryEnum;
-import com.walletwise.domain.entities.enums.PaymentFrequencyEnum;
 import com.walletwise.domain.entities.models.FixedExpense;
 import com.walletwise.domain.entities.models.Profile;
 import com.walletwise.domain.useCases.auth.GetUserProfile;
@@ -89,8 +88,7 @@ class AddFixedExpenseControllerTests {
                 ExpenseCategoryEnum.SCHOOL.getValue(),
                 10,
                 Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
-                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
-                PaymentFrequencyEnum.WEEKLY.getValue());
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()));
 
 
         String json = new ObjectMapper().writeValueAsString(requestParams);
@@ -116,8 +114,7 @@ class AddFixedExpenseControllerTests {
                 ExpenseCategoryEnum.SCHOOL.getValue(),
                 10,
                 Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
-                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
-                PaymentFrequencyEnum.WEEKLY.getValue());
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()));
 
 
         String json = new ObjectMapper().writeValueAsString(requestParams);
@@ -143,8 +140,7 @@ class AddFixedExpenseControllerTests {
                 ExpenseCategoryEnum.SCHOOL.getValue(),
                 10,
                 Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
-                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
-                PaymentFrequencyEnum.WEEKLY.getValue());
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()));
 
 
         String json = new ObjectMapper().writeValueAsString(requestParams);
@@ -170,8 +166,7 @@ class AddFixedExpenseControllerTests {
                 "",
                 10,
                 Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
-                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
-                PaymentFrequencyEnum.WEEKLY.getValue());
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()));
 
 
         String json = new ObjectMapper().writeValueAsString(requestParams);
@@ -197,8 +192,7 @@ class AddFixedExpenseControllerTests {
                 null,
                 10,
                 Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
-                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
-                PaymentFrequencyEnum.WEEKLY.getValue());
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()));
 
 
         String json = new ObjectMapper().writeValueAsString(requestParams);
@@ -224,8 +218,7 @@ class AddFixedExpenseControllerTests {
                 Mocks.faker.lorem().word(),
                 10,
                 Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
-                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
-                PaymentFrequencyEnum.WEEKLY.getValue());
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()));
 
 
         String json = new ObjectMapper().writeValueAsString(requestParams);
@@ -252,8 +245,7 @@ class AddFixedExpenseControllerTests {
                 ExpenseCategoryEnum.SCHOOL.getValue(),
                 0,
                 Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
-                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
-                PaymentFrequencyEnum.WEEKLY.getValue());
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()));
 
 
         String json = new ObjectMapper().writeValueAsString(requestParams);
@@ -279,8 +271,7 @@ class AddFixedExpenseControllerTests {
                 ExpenseCategoryEnum.SCHOOL.getValue(),
                 32,
                 Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
-                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
-                PaymentFrequencyEnum.WEEKLY.getValue());
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()));
 
 
         String json = new ObjectMapper().writeValueAsString(requestParams);
@@ -306,8 +297,7 @@ class AddFixedExpenseControllerTests {
                 ExpenseCategoryEnum.SCHOOL.getValue(),
                 31,
                 null,
-                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
-                PaymentFrequencyEnum.WEEKLY.getValue());
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()));
 
 
         String json = new ObjectMapper().writeValueAsString(requestParams);
@@ -333,8 +323,7 @@ class AddFixedExpenseControllerTests {
                 ExpenseCategoryEnum.SCHOOL.getValue(),
                 31,
                 Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
-                null,
-                PaymentFrequencyEnum.WEEKLY.getValue());
+                null);
 
 
         String json = new ObjectMapper().writeValueAsString(requestParams);
@@ -360,9 +349,7 @@ class AddFixedExpenseControllerTests {
                 ExpenseCategoryEnum.SCHOOL.getValue(),
                 31,
                 Date.from(now.plusDays(27).atZone(ZoneId.systemDefault()).toInstant()),
-                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
-                PaymentFrequencyEnum.WEEKLY.getValue());
-
+                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()));
 
         String json = new ObjectMapper().writeValueAsString(requestParams);
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -375,88 +362,6 @@ class AddFixedExpenseControllerTests {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("body", Matchers
                         .is("The end date must be after start date.")));
-    }
-
-    @Test
-    @DisplayName("Should return if badRequest if payment frequency is empty")
-    void shouldReturnBadRequestIfPaymentFrequencyIsEmpty() throws Exception {
-        LocalDateTime now = LocalDateTime.now();
-        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
-                Mocks.faker.lorem().paragraph(),
-                (double) Mocks.faker.number().randomNumber(),
-                ExpenseCategoryEnum.SCHOOL.getValue(),
-                31,
-                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
-                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
-                "");
-
-
-        String json = new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .post(URL)
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json);
-        mvc
-                .perform(request)
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("body", Matchers
-                        .is("Payment frequency is required.")));
-    }
-
-    @Test
-    @DisplayName("Should return if badRequest if payment frequency is null")
-    void shouldReturnBadRequestIfPaymentFrequencyIsNull() throws Exception {
-        LocalDateTime now = LocalDateTime.now();
-        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
-                Mocks.faker.lorem().paragraph(),
-                (double) Mocks.faker.number().randomNumber(),
-                ExpenseCategoryEnum.SCHOOL.getValue(),
-                31,
-                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
-                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
-                null);
-
-
-        String json = new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .post(URL)
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json);
-        mvc
-                .perform(request)
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("body", Matchers
-                        .is("Payment frequency is required.")));
-    }
-
-    @Test
-    @DisplayName("Should return if badRequest if payment frequency is invalid")
-    void shouldReturnBadRequestIfPaymentFrequencyIsInvalid() throws Exception {
-        LocalDateTime now = LocalDateTime.now();
-        AddFixedExpenseRequest requestParams = new AddFixedExpenseRequest(
-                Mocks.faker.lorem().paragraph(),
-                (double) Mocks.faker.number().randomNumber(),
-                ExpenseCategoryEnum.SCHOOL.getValue(),
-                31,
-                Date.from(now.atZone(ZoneId.systemDefault()).toInstant()),
-                Date.from(now.plusDays(26).atZone(ZoneId.systemDefault()).toInstant()),
-                Mocks.faker.lorem().word());
-
-
-        String json = new ObjectMapper().writeValueAsString(requestParams);
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .post(URL)
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json);
-        mvc
-                .perform(request)
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("body", Matchers
-                        .is("Invalid Payment frequency! You must choose payment frequency between " +
-                                "DAILY,WEEKLY,MONTHLY or YEARLY.")));
     }
 
     @Test
