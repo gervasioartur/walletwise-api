@@ -1,11 +1,28 @@
-FROM maven:3-eclipse-temurin-21-alpine as builder
+FROM maven:3.9.0-eclipse-temurin-17 as builder
 WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline
 COPY src/ ./src/
 RUN mvn clean package -DskipTests=true
 
-FROM eclipse-temurin:21-jdk-alpine as prod
+FROM eclipse-temurin:17-jdk-alpine as prod
+
+# INSTALL FONTS
+RUN apk update && apk add --no-cache msttcorefonts-installer fontconfig \
+    && update-ms-fonts \
+    && fc-cache -f -v \
+
+RUN apk update && apk add --no-cache fontconfig \
+    && apk add --no-cache ttf-dejavu ttf-droid ttf-freefont ttf-liberation \
+    && fc-cache -f -v
+
+# CONFIGURE TIMEZONE
+RUN apk add --no-cache tzdata \
+    && cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
+    && echo "America/Sao_Paulo" > /etc/timezone \
+    && apk del tzdata
+
+COPY --from=builder /app/target/*.jar /app.jar
 COPY --from=builder /app/target/*.jar /app.jar
 
 # SERVER AND APPLICATION CONFIGURATIONS ARGS
