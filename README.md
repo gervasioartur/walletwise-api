@@ -56,6 +56,11 @@ the app aims to empower users to make informed financial decisions and promote a
 - [List fixed expenses use case BDD documentation](docs/useCases/expenses/listFixedExpense/listFixedExpense.md)
 - [List fixed expenses use case dependency diagram](docs/useCases/expenses/listFixedExpense/listFixedExpense.drawio)
 
+##### Generate  fixed expenses Report
+
+- [Generate fixed expenses report use case BDD documentation](docs/useCases/expenses/generateFixedExpensesReport/generateFixedExpensesReport.md)
+- [Generate fixed expenses report use case dependency diagram](docs/useCases/expenses/generateFixedExpensesReport/generateFixedExpensesReport.drawio)
+
 ## Technical Documentation
 
 > ### Architecture Overview
