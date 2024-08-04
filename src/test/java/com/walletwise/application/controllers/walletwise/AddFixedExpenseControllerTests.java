@@ -5,7 +5,7 @@ import com.walletwise.application.dto.walletwise.AddFixedExpenseRequest;
 import com.walletwise.domain.entities.enums.ExpenseCategoryEnum;
 import com.walletwise.domain.entities.models.security.Profile;
 import com.walletwise.domain.entities.models.walletwise.FixedExpense;
-import com.walletwise.domain.useCases.auth.GetUserProfile;
+import com.walletwise.domain.useCases.authentication.GetUserProfile;
 import com.walletwise.domain.useCases.expenses.AddFixedExpense;
 import com.walletwise.infrastructure.gateways.mappers.walletwise.FixedExpenseDTOMapper;
 import com.walletwise.mocks.Mocks;

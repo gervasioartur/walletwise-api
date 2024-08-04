@@ -1,4 +1,4 @@
-# Feature: User password recovery
+# Feature: Confirm password recovery
 
 As a user,
 I want to be able to confirm password recovery

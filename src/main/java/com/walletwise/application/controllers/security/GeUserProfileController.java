@@ -3,7 +3,7 @@ package com.walletwise.application.controllers.security;
 import com.walletwise.application.dto.Response;
 import com.walletwise.domain.entities.exceptions.ForbiddenException;
 import com.walletwise.domain.entities.models.security.Profile;
-import com.walletwise.domain.useCases.auth.GetUserProfile;
+import com.walletwise.domain.useCases.authentication.GetUserProfile;
 import io.sentry.Sentry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

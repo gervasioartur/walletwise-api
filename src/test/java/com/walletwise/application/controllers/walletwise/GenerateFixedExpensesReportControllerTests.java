@@ -2,7 +2,7 @@ package com.walletwise.application.controllers.walletwise;
 
 import com.walletwise.domain.entities.exceptions.UnexpectedException;
 import com.walletwise.domain.entities.models.security.Profile;
-import com.walletwise.domain.useCases.auth.GetUserProfile;
+import com.walletwise.domain.useCases.authentication.GetUserProfile;
 import com.walletwise.domain.useCases.expenses.GenerateFixedExpensesReport;
 import com.walletwise.mocks.Mocks;
 import jakarta.servlet.ServletOutputStream;

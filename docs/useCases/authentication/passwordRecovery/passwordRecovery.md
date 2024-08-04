@@ -1,4 +1,4 @@
-# Feature: User password recovery
+# Feature: Password recovery
 
 As a user,
 I want to be able to recover password

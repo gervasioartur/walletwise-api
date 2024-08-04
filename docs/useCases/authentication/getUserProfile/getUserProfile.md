@@ -1,4 +1,4 @@
-# Feature: User password recovery
+# Feature: Get user profile
 
 As a user,
 I want to be able to access my profile

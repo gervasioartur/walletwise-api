@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walletwise.application.dto.security.SignupRequest;
 import com.walletwise.domain.entities.exceptions.ConflictException;
 import com.walletwise.domain.entities.models.security.User;
-import com.walletwise.domain.useCases.auth.Signup;
+import com.walletwise.domain.useCases.authentication.Signup;
 import com.walletwise.infrastructure.gateways.mappers.security.UserDTOMapper;
 import com.walletwise.mocks.Mocks;
 import org.hamcrest.Matchers;

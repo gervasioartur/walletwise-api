@@ -1,4 +1,4 @@
-# Feature: Add fixed expense
+# Feature: List fixed expenses
 
 As a logged user,
 I want to be able to list my fixed expense

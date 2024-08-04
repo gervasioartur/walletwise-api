@@ -1,4 +1,4 @@
-package com.walletwise.domain.useCases.auth;
+package com.walletwise.domain.useCases.authentication;
 
 import com.walletwise.domain.adapters.IAuthAdapter;
 import com.walletwise.domain.adapters.ICryptoAdapter;

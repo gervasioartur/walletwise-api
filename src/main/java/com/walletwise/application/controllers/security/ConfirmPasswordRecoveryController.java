@@ -7,7 +7,7 @@ import com.walletwise.application.validation.ValidationBuilder;
 import com.walletwise.application.validation.contract.IValidator;
 import com.walletwise.domain.entities.exceptions.BusinessException;
 import com.walletwise.domain.entities.exceptions.NotFoundException;
-import com.walletwise.domain.useCases.auth.ConfirmPasswordRecovery;
+import com.walletwise.domain.useCases.authentication.ConfirmPasswordRecovery;
 import io.sentry.Sentry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

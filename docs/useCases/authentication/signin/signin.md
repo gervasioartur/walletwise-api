@@ -1,4 +1,4 @@
-# Feature: User sign in
+# Feature: Sign in
 
 As a user,
 I want to be able to sign in
