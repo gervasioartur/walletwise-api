@@ -13,10 +13,6 @@ public class GenerateFixedExpensesReport {
     }
 
     public void generate(UUID userId, OutputStream outputStream) throws Exception {
-        try {
-            this.expenseAdapter.generateFixedExpensesReport(userId, outputStream);
-        } catch (Exception ex) {
-            throw ex;
-        }
+        this.expenseAdapter.generateFixedExpensesReport(userId, outputStream);
     }
 }
