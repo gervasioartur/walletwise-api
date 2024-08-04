@@ -247,11 +247,10 @@
                     <dataFile>target/jacoco.exec</dataFile>
                     <output>file</output>
                     <excludes>
-                        <exclude>**/GenerateFixedExpensesReportController*</exclude>
-                        <exclude>**/JasperReportHelper*</exclude>
                         <exclude>**/entities/**</exclude>
-                        <exclude>**/token/**</exclude>
                         <exclude>**/Abstract**</exclude>
+                        <exclude>**/Response*</exclude>
+                        <exclude>**/token/**</exclude>
                         <exclude>**/Setup*</exclude>
                     </excludes>
                 </configuration>
