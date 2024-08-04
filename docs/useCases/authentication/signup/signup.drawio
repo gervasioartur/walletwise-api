@@ -1,6 +1,6 @@
-<mxfile host="drawio-plugin" modified="2024-07-25T23:18:13.074Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="URKjFXwtOckIqJ_BL91r" version="22.1.22" type="embed">
+<mxfile host="drawio-plugin" modified="2024-08-04T21:13:28.651Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="fKFFbeF09xWPDyterWwt" version="22.1.22" type="embed">
   <diagram id="EUNj880BrhCWBs-la3PF" name="Page-1">
-    <mxGraphModel dx="1560" dy="669" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1517" dy="369" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -37,11 +37,20 @@
             <mxPoint x="524.3800000000001" y="795" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="202" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="11" target="81" edge="1">
+        <mxCell id="202" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" parent="1" source="11" target="211" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="212" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="11" target="81" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="217" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" parent="1" source="11" target="213" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="219" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" parent="1" source="11" target="218" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="11" value="SignupController" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#8BE9FD;fillColor=#8BE9FD;" parent="1" vertex="1">
-          <mxGeometry x="329.38" y="770" width="115" height="50" as="geometry" />
+          <mxGeometry x="330" y="770" width="115" height="50" as="geometry" />
         </mxCell>
         <mxCell id="57" value="&lt;span style=&quot;font-size: 15px;&quot;&gt;&lt;b&gt;APPLICATION&lt;br&gt;&lt;/b&gt;&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="730" y="750" width="120" height="30" as="geometry" />
@@ -169,6 +178,15 @@
         </mxCell>
         <mxCell id="182" value="PasswordEncoder" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#8BE9FD;fillColor=#FF5555;" parent="1" vertex="1">
           <mxGeometry x="446.88" y="260" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="211" value="Sentry" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#8BE9FD;fillColor=#FF5555;" parent="1" vertex="1">
+          <mxGeometry x="-74" y="770" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="213" value="Swagger" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#8BE9FD;fillColor=#FF5555;" parent="1" vertex="1">
+          <mxGeometry x="-74" y="830" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="218" value="springframework" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#8BE9FD;fillColor=#FF5555;" parent="1" vertex="1">
+          <mxGeometry x="-74" y="890" width="150" height="50" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
