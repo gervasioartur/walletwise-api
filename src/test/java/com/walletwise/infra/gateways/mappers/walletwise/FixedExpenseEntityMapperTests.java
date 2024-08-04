@@ -9,6 +9,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+import java.util.UUID;
+
 @SpringBootTest
 class FixedExpenseEntityMapperTests {
     private FixedExpenseEntityMapper mapper;
@@ -48,5 +51,15 @@ class FixedExpenseEntityMapperTests {
         Assertions.assertThat(result.getUserId()).isEqualTo(fixedExpenseEntity.getUser().getId());
         Assertions.assertThat(result.getStartDate()).isEqualTo(fixedExpenseEntity.getStartDate());
         Assertions.assertThat(result.getEndDate()).isEqualTo(fixedExpenseEntity.getEndDate());
+    }
+
+    @Test
+    @DisplayName("Should return List of fixed expense")
+    void shouldReturnListOfFixedExpense() {
+        UUID userId = UUID.randomUUID();
+        List<FixedExpenseEntity> expenseEntities = Mocks.fixedExpenseEntityListFactory(userId);
+        List<FixedExpense> result = this.mapper.toFixedExpenseList(expenseEntities);
+        Assertions.assertThat(result.size()).isEqualTo(expenseEntities.size());
+        Assertions.assertThat(result.get(0).getId()).isEqualTo(expenseEntities.get(0).getId());
     }
 }
