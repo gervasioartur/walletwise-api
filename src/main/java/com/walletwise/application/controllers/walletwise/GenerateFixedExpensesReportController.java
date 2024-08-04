@@ -1,6 +1,5 @@
 package com.walletwise.application.controllers.walletwise;
 
-import com.walletwise.domain.entities.exceptions.UnexpectedException;
 import com.walletwise.domain.entities.models.security.Profile;
 import com.walletwise.domain.useCases.authentication.GetUserProfile;
 import com.walletwise.domain.useCases.expenses.GenerateFixedExpensesReport;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.io.OutputStream;
 
 @RestController
@@ -40,14 +38,14 @@ public class GenerateFixedExpensesReportController {
             @ApiResponse(responseCode = "500", description = "An unexpected error occurred."),
     })
     @SecurityRequirement(name = "bearerAuth")
-    public void perform(HttpServletResponse httpServletResponse) throws IOException {
+    public void perform(HttpServletResponse httpServletResponse) {
         try {
             httpServletResponse.setContentType("application/pdf");
             httpServletResponse.setHeader("Content-Disposition", "attachment; filename=fixed-expenses.pdf");
             OutputStream outputStream = httpServletResponse.getOutputStream();
             Profile profile = this.getUserProfile.getUserProfile();
             this.useCase.generate(profile.getUserId(), outputStream);
-        } catch (UnexpectedException | IOException ex) {
+        } catch (Exception ex) {
             Sentry.captureException(ex);
             httpServletResponse.setContentType("application/json");
             httpServletResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
