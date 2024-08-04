@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class CreateToken {
     private final SignKey signKey;
-//    private final Date expirationDate = Date.from(LocalDateTime.now().plusDays(7L).atZone(ZoneOffset.systemDefault()).toInstant());
 
     public CreateToken(SignKey signKey) {
         this.signKey = signKey;
@@ -19,7 +18,6 @@ public class CreateToken {
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-//                .setExpiration(expirationDate)
                 .signWith(signKey.getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 }
