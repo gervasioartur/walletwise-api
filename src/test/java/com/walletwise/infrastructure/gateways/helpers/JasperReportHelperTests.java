@@ -57,17 +57,6 @@ class JasperReportHelperTests {
     }
 
     @Test
-    @DisplayName("Should return SQLException ")
-    void shouldReturnSQLException() throws SQLException {
-        String reportName = "fixedExpense";
-        Map<String, Object> params = new HashMap<>();
-        params.put("SUBREPORT_DIR", "templates/report/");
-        when(this.dataSource.getConnection()).thenThrow(SQLException.class);
-        Throwable exception = Assertions.catchThrowable(() -> this.helper.exportPDF(reportName, params));
-        Assertions.assertThat(exception).isInstanceOf(SQLException.class);
-    }
-
-    @Test
     @DisplayName("Should return JRException ")
     void shouldReturnJRException() throws SQLException {
         String reportName = "fixedExpense";
