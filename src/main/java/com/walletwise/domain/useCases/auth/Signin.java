@@ -4,8 +4,8 @@ import com.walletwise.domain.adapters.IAuthAdapter;
 import com.walletwise.domain.adapters.IUserAdapter;
 import com.walletwise.domain.entities.enums.GeneralEnumInt;
 import com.walletwise.domain.entities.exceptions.UnauthorizedException;
-import com.walletwise.domain.entities.models.Session;
-import com.walletwise.domain.entities.models.User;
+import com.walletwise.domain.entities.models.security.Session;
+import com.walletwise.domain.entities.models.security.User;
 
 import java.time.LocalDateTime;
 

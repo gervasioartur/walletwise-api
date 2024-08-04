@@ -1,7 +1,7 @@
 package com.walletwise.application.controllers.walletwise;
 
-import com.walletwise.domain.entities.models.FixedExpense;
-import com.walletwise.domain.entities.models.Profile;
+import com.walletwise.domain.entities.models.walletwise.FixedExpense;
+import com.walletwise.domain.entities.models.security.Profile;
 import com.walletwise.domain.useCases.auth.GetUserProfile;
 import com.walletwise.domain.useCases.expenses.ListFixedExpenses;
 import com.walletwise.mocks.Mocks;

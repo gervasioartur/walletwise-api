@@ -1,11 +1,11 @@
 package com.walletwise.main.beans.config.security;
 
-import com.walletwise.infra.adapters.LoadUserAdapter;
-import com.walletwise.infra.gateways.token.GetUsernameFromToken;
-import com.walletwise.infra.gateways.token.IsValidToken;
-import com.walletwise.infra.persistence.entities.security.RoleEntity;
-import com.walletwise.infra.persistence.entities.security.UserEntity;
-import com.walletwise.main.config.beans.security.JwtAuthenticationFilter;
+import com.walletwise.infrastructure.adapters.LoadUserAdapter;
+import com.walletwise.infrastructure.gateways.token.GetUsernameFromToken;
+import com.walletwise.infrastructure.gateways.token.IsValidToken;
+import com.walletwise.infrastructure.persistence.entities.security.RoleEntity;
+import com.walletwise.infrastructure.persistence.entities.security.UserEntity;
+import com.walletwise.main.config.security.JwtAuthenticationFilter;
 import com.walletwise.mocks.Mocks;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

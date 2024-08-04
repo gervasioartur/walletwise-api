@@ -1,7 +1,7 @@
 package com.walletwise.application.controllers.security;
 
 import com.walletwise.domain.entities.exceptions.ForbiddenException;
-import com.walletwise.domain.entities.models.Profile;
+import com.walletwise.domain.entities.models.security.Profile;
 import com.walletwise.domain.useCases.auth.GetUserProfile;
 import com.walletwise.mocks.Mocks;
 import org.hamcrest.Matchers;

@@ -2,8 +2,8 @@ package com.walletwise.domain.useCases.auth;
 
 import com.walletwise.domain.adapters.IUserAdapter;
 import com.walletwise.domain.entities.exceptions.ConflictException;
-import com.walletwise.domain.entities.models.User;
-import com.walletwise.infra.adapters.CryptoAdapter;
+import com.walletwise.domain.entities.models.security.User;
+import com.walletwise.infrastructure.adapters.CryptoAdapter;
 import com.walletwise.mocks.Mocks;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

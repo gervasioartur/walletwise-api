@@ -4,8 +4,8 @@ import com.walletwise.domain.adapters.IAuthAdapter;
 import com.walletwise.domain.adapters.ICryptoAdapter;
 import com.walletwise.domain.adapters.IEmailAdapter;
 import com.walletwise.domain.adapters.IUserAdapter;
-import com.walletwise.domain.entities.models.User;
-import com.walletwise.domain.entities.models.ValidationToken;
+import com.walletwise.domain.entities.models.security.User;
+import com.walletwise.domain.entities.models.security.ValidationToken;
 
 import java.time.LocalDateTime;
 

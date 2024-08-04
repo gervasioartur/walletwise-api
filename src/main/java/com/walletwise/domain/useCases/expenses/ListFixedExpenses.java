@@ -1,7 +1,7 @@
 package com.walletwise.domain.useCases.expenses;
 
 import com.walletwise.domain.adapters.IExpenseAdapter;
-import com.walletwise.domain.entities.models.FixedExpense;
+import com.walletwise.domain.entities.models.walletwise.FixedExpense;
 
 import java.util.List;
 import java.util.UUID;

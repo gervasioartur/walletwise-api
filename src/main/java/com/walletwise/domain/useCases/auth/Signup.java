@@ -4,7 +4,7 @@ package com.walletwise.domain.useCases.auth;
 import com.walletwise.domain.adapters.ICryptoAdapter;
 import com.walletwise.domain.adapters.IUserAdapter;
 import com.walletwise.domain.entities.exceptions.ConflictException;
-import com.walletwise.domain.entities.models.User;
+import com.walletwise.domain.entities.models.security.User;
 
 public class Signup {
     private final IUserAdapter userAdapter;

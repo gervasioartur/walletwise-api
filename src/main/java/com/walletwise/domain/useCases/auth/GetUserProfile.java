@@ -2,7 +2,7 @@ package com.walletwise.domain.useCases.auth;
 
 import com.walletwise.domain.adapters.IAuthAdapter;
 import com.walletwise.domain.entities.exceptions.ForbiddenException;
-import com.walletwise.domain.entities.models.Profile;
+import com.walletwise.domain.entities.models.security.Profile;
 
 public class GetUserProfile {
     private final IAuthAdapter authAdapter;
