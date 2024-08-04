@@ -1,10 +1,7 @@
-package com.walletwise.application.controllers.valiation.validators;
+package com.walletwise.application.validation.validators;
 
-import com.walletwise.application.validation.validators.ExpenseCategoryFieldValidator;
 import com.walletwise.domain.entities.enums.ExpenseCategoryEnum;
-import com.walletwise.infra.adapters.ExpenseAdapter;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +13,7 @@ class ExpenseCategoryFieldValidatorTests {
     @Test
     @DisplayName("Should return error message if category is invalid")
     void shouldReturnErrorMessageIfCategoryIsInvalid() {
-        this.validator =  new ExpenseCategoryFieldValidator("invalid");
+        this.validator = new ExpenseCategoryFieldValidator("invalid");
 
         String result = this.validator.validate();
         Assertions.assertThat(result).isEqualTo("Invalid category! You must choose a category between " +
@@ -26,27 +23,27 @@ class ExpenseCategoryFieldValidatorTests {
     @Test
     @DisplayName("Sgould return if category is valid")
     void shouldReturnErrorMessageIfCategoryIsValid() {
-        this.validator =  new ExpenseCategoryFieldValidator(ExpenseCategoryEnum.RENT.getValue());
+        this.validator = new ExpenseCategoryFieldValidator(ExpenseCategoryEnum.RENT.getValue());
         String result = this.validator.validate();
         Assertions.assertThat(result).isNull();
 
-        this.validator =  new ExpenseCategoryFieldValidator(ExpenseCategoryEnum.FOOD.getValue());
+        this.validator = new ExpenseCategoryFieldValidator(ExpenseCategoryEnum.FOOD.getValue());
         result = this.validator.validate();
         Assertions.assertThat(result).isNull();
 
-        this.validator =  new ExpenseCategoryFieldValidator(ExpenseCategoryEnum.OTHER.getValue());
+        this.validator = new ExpenseCategoryFieldValidator(ExpenseCategoryEnum.OTHER.getValue());
         result = this.validator.validate();
         Assertions.assertThat(result).isNull();
 
-        this.validator =  new ExpenseCategoryFieldValidator(ExpenseCategoryEnum.SCHOOL.getValue());
+        this.validator = new ExpenseCategoryFieldValidator(ExpenseCategoryEnum.SCHOOL.getValue());
         result = this.validator.validate();
         Assertions.assertThat(result).isNull();
 
-        this.validator =  new ExpenseCategoryFieldValidator(ExpenseCategoryEnum.TRANSPORT.getValue());
+        this.validator = new ExpenseCategoryFieldValidator(ExpenseCategoryEnum.TRANSPORT.getValue());
         result = this.validator.validate();
         Assertions.assertThat(result).isNull();
 
-        this.validator =  new ExpenseCategoryFieldValidator(ExpenseCategoryEnum.ENTERTAINMENT.getValue());
+        this.validator = new ExpenseCategoryFieldValidator(ExpenseCategoryEnum.ENTERTAINMENT.getValue());
         result = this.validator.validate();
         Assertions.assertThat(result).isNull();
     }
