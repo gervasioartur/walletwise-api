@@ -48,10 +48,10 @@ public class ExpenseAdapter implements IExpenseAdapter {
 
     @Override
     public void generateFixedExpensesReport(UUID userId, OutputStream outputStream) throws Exception {
-        String reportName = "fixedExpense.jasper";
+        String reportName = "fixedExpense";
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("USER_ID", userId.toString());
-        parameters.put("CURRENCY", "R$");
+        parameters.put("CURRENCY", "R$ (BRAZIL)");
         JasperPrint jasperPrint = this.jasperReportHelper.exportPDF(reportName, parameters);
         JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
     }
