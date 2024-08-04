@@ -1,4 +1,4 @@
-package com.walletwise.main.beans.config.security;
+package com.walletwise.main.config.security;
 
 import com.walletwise.infrastructure.adapters.LoadUserAdapter;
 import com.walletwise.infrastructure.gateways.token.GetUsernameFromToken;
