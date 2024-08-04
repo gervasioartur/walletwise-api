@@ -9,8 +9,8 @@ import java.util.List;
 
 public class ValidationBuilder {
     private final List<IValidator> validators = new ArrayList<>();
-    private String fieldName;
-    private Object fieldValue;
+    private final String fieldName;
+    private final Object fieldValue;
 
     private ValidationBuilder(String fieldName, Object fieldValue) {
         this.fieldName = fieldName;
