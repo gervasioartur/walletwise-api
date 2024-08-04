@@ -1,8 +1,8 @@
 package com.walletwise.domain.adapters;
 
-import com.walletwise.domain.entities.models.Profile;
-import com.walletwise.domain.entities.models.Session;
-import com.walletwise.domain.entities.models.ValidationToken;
+import com.walletwise.domain.entities.models.security.Profile;
+import com.walletwise.domain.entities.models.security.Session;
+import com.walletwise.domain.entities.models.security.ValidationToken;
 
 import java.util.UUID;
 

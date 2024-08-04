@@ -1,7 +1,6 @@
 package com.walletwise.domain.useCases.expenses;
 
 import com.walletwise.domain.adapters.IExpenseAdapter;
-import com.walletwise.domain.entities.exceptions.UnexpectedException;
 
 import java.io.OutputStream;
 import java.util.UUID;
@@ -13,11 +12,7 @@ public class GenerateFixedExpensesReport {
         this.expenseAdapter = expenseAdapter;
     }
 
-    public void generate(UUID userId, OutputStream outputStream) {
-        try {
-            this.expenseAdapter.generateFixedExpensesReport(userId, outputStream);
-        } catch (Exception ex) {
-            throw new UnexpectedException(ex.getMessage());
-        }
+    public void generate(UUID userId, OutputStream outputStream) throws Exception {
+        this.expenseAdapter.generateFixedExpensesReport(userId, outputStream);
     }
 }

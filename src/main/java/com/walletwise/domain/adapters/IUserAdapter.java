@@ -1,6 +1,6 @@
 package com.walletwise.domain.adapters;
 
-import com.walletwise.domain.entities.models.User;
+import com.walletwise.domain.entities.models.security.User;
 
 import java.util.UUID;
 

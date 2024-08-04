@@ -21,28 +21,28 @@ the app aims to empower users to make informed financial decisions and promote a
 
 ##### Sign up
 
-- [Sign up use case BDD documentation ](docs/useCases/auth/signup/signup.md)
-- [Sign up feature dependency diagram](docs/useCases/auth/signup/signup.drawio)
+- [Sign up use case BDD documentation ](docs/useCases/authentication/signup/signup.md)
+- [Sign up feature dependency diagram](docs/useCases/authentication/signup/signup.drawio)
 
 ##### Sign in
 
-- [Sign in use case BDD documentation ](docs/useCases/auth/signin/signin.md)
-- [Sign in feature dependency diagram](docs/useCases/auth/signin/signin.drawio)
+- [Sign in use case BDD documentation ](docs/useCases/authentication/signin/signin.md)
+- [Sign in feature dependency diagram](docs/useCases/authentication/signin/signin.drawio)
 
 ##### Password Recovery
 
-- [Password recovery use case BDD documentation ](docs/useCases/auth/passwordRecovery/passwordRecovery.md)
-- [Password recovery feature dependency diagram](docs/useCases/auth/passwordRecovery/passwordRecovery.drawio)
+- [Password recovery use case BDD documentation ](docs/useCases/authentication/passwordRecovery/passwordRecovery.md)
+- [Password recovery feature dependency diagram](docs/useCases/authentication/passwordRecovery/passwordRecovery.drawio)
 
 ##### Confirm Password Recovery
 
-- [Confirm password recovery use case BDD documentation ](docs/useCases/auth/confirmPasswordRecovery/confirmPasswordRecovery.md)
-- [Confirm password recovery feature dependency diagram](docs/useCases/auth/confirmPasswordRecovery/confirmPasswordRecovery.drawio)
+- [Confirm password recovery use case BDD documentation ](docs/useCases/authentication/confirmPasswordRecovery/confirmPasswordRecovery.md)
+- [Confirm password recovery feature dependency diagram](docs/useCases/authentication/confirmPasswordRecovery/confirmPasswordRecovery.drawio)
 
 ##### Get user Profile
 
-- [Get user profile use case BDD documentation ](docs/useCases/auth/getUserProfile/getUserProfile.md)
-- [Get user profile feature dependency diagram](docs/useCases/auth/getUserProfile/getUserProfile.drawio)
+- [Get user profile use case BDD documentation ](docs/useCases/authentication/getUserProfile/getUserProfile.md)
+- [Get user profile feature dependency diagram](docs/useCases/authentication/getUserProfile/getUserProfile.drawio)
 
 #### EXPENSES
 
@@ -55,6 +55,11 @@ the app aims to empower users to make informed financial decisions and promote a
 
 - [List fixed expenses use case BDD documentation](docs/useCases/expenses/listFixedExpense/listFixedExpense.md)
 - [List fixed expenses use case dependency diagram](docs/useCases/expenses/listFixedExpense/listFixedExpense.drawio)
+
+##### Generate  fixed expenses Report
+
+- [Generate fixed expenses report use case BDD documentation](docs/useCases/expenses/generateFixedExpensesReport/generateFixedExpensesReport.md)
+- [Generate fixed expenses report use case dependency diagram](docs/useCases/expenses/generateFixedExpensesReport/generateFixedExpensesReport.drawio)
 
 ## Technical Documentation
 

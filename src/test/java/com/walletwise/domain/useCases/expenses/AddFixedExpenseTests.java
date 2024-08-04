@@ -1,7 +1,7 @@
 package com.walletwise.domain.useCases.expenses;
 
 import com.walletwise.domain.adapters.IExpenseAdapter;
-import com.walletwise.domain.entities.models.FixedExpense;
+import com.walletwise.domain.entities.models.walletwise.FixedExpense;
 import com.walletwise.mocks.Mocks;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

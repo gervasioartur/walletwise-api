@@ -1,6 +1,6 @@
 package com.walletwise.domain.adapters;
 
-import com.walletwise.domain.entities.models.FixedExpense;
+import com.walletwise.domain.entities.models.walletwise.FixedExpense;
 
 import java.io.OutputStream;
 import java.util.List;

@@ -3,7 +3,7 @@ package com.walletwise.application.controllers.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walletwise.application.dto.security.SigninRequest;
 import com.walletwise.domain.entities.exceptions.UnauthorizedException;
-import com.walletwise.domain.useCases.auth.Signin;
+import com.walletwise.domain.useCases.authentication.Signin;
 import com.walletwise.mocks.Mocks;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
