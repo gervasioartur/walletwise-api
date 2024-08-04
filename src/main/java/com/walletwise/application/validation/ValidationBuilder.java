@@ -2,13 +2,11 @@ package com.walletwise.application.validation;
 
 import com.walletwise.application.validation.contract.IValidator;
 import com.walletwise.application.validation.validators.*;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@NoArgsConstructor
 public class ValidationBuilder {
     private final List<IValidator> validators = new ArrayList<>();
     private String fieldName;

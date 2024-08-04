@@ -1,13 +1,11 @@
 package com.walletwise.application.validation;
 
 import com.walletwise.application.validation.contract.IValidator;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@NoArgsConstructor
 public class ValidationComposite {
-    private List<IValidator> validators;
+    private final List<IValidator> validators;
 
     public ValidationComposite(List<IValidator> validators) {
         this.validators = validators;
