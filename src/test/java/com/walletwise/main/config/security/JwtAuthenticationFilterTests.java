@@ -5,7 +5,6 @@ import com.walletwise.infrastructure.gateways.token.GetUsernameFromToken;
 import com.walletwise.infrastructure.gateways.token.IsValidToken;
 import com.walletwise.infrastructure.persistence.entities.security.RoleEntity;
 import com.walletwise.infrastructure.persistence.entities.security.UserEntity;
-import com.walletwise.main.config.security.JwtAuthenticationFilter;
 import com.walletwise.mocks.Mocks;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
