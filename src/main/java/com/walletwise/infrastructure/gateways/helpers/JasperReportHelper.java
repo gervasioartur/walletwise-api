@@ -1,5 +1,6 @@
 package com.walletwise.infrastructure.gateways.helpers;
 
+import com.walletwise.domain.entities.enums.GeneralEnumText;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -24,12 +25,12 @@ public class JasperReportHelper {
 
     public JasperPrint exportPDF(String reportName, Map<String, Object> parameters)
             throws IOException, JRException, SQLException {
-        String path = "templates/report/" + reportName + ".jasper";
+        String path = GeneralEnumText.REPORT_DIR.getValue() + reportName + ".jasper";
         Resource resource = new ClassPathResource(path);
         try (InputStream inputStream = resource.getInputStream()) {
             JasperReport jasperReport = (JasperReport) JRLoader.loadObject(inputStream);
             Connection connection = this.dataSource.getConnection();
-            parameters.put("SUBREPORT_DIR", "templates/report/");
+            parameters.put("SUBREPORT_DIR", GeneralEnumText.REPORT_DIR.getValue());
             return JasperFillManager.fillReport(jasperReport, parameters, connection);
         }
     }

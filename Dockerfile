@@ -23,7 +23,6 @@ RUN apk add --no-cache tzdata \
     && apk del tzdata
 
 COPY --from=builder /app/target/*.jar /app.jar
-COPY --from=builder /app/target/*.jar /app.jar
 
 # SERVER AND APPLICATION CONFIGURATIONS ARGS
 ARG SPRING_PROFILES_ACTIVE
